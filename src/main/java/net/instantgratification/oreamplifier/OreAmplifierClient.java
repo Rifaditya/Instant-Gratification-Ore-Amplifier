@@ -52,7 +52,7 @@ public class OreAmplifierClient implements ClientModInitializer {
                 String readableName = generateReadableName(id);
                 
                 translations.put(keyName, readableName + " Multiplier");
-                translations.put(keyDesc, "Multiplier for " + readableName + ". Increases VEIN COUNT. 0 = Global. Warning: >5000 may freeze gen.");
+                translations.put(keyDesc, "Multiplier for " + readableName + ". Increases VEIN COUNT. 100 = Global (Default). <100 = Rare. Warning: >5000 may freeze gen.");
             }
         });
     }

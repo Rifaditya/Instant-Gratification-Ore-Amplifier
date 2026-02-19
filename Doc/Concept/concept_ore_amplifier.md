@@ -22,8 +22,9 @@ Allows for fractional multipliers (e.g., 0.5x).
 ### 3. Modded Ore Support
 
 - **Auto-Detection**: Scans registry for "ore".
-- **Dynamic Rules**: Creates `ig_ore_<mod>_<ore>` for every block found.
-- **Fallbacks**: If no specific rule is set, uses `ig_ore_modded_global`.
+- **Dynamic Rules**: Creates `ig_ore_<mod>_<ore>` for every block found (Default: `100`).
+- **Fallbacks**: If a specific rule is set to `100`, it uses the `ig_ore_modded_global` setting.
+- **Overrides**: Any value other than `100` overrides the global setting (e.g., `0` disables it).
 
 ## Configuration
 

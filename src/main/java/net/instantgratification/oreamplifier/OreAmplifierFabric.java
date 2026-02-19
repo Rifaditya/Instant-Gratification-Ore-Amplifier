@@ -55,7 +55,7 @@ public class OreAmplifierFabric implements ModInitializer {
                      // Note: We are registering late in onInitialize. 
                      // Ideally GameRules are registered statically but Fabric/Mixin allows late registration usually.
                      // If this fails, we might need a different hook.
-                     GameRule<Integer> rule = registerInteger(ruleName, ORE_AMPLIFIER_CATEGORY, 0); // Default 0 means use global
+                     GameRule<Integer> rule = registerInteger(ruleName, ORE_AMPLIFIER_CATEGORY, 100); // Default 100 means use global (Fallback)
                      DYNAMIC_RULES.put(ruleName, rule);
                 }
             }

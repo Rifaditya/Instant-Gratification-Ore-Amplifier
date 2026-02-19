@@ -23,8 +23,10 @@ The mod automatically generates rules for every detected ore block.
 
 **Values**:
 
-- `0`: Use the Global fallback (Vanilla or Modded).
-- `> 0`: Force this specific multiplier.
+- `100`: Use the Global fallback (Vanilla or Modded). This is the **Default**.
+- `!= 100`: Force this specific multiplier.
+  - `< 100`: Reduces generation (e.g. `50` = 50% chance).
+  - `0`: Disables the ore.
 
 > **Warning**: Values >5000 (50x) may cause world generation freezes.
 

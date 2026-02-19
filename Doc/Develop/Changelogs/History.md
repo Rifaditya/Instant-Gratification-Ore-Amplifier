@@ -1,6 +1,13 @@
 # History
 
-## [1.0.0+build.56] - 2026-02-19
+## [1.0.0+build.58] - 2026-02-19
+
+### Changed
+
+- **Default Behavior**: Dynamic Ore rules now default to `100` (which falls back to Global settings) instead of `0`.
+- **Logic**: Setting a specific ore to `100` uses the Global Multiplier. Setting it to anything else (e.g., `50` or `0`) overrides the global setting.
+
+## [1.0.0+build.57] - 2026-02-19
 
 ### Changed
 

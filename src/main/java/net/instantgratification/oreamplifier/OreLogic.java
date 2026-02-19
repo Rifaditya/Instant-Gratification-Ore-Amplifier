@@ -21,7 +21,7 @@ public class OreLogic {
         GameRule<Integer> dynamicRule = OreAmplifierFabric.getDynamicRule(dynamicRuleName);
         if (dynamicRule != null) {
             int val = rules.get(dynamicRule);
-            if (val != 0) return val; // Use if set (>0)
+            if (val != 100) return val; // Use if set (not default 100)
         }
 
         // 2. Fallback to Global
