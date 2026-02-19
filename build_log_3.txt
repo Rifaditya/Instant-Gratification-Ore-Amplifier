@@ -1,0 +1,33 @@
+
+> Configure project :
+Fabric Loom: 1.14.7
+The mixin annotation is no longer enabled by default, you should remove any loom.mixin configuration. If you wish to continue to use the mixin AP you can set useLegacyMixinAp = true.
+Previous process has disowned the lock due to abrupt termination.
+Found existing cache lock file (ACQUIRED_PREVIOUS_OWNER_DISOWNED), rebuilding loom cache. This may have been caused by a failed or canceled build.
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+A problem occurred configuring root project 'ore-amplifier'.
+> Could not resolve all files for configuration ':mainRuntimeDependencyResolve'.
+   > Could not find net.dasik.social:dasik-library:1.6.9.
+     Searched in the following locations:
+       - file:/E:/Minecraft%20Project/Instant%20Gratification%20Collection/ore-amplifier-v2/.gradle/loom-cache/remapped_mods/net/dasik/social/dasik-library/1.6.9/dasik-library-1.6.9.pom
+       - file:/C:/Users/fmrif/.gradle/caches/fabric-loom/minecraftMaven/net/dasik/social/dasik-library/1.6.9/dasik-library-1.6.9.pom
+       - file:/E:/Minecraft%20Project/Instant%20Gratification%20Collection/ore-amplifier-v2/.gradle/loom-cache/minecraftMaven/net/dasik/social/dasik-library/1.6.9/dasik-library-1.6.9.pom
+       - https://maven.fabricmc.net/net/dasik/social/dasik-library/1.6.9/dasik-library-1.6.9.pom
+       - https://libraries.minecraft.net/net/dasik/social/dasik-library/1.6.9/dasik-library-1.6.9.pom
+       - https://libraries.minecraft.net/net/dasik/social/dasik-library/1.6.9/dasik-library-1.6.9.jar
+       - https://repo.maven.apache.org/maven2/net/dasik/social/dasik-library/1.6.9/dasik-library-1.6.9.jar
+       - https://repo.maven.apache.org/maven2/net/dasik/social/dasik-library/1.6.9/dasik-library-1.6.9.pom
+       - file:/C:/Users/fmrif/.m2/repository/net/dasik/social/dasik-library/1.6.9/dasik-library-1.6.9.pom
+     Required by:
+         root project 'ore-amplifier'
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 11s

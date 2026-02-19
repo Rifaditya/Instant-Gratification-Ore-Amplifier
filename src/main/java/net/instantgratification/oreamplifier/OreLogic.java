@@ -34,22 +34,8 @@ public class OreLogic {
 
     private static int logCount = 0;
     
-    /**
-     * Calculates the new count using stochastic rounding for fractional results.
-     * e.g. Count 1 * 50% = 0.5 -> 50% chance of 1, 50% chance of 0.
-     */
     public static int getAmplifiedCount(int originalCount, int multiplierPercent, net.minecraft.util.RandomSource random) {
-        float multiplier = multiplierPercent / 100.0F;
-        float targetCount = originalCount * multiplier;
-        
-        int baseCount = (int) targetCount;
-        float residue = targetCount - baseCount;
-        
-        if (random.nextFloat() < residue) {
-            baseCount++;
-        }
-        
-        return baseCount;
+        return net.dasik.social.util.StochasticUtil.getAmplifiedCount(originalCount, multiplierPercent, random);
     }
 
     public static void logAmplification(Identifier id, int original, int modified, int multiplier) {

@@ -29,7 +29,8 @@
         "fabricloader": ">=${loader_version}",
         "minecraft": "~26.1-",
         "java": ">=25",
-        "fabric-api": "*"
+        "fabric-api": "*",
+        "dasik-library": ">=1.6.9"
     },
     "suggests": {
         "another-mod": "*"
