@@ -1,37 +1,22 @@
-# Changelog History
+# History
 
-## [1.0.3] - 2026-02-15
-
-### Fixed
-
-- Tooltip changes now apply immediately without requiring a world/game reload (synced on gamerule change).
-
-## [1.0.2] - 2026-02-16
+## [1.0.0+build.56] - 2026-02-19
 
 ### Changed
 
-- Updated tooltip format to be more explicit: "4x Tools" -> "4x Tools Durability".
-
-## [1.0.1] - 2026-02-16
-
-### Fixed
-
-- Tooltips not displaying: client-side rendering could not access server-side GameRules
-- Added Fabric Networking sync: GameRule values are now sent to clients on join
-- Tooltip mixin is now side-aware (client reads synced cache, integrated server reads directly)
-
-## [1.0.0] - 2026-02-15
+- **Versioning**: Switched to Build Number policy.
+- **Documentation**: Shortened Modrinth summary to <200 chars.
+- **Fallback Logic**: Renamed "Vanilla Global" to "Vanilla Ore Fallback Multiplier" to clarify it only applies when specific rules are set to default (0).
+- **Stateless Logic**: Rewrote `OreLogic` to be completely stateless, fixing reliability issues with `ThreadLocal` variables.
 
 ### Added
 
-- Initial release
-- 11 GameRules under custom "Durability Multiplier" category
-  - 5 multiplier rules (Global, Swords, Tools, Armor, Elytra)
-  - 5 infinity/God Mode toggles (Global, Swords, Tools, Armor, Elytra)
-  - 1 tooltip toggle
-- Hierarchy-based resolution: tag-specific overrides global
-- Integer overflow safety (long math + clamp)
-- Probabilistic damage reduction for exact long-term multiplier effect
-- Tooltip visualization
-- Full en_us.json localization with verbose descriptions
-- Native mod compatibility via Vanilla Tag System
+- **Safety Cap**: Removed hard limit. Added strong warnings for high values (>5000%) to prevent freezes.
+- **Ore Reduction**: Multipliers < 100% now work using stochastic reduction (e.g., 50% = 50% chance to generate).
+- **Dynamic Localization**: GameRules now display friendly names (e.g., "Copper Ore Multiplier") instead of raw identifiers.
+- **Rarity Support**: Added support for amplifying `RarityFilter` based ores (like Diamond in certain biomes).
+- **Dynamic Ore Detection**: Automatically scans and creates GameRules for all ores (Vanilla + Modded).
+- **Granular Control**: Specific GameRules for every ore (`ig_ore_techmod_copper_ore`).
+- **Global Fallbacks**: Separate global multipliers for Vanilla and Modded ores.
+- **World Gen Hook**: Modifies `CountPlacement` to increase vein frequency.
+- **Snapshot Support**: Native compatibility with Minecraft 26.1 Snapshot 8.

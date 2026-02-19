@@ -35,7 +35,7 @@ processResources {
 
 loom {
     mixin {
-        defaultRefmapName = "durability-multiplier-refmap.json"
+        defaultRefmapName = "ore-amplifier-refmap.json"
     }
 }
 

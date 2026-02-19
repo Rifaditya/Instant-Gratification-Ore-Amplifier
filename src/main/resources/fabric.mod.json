@@ -1,34 +1,37 @@
 {
     "schemaVersion": 1,
-    "id": "durability-multiplier",
+    "id": "ore-amplifier",
     "version": "${version}",
-    "name": "Durability Multiplier",
-    "description": "Stop babysitting your tools. Multiply durability or go God Mode — it's just a GameRule away.",
+    "name": "Ore Amplifier",
+    "description": "Multiplies ore generation (vein count) for both Vanilla and Modded ores. Fully configurable via GameRules with dynamic detection for new ores. Part of the Instant Gratification Collection.",
     "authors": [
-        "DasikIgaijin"
+        "Instant Gratification"
     ],
     "contact": {
-        "homepage": "https://github.com/Rifaditya/Instant-Gratification-Durability-Multiplier",
-        "sources": "https://github.com/Rifaditya/Instant-Gratification-Durability-Multiplier"
+        "homepage": "https://example.com/",
+        "sources": "https://github.com/example/ore-amplifier"
     },
-    "license": "GPL-3.0-or-later",
-    "icon": "assets/durability-multiplier/icon.png",
+    "license": "All Rights Reserved",
+    "icon": "assets/ore-amplifier/icon.png",
     "environment": "*",
     "entrypoints": {
         "main": [
-            "net.instantgratification.durabilitymultiplier.DurabilityMultiplierFabric"
+            "net.instantgratification.oreamplifier.OreAmplifierFabric"
         ],
         "client": [
-            "net.instantgratification.durabilitymultiplier.DurabilityMultiplierFabricClient"
+            "net.instantgratification.oreamplifier.OreAmplifierClient"
         ]
     },
     "mixins": [
-        "durability-multiplier.mixins.json"
+        "ore-amplifier.mixins.json"
     ],
     "depends": {
-        "fabricloader": ">=0.16.9",
+        "fabricloader": ">=${loader_version}",
         "minecraft": "~26.1-",
         "java": ">=25",
         "fabric-api": "*"
+    },
+    "suggests": {
+        "another-mod": "*"
     }
 }

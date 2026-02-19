@@ -1,37 +1,9 @@
 # Changelog
 
-## [1.0.3] - 2026-02-15
+## [1.0.0] - 2026-02-19
 
-### Fixed
+### Initial Release
 
-- Tooltip changes now apply immediately without requiring a world/game reload (synced on gamerule change).
-
-## [1.0.2] - 2026-02-16
-
-### Changed
-
-- Updated tooltip format to be more explicit: "4x Tools" -> "4x Tools Durability".
-
-## [1.0.1] - 2026-02-16
-
-### Fixed
-
-- Tooltips not displaying: client-side rendering could not access server-side GameRules
-- Added Fabric Networking sync: GameRule values are now sent to clients on join
-- Tooltip mixin is now side-aware   (client reads synced cache, integrated server reads directly)
-
-## [1.0.0] - 2026-02-15
-
-### Added
-
-- Initial release
-- 11 GameRules under custom "Durability Multiplier" category
-  - 5 multiplier rules (Global, Swords, Tools, Armor, Elytra)
-  - 5 infinity/God Mode toggles (Global, Swords, Tools, Armor, Elytra)
-  - 1 tooltip toggle
-- Hierarchy-based resolution: tag-specific overrides global
-- Integer overflow safety (long math + clamp)
-- Probabilistic damage reduction for exact long-term multiplier effect
-- Tooltip visualization: "✦ UNBREAKABLE" (gold/bold) or "⟨Nx Category⟩" (gray)
-- Full en_us.json localization with verbose descriptions
-- Native mod compatibility via Vanilla Tag System (#minecraft:swords, etc.)
+- **Dynamic Ore Generation**: Scans and amplifies detected ores.
+- **GameRule Config**: Pure in-game configuration via GameRules.
+- **Mod Compatibility**: Auto-detects modded ores using "ore" naming convention.

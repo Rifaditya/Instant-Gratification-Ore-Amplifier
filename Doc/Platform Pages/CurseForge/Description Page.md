@@ -1,7 +1,7 @@
 <div align="center">
 
 <!-- Banner placeholder — replace URL when banner is uploaded -->
-<!-- ![Durability Multiplier Banner](https://media.forgecdn.net/attachments/XXXX/XXXX/banner.jpg) -->
+<!-- ![Ore Amplifier Banner](https://media.forgecdn.net/attachments/XXXX/XXXX/banner.jpg) -->
 
 </div>
 <p align="center">
@@ -11,78 +11,65 @@
     <img src="https://img.shields.io/badge/Minecraft-26.1+-brightgreen?style=for-the-badge" alt="Minecraft 26.1+">
 </p>
 
-# ⚒️ Durability Multiplier
+# 💎 Ore Amplifier
 
-**No Backports:** This mod targets **Minecraft 26.1+** (Snapshot 4). Older versions are unsupported.
+**No Backports:** This mod targets **Minecraft 26.1+** (Snapshot 8). Older versions are unsupported.
 
-> **Stop babysitting your tools. Focus on the adventure.**
+> **Stop grinding. Start crafting.**
 
-**Durability Multiplier** gives you complete control over item longevity. Whether you want double durability or complete invincibility (God Mode), it's just a GameRule away. Part of the **Instant Gratification Collection** — mods that respect the player's time.
+**Ore Amplifier** solves the resource scarcity problem. Whether you want slightly more iron or an explosion of diamonds, it's just a GameRule away. Designed for players who value their time. Part of the **Instant Gratification Collection**.
 
 ---
 
 ## ✨ Features
 
-### 🔧 Multiplier System
+### 🔧 Amplified Generation
 
-Make items last 2x, 10x, or even 2,147,483,647x longer.
+Multiply ore vein generation by any factor. 2x? 10x? 100x? You decide.
 
-- **Global Multiplier**: One rule to affect all damageable items.
-- **Category Overrides**: Separate multipliers for Swords, Tools, Armor, and Elytra.
-- **Overflow Protection**: Uses `long` math internally to prevent integer overflow — items cap at max durability instead of breaking instantly.
+- **Global Multipliers**: Set a baseline for all Vanilla or Modded ores.
+- **Granular Control**: Specific rules are automatically generated for every detected ore.
+- **Vein Count**: Increases the *number* of veins per chunk, ensuring dense, rich worlds.
 
-### 🛡️ God Mode (Infinity)
+### 🧩 Modded Ore Support
 
-Toggle complete invincibility for item categories.
+Built with compatibility in mind.
 
-- **Per-Category Control**: Make only your armor unbreakable, or make everything invincible.
-- **Priority System**: Infinity always takes precedence over multipliers.
-- **Hierarchy**: Tag-specific settings override Global settings.
-
-### 🏷️ Native Mod Compatibility
-
-Built on the **Vanilla Tag System**. Works **automatically** with items from other mods (Better Nether, Mythic Metals, etc.) as long as they use standard tags like `#minecraft:swords` or `#minecraft:chest_armor`.
-
-- **Zero Config**: Install a new mod, and its items inherit your multipliers instantly.
-- **Tag Categories**: Swords, Tools (Pickaxes, Axes, Shovels, Hoes, Spears), Armor (all pieces), Elytra.
-
-### 💬 Tooltip Display
-
-<table align="center" style="border: none; background: none;">
-  <tr style="border: none; background: none;">
-    <td align="center" style="border: none; background: none;">
-      <img src="https://raw.githubusercontent.com/Rifaditya/Instant-Gratification-Durability-Multiplier/refs/heads/main/Images/Unbreak.png" height="100">
-    </td>
-    <td align="center" style="border: none; background: none;">
-      <img src="https://raw.githubusercontent.com/Rifaditya/Instant-Gratification-Durability-Multiplier/refs/heads/main/Images/4x%20tools.png" height="100">
-    </td>
-  </tr>
-</table>
-
-Hover over any item to see its durability status:
-
-- **`⟨4x Durability⟩`** — gray text showing active multiplier
-- **`✦ UNBREAKABLE`** — gold bold text when God Mode is active
-- Can be toggled with `dm_show_tooltip`.
+- **Auto-Detection**: Scans your instance for any block with "ore" in its name.
+- **Dynamic Rules**: Automatically creates GameRules for `techmod:tin_ore`, `magicmod:mythril_ore`, etc.
+- **Fail-Safe**: If no specific rule is set, it falls back to the Global Modded multiplier.
 
 ### ⚙️ Pure GameRules
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Rifaditya/Instant-Gratification-Durability-Multiplier/refs/heads/main/Images/2026-02-15_11.24.45.png">
+  <!-- Replace with screenshot of Ore Amplifier GameRules screen -->
+  <img src="https://example.com/screenshot.png" alt="GameRules Screen">
 </p>
 
-No config files to manage. Everything lives in the **Edit Game Rules** screen or `/gamerule` commands.
+No config files to manage. Everything lives in the **Edit Game Rules** screen or `/gamerule` commands. Adjust settings in real-time without restarting.
+
+- **`ig_ore_vanilla_global`**: Multiplier for Minecraft ores (Coal, Iron, Diamond, etc.)
+- **`ig_ore_modded_global`**: Multiplier for non-Minecraft ores.
+- **`ig_ore_<mod>_<ore>`**: Specific multiplier for a specific ore.
+
+### 🌍 Existing Worlds
+
+Does this mod work on old worlds? **Yes**, but only for **new chunks**.
+
+- Ores in chunks you have already explored are "baked in".
+- To see changes in old areas, you must **regenerate the chunks**.
+- **Note**: There is no vanilla command for this. You must delete the chunk files (e.g., using MCA Selector) so the game is forced to recreate them.
+
+> **⚠️ Warning**: High multipliers (>5000) may cause world generation to freeze or crash due to excessive placement attempts. Use with caution!
 
 ---
 
 ## 📋 Quick Start
 
 ```
-/gamerule dm_multiplier_global 4      → 4x durability for everything
-/gamerule dm_infinity_swords true     → Swords never break
-/gamerule dm_multiplier_armor 10      → 10x armor durability
-/gamerule dm_infinity_global true     → Everything is unbreakable
-/gamerule dm_show_tooltip false       → Hide tooltip indicator
+/gamerule ig_ore_vanilla_global 200     → Double all vanilla ores
+/gamerule ig_ore_modded_global 500      → 5x all modded ores
+/gamerule ig_ore_minecraft_diamond_ore 1000 → 10x Diamonds specifically
 ```
 
 ---
@@ -90,8 +77,8 @@ No config files to manage. Everything lives in the **Edit Game Rules** screen or
 ## 📦 Install
 
 1. Install **[Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api)**.
-2. Download `durability-multiplier-1.0.0.jar` and place it in your `mods` folder.
-3. Launch the game — default settings give **2x durability** to all items.
+2. Download `ore-amplifier-1.0.0.jar` and place it in your `mods` folder.
+3. Launch the game — default settings are **100% (Vanilla rates)**. Tune them to your liking!
 
 ---
 

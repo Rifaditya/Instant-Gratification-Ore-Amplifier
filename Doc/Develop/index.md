@@ -1,35 +1,24 @@
 # Developer Hub
 
-Welcome to the **Durability Multiplier** development documentation.
+Welcome to the **Ore Amplifier** development documentation.
 
 ## Sections
 
 - **[Getting Started](Getting-Started/index.md)**: Requirements, Building, and Project Structure.
 - **[Architecture](Architecture/Architecture.md)**: System flow, module responsibilities, design decisions.
-- **[GameRules Reference](gamerules_reference.md)**: Complete reference for all 11 GameRules.
+- **[GameRules Reference](gamerules_reference.md)**: Complete reference for Global and Dynamic GameRules.
 - **[Changelogs](Changelogs/History.md)**: Full release history.
 
 ## Architecture
 
 | Component | Purpose |
 | :--- | :--- |
-| [DurabilityRules](file:///e:/Minecraft%20Project/Instant%20Gratification%20Collection/durability-multiplier/src/main/java/net/instantgratification/durabilitymultiplier/registry/DurabilityRules.java) | Registers 11 GameRules under custom category |
-| [DurabilityHelper](file:///e:/Minecraft%20Project/Instant%20Gratification%20Collection/durability-multiplier/src/main/java/net/instantgratification/durabilitymultiplier/DurabilityHelper.java) | Stateless logic: hierarchy resolution, overflow safety, damage reduction |
-| [ItemStackDurabilityMixin](file:///e:/Minecraft%20Project/Instant%20Gratification%20Collection/durability-multiplier/src/main/java/net/instantgratification/durabilitymultiplier/mixin/ItemStackDurabilityMixin.java) | Intercepts `hurtAndBreak()` to reduce/cancel damage |
-| [ItemStackTooltipMixin](file:///e:/Minecraft%20Project/Instant%20Gratification%20Collection/durability-multiplier/src/main/java/net/instantgratification/durabilitymultiplier/mixin/ItemStackTooltipMixin.java) | Injects durability status into tooltips |
+| `OreAmplifierFabric` | Main entrypoint. Registers GameRules and Categories. Scans for ores to generate dynamic rules. |
+| `OreLogic` | Central logic. Determines the correct multiplier for a given feature by checking specific vs global rules. |
+| `PlacedFeatureMixin` | Intercepts feature placement to identify if the current feature is an ore. |
+| `CountPlacementModifierMixin` | Intercepts the count (veins per chunk) logic to apply the multiplier. |
 
 ## Key Design Decisions
 
-1. **Damage Reduction, Not Max Override**: `getMaxDamage()` lacks Level context (called client-side). Reducing incoming damage in `hurtAndBreak()` is server-side only and mathematically equivalent.
-2. **Probabilistic Rounding**: For non-divisible damage (e.g., 1 damage / 3x multiplier), uses random rounding to achieve exact long-term durability extension.
-3. **ThreadLocal Re-entry Guard**: The durability Mixin re-calls `hurtAndBreak()` with reduced damage. A `ThreadLocal<Boolean>` prevents infinite recursion.
-
-## Tag Classification
-
-Items are classified using vanilla `ItemTags`:
-
-- **SWORD**: `#minecraft:swords`
-- **TOOL**: `#minecraft:axes`, `#minecraft:pickaxes`, `#minecraft:shovels`, `#minecraft:hoes`, `#minecraft:spears`
-- **ARMOR**: `#minecraft:head_armor`, `#minecraft:chest_armor`, `#minecraft:leg_armor`, `#minecraft:foot_armor`
-- **ELYTRA**: `minecraft:elytra` (specific item, no tag)
-- **OTHER**: Everything else with durability
+1. **Vein Count vs Size**: We multiply the *count* of veins, not the size. This prevents "blobby" non-vanilla generation and ensures better distribution.
+2. **Dynamic Registry Scanning**: Instead of hardcoding mod support, we scan `BuiltInRegistries.BLOCK` for any ID containing "ore". This provides instant compatibility with 99% of mods.

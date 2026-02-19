@@ -1,70 +1,35 @@
-# Durability Multiplier Architecture
+# Architecture
 
-## System Overview
+## Overview
 
-```mermaid
-flowchart TD
-    A[ItemStack.hurtAndBreak] -->|Mixin HEAD| B{ItemStackDurabilityMixin}
-    B -->|Re-entry Guard| C{ThreadLocal Check}
-    C -->|First Entry| D[DurabilityHelper]
-    C -->|Re-Entry| E[Pass Through]
-    D --> F{isInfinite?}
-    F -->|Yes| G[Cancel - Zero Damage]
-    F -->|No| H[getReducedDamage]
-    H --> I[Re-call hurtAndBreak with reduced amount]
-    
-    J[ItemStack.addDetailsToTooltip] -->|Mixin TAIL| K{ItemStackTooltipMixin}
-    K --> L{dm_show_tooltip?}
-    L -->|Yes| M[Append Multiplier/UNBREAKABLE]
-    L -->|No| N[Skip]
-```
+**Ore Amplifier** operates by hooking into Minecraft's world generation features during the "Placement" phase.
 
-## Module Responsibilities
+## Logic Flow
 
-### DurabilityRules
+1. **Registry Scan (`OreAmplifierFabric`)**:
+    - On startup, iterate `BuiltInRegistries.BLOCK`.
+    - Filter for blocks containing "ore" in `path`.
+    - Register dynamic `GameRule` for each match.
+    - Key: `ig_ore_<namespace>_<path>` (e.g., `ig_ore_minecraft_diamond_ore`).
 
-Registry of 11 GameRules + custom `GameRuleCategory`. Mirrors the vanilla `GameRules.registerBoolean`/`registerInteger` pattern using `Registry.register(BuiltInRegistries.GAME_RULE, ...)`.
+2. **Feature Identification (`PlacedFeatureMixin`)**:
+    - Inject into `PlacedFeature.place()`.
+    - Check if the feature being placed is associated with a block ID containing "ore".
+    - Store the `Identifier` of the feature in a `ThreadLocal` context (`OreLogic.CURRENT_FEATURE_ID`).
 
-**Access Pattern**:
+3. **Multiplier Application (`CountPlacementModifierMixin`)**:
+    - Inject into `CountPlacement.count()`.
+    - Check if the placed feature's registry key contains "ore".
+    - Call `OreLogic.getMultiplier(featureId, gameRules)`.
+    - Retrieve value:
+        - Specific Rule (`ig_ore_...`)
+        - Fallback Rule (`ig_ore_vanilla/modded_global`)
+    - Return `originalCount * (multiplier / 100)`.
 
-```java
-DurabilityRules.getBoolean(level, DurabilityRules.DM_INFINITY_GLOBAL);
-DurabilityRules.getInt(level, DurabilityRules.DM_MULTIPLIER_GLOBAL);
-```
+## Thread Safety
 
-Server-side only — returns safe defaults (`false`/`0`) on client.
+We use a **stateless** approach. Logic is computed on-the-fly based on the `PlacedFeature` context passed directly to the mixin, avoiding `ThreadLocal` context leaks.
 
-### DurabilityHelper
+## Mod Compatibility
 
-Stateless utility class. All methods are `static`. Core logic:
-
-| Method | Purpose |
-| :--- | :--- |
-| `classifyItem(ItemStack)` | Categorizes item via `ItemTags` |
-| `isInfinite(ServerLevel, ItemStack)` | Hierarchy: tag-specific → global |
-| `getEffectiveMultiplier(ServerLevel, ItemStack)` | Hierarchy: tag-specific (if >0) → global |
-| `getReducedDamage(ServerLevel, ItemStack, int)` | `amount / multiplier` with probabilistic rounding |
-
-### Mixins
-
-| Mixin | Target | Injection | Purpose |
-| :--- | :--- | :--- | :--- |
-| `ItemStackDurabilityMixin` | `ItemStack.hurtAndBreak` | `@Inject HEAD` | Cancel (infinity) or reduce damage |
-| `ItemStackTooltipMixin` | `ItemStack.addDetailsToTooltip` | `@Inject TAIL` | Append durability status to tooltip |
-
-## Design Decisions
-
-### Why Damage Reduction, Not Max Override?
-
-`ItemStack.getMaxDamage()` is called client-side without `Level` context. We cannot read GameRules without a `ServerLevel`. Instead, we reduce incoming damage in `hurtAndBreak()` (server-side only), which is mathematically equivalent:
-
-- **2x multiplier** → items take **half** damage → last **2x longer**
-- **4x multiplier** → items take **quarter** damage → last **4x longer**
-
-### Why ThreadLocal Re-entry Guard?
-
-The durability mixin cancels the original `hurtAndBreak` call and re-calls it with reduced damage. Without a guard, this re-call would trigger the mixin again → infinite recursion. `ThreadLocal<Boolean>` prevents this cleanly.
-
-### Why Probabilistic Rounding?
-
-Integer division truncates: `1 / 3 = 0`. This means a 3x multiplier on 1-point damage would make items truly unbreakable (unintended). Probabilistic rounding gives a `1/3` chance of taking 1 damage, achieving exact long-term durability.
+Compatibility is achieved via **Dynamic Detection**. We do not hardcode support for specific mods. Instead, we rely on the convention that modded ores include "ore" in their registry name.

@@ -1,27 +1,26 @@
 # Features
 
-**Durability Multiplier** gives you control over how long your items last.
+**Ore Amplifier** puts you in control of your world's resources.
 
 ## Feature Pages
 
-- **[Durability Multiplier](Features/DurabilityMultiplier.md)**: Multiplier system, God Mode, category overrides, tooltip display, mod compatibility.
+- **[Ore Amplifier](Features/OreAmplifier.md)**: Main feature guide.
 
 ## Quick Reference
 
 | Want to... | Command |
 | :--- | :--- |
-| Double all durability | `/gamerule dm_multiplier_global 2` |
-| 10x sword durability | `/gamerule dm_multiplier_swords 10` |
-| Unbreakable tools | `/gamerule dm_infinity_tools true` |
-| Unbreakable everything | `/gamerule dm_infinity_global true` |
-| Hide tooltip | `/gamerule dm_show_tooltip false` |
+| Double all Vanilla ores | `/gamerule ig_ore_vanilla_global 200` |
+| 5x all Modded ores | `/gamerule ig_ore_modded_global 500` |
+| 10x Diamonds specifically | `/gamerule ig_ore_minecraft_diamond_ore 1000` |
+| Reset to normal | Set values to `100` |
 
 ## How To Change Settings
 
-1. **World Creation**: Edit Game Rules → "Durability Multiplier" category
+1. **World Creation**: Edit Game Rules → "Ore Amplifier" category
 2. **In-Game**: `/gamerule <rule> <value>` command
 
 ## Compatibility
 
-- Works with **any mod** that adds tools/armor using vanilla tags
-- Server-side only — clients don't need the mod installed
+- Works with **any mod** that adds ores (standard "ore" naming convention).
+- Server-side only — clients don't need the mod installed to connect!

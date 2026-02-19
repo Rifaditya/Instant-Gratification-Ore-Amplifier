@@ -1,0 +1,7 @@
+{
+    "gamerule.minecraft.ig_ore_vanilla_global": "Vanilla Ore Fallback Multiplier (%)",
+    "gamerule.minecraft.ig_ore_modded_global": "Modded Ore Multiplier (%)",
+    "gamerule.minecraft.ig_ore_vanilla_global.description": "The base multiplier for all Vanilla ores. Specific ore rules will override this setting. 100 = Normal, 200 = Double.",
+    "gamerule.minecraft.ig_ore_modded_global.description": "Amplify your modded experience! Multiplies vein generation for all non-vanilla ores. Specific ore rules will automatically override this global setting.",
+    "gamerule.category.ore_amplifier": "Ore Amplifier"
+}

@@ -1,46 +1,42 @@
-# Durability Multiplier
+# 💎 Ore Amplifier
 
-> "Stop babysitting your tools. Focus on the adventure."
+> "Stop grinding. Start crafting."
 
-**Durability Multiplier** gives you complete control over item longevity. Whether you want double durability or complete invincibility (God Mode), it's just a GameRule away.
+**Ore Amplifier** gives you complete control over resource scarcity. Whether you want slightly more iron or an explosion of diamonds, it's just a GameRule away.
 
 **Part of the Instant Gratification Collection** — Respect the Player's Time, Not the Game's Rules.
 
 ## Features
 
-- **Multiplier System**: Scale durability by any factor (2x, 10x, 1000x...)
-- **God Mode**: Make items completely unbreakable per category
-- **Category Control**: Separate rules for Swords, Tools, Armor, and Elytra
-- **Hierarchy Override**: Category-specific settings override global defaults
-- **Overflow Safe**: Long math prevents integer overflow on extreme multipliers
-- **Tooltip Indicator**: Visible "✦ UNBREAKABLE" or "⟨Nx⟩" on item hover
-- **Native Mod Compat**: Uses vanilla tags — works with modded items automatically
+- **Amplified Generation**: Multiply **ore vein frequency** by up to **50x**.
+  - *Note: This increases the number of veins per chunk, NOT the size of the veins.*
+- **Safety Cap**: Built-in protection prevents game freezes if you accidentally type 99999.
+- **Dynamic Naming**: Rules appear as **"Iron Ore Multiplier"** instead of raw code.
+- **Modded Ore Support**: Automatically detects modded ores and creates specific rules for them.
+- **Granular Control**: Set global defaults or tweak specific ores individually.
+- **Pure GameRules**: No config files. Everything is adjustable in-game.
+
+> **Note**: Changes only affect **newly generated chunks**. Existing chunks must be regenerated to see updated ore counts. Use an external tool like MCA Selector or delete the region files manually.
 
 ## Configuration
 
 All settings are `GameRules` — changeable via `/gamerule` or the Edit Game Rules screen.
 
-| Rule | Type | Default | Description |
+| Rule Name | Internal ID | Default | Description |
 |---|---|---|---|
-| `dm_multiplier_global` | int | 2 | Base multiplier for all items |
-| `dm_multiplier_swords` | int | 0 | Override for Swords (0 = use global) |
-| `dm_multiplier_tools` | int | 0 | Override for Tools |
-| `dm_multiplier_armor` | int | 0 | Override for Armor |
-| `dm_multiplier_elytra` | int | 0 | Override for Elytra |
-| `dm_infinity_global` | bool | false | God Mode: all items |
-| `dm_infinity_swords` | bool | false | God Mode: Swords |
-| `dm_infinity_tools` | bool | false | God Mode: Tools |
-| `dm_infinity_armor` | bool | false | God Mode: Armor |
-| `dm_infinity_elytra` | bool | false | God Mode: Elytra |
-| `dm_show_tooltip` | bool | true | Show tooltip indicator |
+| **Vanilla Ore Fallback** | `ig_ore_vanilla_global` | 100 | Base multiplier for all Vanilla ores (100 = 1x). Used if specific rule is 0. |
+| **Modded Ore Fallback** | `ig_ore_modded_global` | 100 | Base multiplier for Modded ores. Used if specific rule is 0. |
+| **[Ore Name] Multiplier** | `ig_ore_<mod>_<ore>` | 0 | Specific multiplier for an ore. Overrides global. |
+
+*Safety Limit:* All multipliers are capped at **5000 (50x)** to prevent world generation hangs.
 
 ## Building
 
 ```bash
-./gradlew build --no-daemon
+./gradlew build
 ```
 
-Output JAR: `build/libs/durability-multiplier-<version>.jar`
+Output JAR: `build/libs/ore-amplifier-<version>.jar`
 
 ## Requirements
 

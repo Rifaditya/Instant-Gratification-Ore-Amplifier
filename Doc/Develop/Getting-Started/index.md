@@ -2,44 +2,41 @@
 
 ## Requirements
 
-| Dependency | Version |
-| :--- | :--- |
-| Minecraft | 26.1 Snapshot 4+ |
-| Fabric Loader | ≥ 0.16.10 |
-| Fabric API | 0.142.1+26.1 |
-| Java | 25 |
+- **JDK**: Java 25
+- **Minecraft**: 26.1 Snapshot 8
+- **Fabric Loader**: 0.16.9+
 
-## Building from Source
+## Build Setup
+
+The project uses a standard Fabric example mod structure.
+
+### 1. Clone & Setup
 
 ```bash
-git clone <repo-url>
-cd durability-multiplier
+git clone <repo>
+cd ore-amplifier
+```
+
+### 2. Build
+
+```bash
 ./gradlew build
 ```
 
-The JAR will be in `build/libs/durability-multiplier-<version>.jar`.
+The output JAR will be in `build/libs/`.
+
+### 3. Run Client
+
+```bash
+./gradlew runClient
+```
 
 ## Project Structure
 
-```
-src/main/java/net/instantgratification/durabilitymultiplier/
-├── DurabilityMultiplierFabric.java   # Fabric entrypoint (ModInitializer)
-├── DurabilityMultiplier.java         # Core init (registers rules, logging)
-├── DurabilityHelper.java             # Stateless logic (hierarchy, overflow, rounding)
-├── registry/
-│   └── DurabilityRules.java          # 11 GameRules + custom category
-└── mixin/
-    ├── ItemStackDurabilityMixin.java  # hurtAndBreak damage reduction
-    └── ItemStackTooltipMixin.java     # Tooltip status injection
-```
-
-## Configuration
-
-All settings are GameRules — no config files. Access via:
-
-- **Edit Game Rules** screen when creating/editing a world
-- `/gamerule <rule> <value>` command in-game
-
-## Dependencies
-
-This is a **standalone mod** — no DasikLibrary dependency. Only requires Fabric API.
+- `src/main/java`: Source code
+  - `OreAmplifierFabric`: Entrypoint & Registry Logic
+  - `OreLogic`: Helper logic for multipliers
+  - `mixin`: Mixins for World Gen hooks
+- `src/main/resources`: Assets & Data
+  - `fabric.mod.json`: Metadata
+  - `lang/en_us.json`: Localization
