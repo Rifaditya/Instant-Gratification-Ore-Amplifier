@@ -17,14 +17,13 @@
     - Check if the feature being placed is associated with a block ID containing "ore".
     - Store the `Identifier` of the feature in a `ThreadLocal` context (`OreLogic.CURRENT_FEATURE_ID`).
 
-3. **Multiplier Application (`CountPlacementModifierMixin`)**:
-    - Inject into `CountPlacement.count()`.
-    - Check if the placed feature's registry key contains "ore".
-    - Call `OreLogic.getMultiplier(featureId, gameRules)`.
-    - Retrieve value:
-        - Specific Rule (`ig_ore_...`)
-        - Fallback Rule (`ig_ore_vanilla/modded_global`)
-    - Return `originalCount * (multiplier / 100)`.
+3. **Multiplier Application (`RepeatingPlacementMixin`)**:
+    - Inject into `RepeatingPlacement.count()`.
+    - Retrieve multiplier from `ig_ore_...` rules (Stateless).
+    - **Stochastic Rounding**: Uses **DasikLibrary**'s `StochasticUtil.getAmplifiedCount()`.
+    - If multiplier < 100, generation is probabilistically reduced (e.g., 50% = 50% chance for 1 vein).
+    - If multiplier > 100, generation is increased as normal.
+    - If multiplier = 100 on a specific ore, it falls back to the Category Global Rule.
 
 ## Thread Safety
 

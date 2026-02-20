@@ -41,26 +41,21 @@ public class RarityFilterMixin {
         } else {
              ConfiguredFeature<?, ?> configured = placedFeature.feature().value();
              if (configured.feature() instanceof OreFeature) {
-                 OreConfiguration config = (OreConfiguration) configured.config();
-                 if (!config.targetStates.isEmpty()) {
-                     featureId = net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(config.targetStates.get(0).state.getBlock());
-                 }
+                  OreConfiguration config = (OreConfiguration) configured.config();
+                  if (!config.targetStates.isEmpty()) {
+                       featureId = net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(config.targetStates.get(0).state.getBlock());
+                  }
              }
         }
 
         if (featureId != null && OreLogic.shouldAmplify(featureId)) {
              int multiplier = OreLogic.getMultiplier(featureId, context.getLevel().getLevel().getGameRules());
              if (multiplier != 100) {  // Changed from > 100 to != 100 to support reduction
-                 float baseChance = 1.0F / (float) this.chance;
-                 float amplifiedChance = baseChance * (multiplier / 100.0F);
-                 
-                 // Cap at 1.0
-                 if (amplifiedChance > 1.0F) amplifiedChance = 1.0F;
-
-                 boolean success = random.nextFloat() < amplifiedChance;
+                 float baseProbability = 1.0F / (float) this.chance;
+                 boolean success = net.dasik.social.util.StochasticUtil.getAmplifiedProbability(baseProbability, multiplier, random);
                  
                  if (success) {
-                      OreLogic.logAmplification(featureId, 1, (int)(amplifiedChance * this.chance), multiplier); // Rough logging
+                      OreLogic.logAmplification(featureId, 1, Math.max(1, (int)(multiplier / 100.0F * this.chance)), multiplier); // Rough logging
                       cir.setReturnValue(true);
                  } else {
                       cir.setReturnValue(false);

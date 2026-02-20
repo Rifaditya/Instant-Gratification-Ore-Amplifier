@@ -4,25 +4,26 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.gamerules.GameRules; // Updated package
 import net.minecraft.world.level.gamerules.GameRule;
 import net.minecraft.server.level.ServerLevel;
-
 import net.minecraft.resources.Identifier;
+import net.dasik.social.api.gamerule.DynamicGameRuleManager;
 
 public class OreLogic {
     public static boolean shouldAmplify(Identifier id) {
-        return id.getPath().contains("ore") || id.getNamespace().equals("minecraft") && id.getPath().contains("debris");
+        String path = id.getPath();
+        boolean isOre = path.endsWith("_ore") || path.contains("_ore_") || path.startsWith("ore_") || path.equals("ore");
+        boolean isDebris = id.getNamespace().equals("minecraft") && path.contains("debris");
+        return isOre || isDebris;
     }
 
     public static int getMultiplier(Identifier featureId, GameRules rules) {
         if (featureId == null) return 100;
 
-        // 1. Check Specific Dynamic Rule
+        // 1. Check Specific Dynamic Rule (JIT Fallback Registration)
         String dynamicRuleName = "ig_ore_" + featureId.getNamespace() + "_" + featureId.getPath();
         
-        GameRule<Integer> dynamicRule = OreAmplifierFabric.getDynamicRule(dynamicRuleName);
-        if (dynamicRule != null) {
-            int val = rules.get(dynamicRule);
-            if (val != 100) return val; // Use if set (not default 100)
-        }
+        GameRule<Integer> dynamicRule = DynamicGameRuleManager.registerInteger(dynamicRuleName, OreAmplifierFabric.ORE_AMPLIFIER_CATEGORY, 100);
+        int val = rules.get(dynamicRule);
+        if (val != 100) return val; // Use if set (not default 100)
 
         // 2. Fallback to Global
         if (featureId.getNamespace().equals("minecraft")) {

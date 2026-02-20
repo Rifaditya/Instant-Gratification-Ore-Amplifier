@@ -30,7 +30,7 @@
         "minecraft": "~26.1-",
         "java": ">=25",
         "fabric-api": "*",
-        "dasik-library": ">=1.6.9"
+        "dasik-library": "*"
     },
     "suggests": {
         "another-mod": "*"

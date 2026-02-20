@@ -31,6 +31,10 @@ Allows for fractional multipliers (e.g., 0.5x).
 - **Pure GameRules**: No config files.
 - **Hierarchy**: Specific Rule > Global Category (Vanilla/Modded).
 
+## Dependencies
+
+- **[DasikLibrary](file:///e:/Minecraft%20Project/DasikLibrary)**: Provides `StochasticUtil` for generation logic. (Required)
+
 ## Safety
 
 - **Uncapped**: No hard limits.
