@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.0+build.70] - 2026-02-21
+
+### Fixed
+
+- **Stability**: Resolved a critical `IllegalStateException: Registry is already frozen` crash during world generation. `OreLogic.getMultiplier` is now null-safe, falling back to global multipliers if JIT GameRule registration fails during the feature placement phase.
+
+## [1.0.0+build.69] - 2026-02-21
+
+### Fixed
+
+- **Compatibility**: Reverted Mixin compatibility level from `JAVA_25` to `JAVA_22` to resolve warning.
+
 ## [1.0.0+build.68] - 2026-02-21
 
 ### Added
