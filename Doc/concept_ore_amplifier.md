@@ -101,23 +101,11 @@ For modded ores or negative values (reducing rarity).
 }
 ```
 
-### C. In-Game Commands ( The "Better Way")
+### C. Dynamic Naming Translations
 
-Generating GameRules for every modded ore would clutter the UI (imagine 500+ rules for large modpacks). instead, we use **In-Game Commands** to edit the JSON config on the fly.
+Generating GameRules for every modded ore used to clutter the UI with raw identifiers (e.g., `ig_ore_techreborn_tin_ore`). Thanks to DasikLibrary's dynamic translation injection, these GameRules now automatically display with human-readable names (e.g., "Techreborn Tin Ore Multiplier").
 
-| Command | Permission | Description |
-| :--- | :--- | :--- |
-| `/oreamp set <id|tag> <value>` | OP (Level 2) | Sets a specific multiplier. Writes to `config`.<br>`/oreamp set techreborn:tin_ore 3.5` |
-| `/oreamp get <id|tag>` | Global | Checks the current multiplier for an ore.<br>`/oreamp get minecraft:coal_ore` |
-| `/oreamp list [page]` | Global | Lists all active overrides. |
-| `/oreamp reload` | OP (Level 2) | Reloads `ore_amplifier.json` from disk. |
-| `/oreamp scan` | OP (Level 2) | **Analysis Tool**: Scans the current chunk for ore density.<br>Output: *"Found 12 Iron Veins (Vanilla ~4). Multiplier: 3.0x"* |
-
-**Why this is better than Dynamic GameRules:**
-
-1. **Clean UI**: Keep the GameRules screen simple (Global toggles only).
-2. **Infinite Scaling**: Works for 10 ores or 10,000 ores.
-3. **Instant Gratification**: You see a specific ore yielding too few? Aim at it, type `/oreamp set <TAB> 3.0` -> Done.
+This effectively solves the "Clean UI" problem without needing a complex in-game command system or external JSON files, keeping configuration 100% within the native GameRules screen.
 
 ### Resolution Order
 

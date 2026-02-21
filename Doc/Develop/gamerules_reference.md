@@ -11,11 +11,12 @@
 
 ## Dynamic Rules
 
-The mod automatically generates rules for every detected ore block.
+The mod automatically generates rules for every detected ore block, and dynamically registers readable names for them via DasikLibrary.
 
-**Format**: `ig_ore_<namespace>_<path>`
+**Internal Format**: `ig_ore_<namespace>_<path>`
+**In-Game Example**: "Minecraft Diamond Ore Multiplier"
 
-**Examples**:
+**Raw Examples**:
 
 - `ig_ore_minecraft_diamond_ore`
 - `ig_ore_techmod_tin_ore`

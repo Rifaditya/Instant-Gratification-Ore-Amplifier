@@ -1,5 +1,11 @@
 # History
 
+## [1.0.0+build.68] - 2026-02-21
+
+### Added
+
+- **Documentation**: Swept and updated all project documentation (README, Platform Pages, Player docs) to accurately describe the new generated human-readable GameRule string integration via DasikLibrary 1.6.9+build.5.
+
 ## [1.0.0+build.58] - 2026-02-19
 
 ### Changed

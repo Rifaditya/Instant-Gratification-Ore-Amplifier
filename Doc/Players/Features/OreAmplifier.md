@@ -15,12 +15,13 @@ This results in a much more natural distribution of resources, maintaining the f
 
 > **⚠️ Warning**: High multipliers (>5000) may cause world generation to freeze or crash due to excessive placement attempts. Use with caution!
 
-### 2. Modded Ore Support
+### 2. Built-in Dynamic Support
 
 The mod is built to be "Instantly Compatible". It scans your game for any block with "ore" in its name.
 
 - **No Config Files**: You don't need to manually add block IDs to a config file.
 - **Dynamic Rules**: The mod automatically creates a unique GameRule for every detected ore.
+- **Dynamic Translations**: GameRules show up as readable text (e.g., "Iron Ore Multiplier") in the GameRules screen, instead of raw identifiers like `ig_ore_minecraft_iron_ore`.
 - **Modded Fallback**: If you add a new mod and don't touch the settings, its ores will use the `ig_ore_modded_global` multiplier.
 
 ## Configuration Hierarchy

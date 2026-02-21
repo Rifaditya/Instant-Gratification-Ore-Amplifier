@@ -48,11 +48,12 @@ Built with compatibility in mind.
 ### ⚙️ Pure GameRules
 
 <p align="center">
-  <!-- Replace with screenshot of Ore Amplifier GameRules screen -->
-  <img src="https://example.com/screenshot.png" alt="GameRules Screen">
+  <img src="https://raw.githubusercontent.com/Rifaditya/Instant-Gratification-Ore-Amplifier/refs/heads/main/Images/2026-02-21_01.36.22.png" alt="GameRules Screen">
 </p>
 
 No config files to manage. Everything lives in the **Edit Game Rules** screen or `/gamerule` commands. Adjust settings in real-time without restarting.
+
+**Dynamic Naming:** GameRules show up as readable text (e.g., "Iron Ore Multiplier") thanks to DasikLibrary's dynamic translation injection, instead of raw identifiers!
 
 - **`ig_ore_vanilla_global`**: Multiplier for Minecraft ores (Coal, Iron, Diamond, etc.)
 - **`ig_ore_modded_global`**: Multiplier for non-Minecraft ores.
@@ -104,7 +105,7 @@ If you enjoy the **Instant Gratification** collection, consider fueling the next
 
 | Role | Author |
 | :--- | :--- |
-| **Architect** | **Rifaditya** (Dasik) |
+| **Creator** | **Rifaditya** (Dasik) |
 | **Collection** | Instant Gratification |
 | **License** | GPLv3 |
 
