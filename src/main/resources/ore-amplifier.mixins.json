@@ -1,7 +1,7 @@
 {
     "required": true,
     "package": "net.instantgratification.oreamplifier.mixin",
-    "compatibilityLevel": "JAVA_25",
+    "compatibilityLevel": "JAVA_22",
     "mixins": [
         "PlacedFeatureMixin",
         "CountPlacementModifierMixin",
