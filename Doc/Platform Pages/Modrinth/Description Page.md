@@ -9,83 +9,65 @@
     <a href="https://modrinth.com/mod/dasik-library"><img src="https://img.shields.io/badge/Requires-Dasik_Library-blue?style=for-the-badge&logo=modrinth" alt="Modrinth: Dasik Library"></a>
     <img src="https://img.shields.io/badge/Language-Java-orange?style=for-the-badge&logo=java" alt="Java">
     <img src="https://img.shields.io/badge/License-GPLv3-green?style=for-the-badge" alt="License">
-    <img src="https://img.shields.io/badge/Minecraft-26.1+-brightgreen?style=for-the-badge" alt="Minecraft 26.1+">
+    <img src="https://img.shields.io/badge/Minecraft-26.2+-brightgreen?style=for-the-badge" alt="Minecraft 26.2+">
 </p>
 
 # 💎 Ore Amplifier
 
-**No Backports:** This mod targets **Minecraft 26.1+** (Snapshot 8). Older versions are unsupported.
+**Active Version Policy:** I build **1 JAR for 1 Version**. I only update and maintain the latest active Minecraft version (e.g. when 26.3 is released, 26.2 is retired). No backports or legacy version maintenance. Please do not ask.
 
-> **Stop grinding. Start crafting.**
+> **"Stop grinding. Start crafting."**
 
-**Ore Amplifier** solves the resource scarcity problem. Whether you want slightly more iron or an explosion of diamonds, it's just a GameRule away. Designed for players who value their time. Part of the **Instant Gratification Collection**.
+**Ore Amplifier** solves the resource scarcity problem. Whether you want slightly more iron or an explosion of diamonds, it's just a config option or GameRule away. Designed for players who value their time.
+
+Part of the **Instant Gratification Collection** — mods that respect the player's time.
+
+> [!WARNING]
+> **CONFIGURATION WARNING:** The global configuration file (and the ModMenu/YACL configuration screen) only defines default values for **NEWLY GENERATED WORLDS**. Settings for existing/active worlds must be adjusted in-game using the `/gamerule` command or the **Edit Game Rules** GUI screen. Changing values in the global config after a world has been created will not affect that world.
 
 ---
 
 ## ✨ Features
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Rifaditya/Instant-Gratification-Ore-Amplifier/refs/heads/main/Images/image.png" alt="GameRules Screen">
+  <img src="https://raw.githubusercontent.com/Rifaditya/Instant-Gratification-Ore-Amplifier/refs/heads/main/Images/image.png" alt="Ore Generation Demonstration">
 </p>
 
-
 ### 🔧 Amplified Generation
-
 Multiply ore vein generation by any factor. 2x? 10x? 100x? You decide.
-
 - **Global Multipliers**: Set a baseline for all Vanilla or Modded ores.
 - **Granular Control**: Specific rules are automatically generated for every detected ore.
 - **Vein Count**: Increases the *number* of veins per chunk, ensuring dense, rich worlds.
 
 ### 🧩 Modded Ore Support
-
 Built with compatibility in mind.
-
 - **Auto-Detection**: Scans your instance for any block with "ore" in its name.
-- **Dynamic Rules**: Automatically creates GameRules for `techmod:tin_ore`, `magicmod:mythril_ore`, etc.
+- **Dynamic Rules**: Automatically creates GameRules for any modded ore (e.g., Tin, Lead, Silver).
 - **Fail-Safe**: If no specific rule is set, it falls back to the Global Modded multiplier.
 
-### ⚙️ Pure GameRules
+### ⚙️ Easy Configuration & GameRules Control
+- **In-Game GUI**: Includes optional configuration screen support via **ModMenu** and **YetAnotherConfigLib (YACL) v3**. Modify global baseline templates directly from the main menu!
+- **Real-Time Tuning**: Adjust settings inside your active world without restarting.
+- **Dynamic Naming**: GameRules show up as readable text (e.g., "Iron Ore Multiplier") thanks to DasikLibrary.
+- **Fail-Safe Crash Reports**: Includes protection against extreme multipliers that could crash worldgen.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Rifaditya/Instant-Gratification-Ore-Amplifier/refs/heads/main/Images/2026-02-21_01.36.22.png" alt="GameRules Screen">
+  <img src="https://raw.githubusercontent.com/Rifaditya/Instant-Gratification-Ore-Amplifier/refs/heads/main/Images/2026-02-21_01.36.22.png" alt="Native GameRules UI">
 </p>
 
-No config files to manage. Everything lives in the **Edit Game Rules** screen or `/gamerule` commands. Adjust settings in real-time without restarting.
-
-**Dynamic Naming:** GameRules show up as readable text (e.g., "Iron Ore Multiplier") thanks to DasikLibrary's dynamic translation injection, instead of raw identifiers!
-
-- **`ig_ore_vanilla_global`**: Multiplier for Minecraft ores (Coal, Iron, Diamond, etc.)
-- **`ig_ore_modded_global`**: Multiplier for non-Minecraft ores.
-- **`ig_ore_<mod>_<ore>`**: Specific multiplier for a specific ore.
-
 ### 🌍 Existing Worlds
-
-Does this mod work on old worlds? **Yes**, but only for **new chunks**.
-
-- Ores in chunks you have already explored are "baked in".
-- To see changes in old areas, you must **regenerate the chunks**.
-- **Note**: There is no vanilla command for this. You must delete the chunk files (e.g., using MCA Selector) so the game is forced to recreate them.
-
-> **⚠️ Warning**: High multipliers (>5000) may cause world generation to freeze or crash due to excessive placement attempts. Use with caution!
+- **New Chunks Only**: Works instantly on unexplored areas.
+- **Regeneration Compatible**: Use tools like MCA Selector to reset explored chunks if you want to see changes there.
 
 ---
 
 ## 📋 Quick Start
 
-```
+```sql
 /gamerule ig_ore_vanilla_global 200     → Double all vanilla ores
 /gamerule ig_ore_modded_global 500      → 5x all modded ores
 /gamerule ig_ore_minecraft_diamond_ore 1000 → 10x Diamonds specifically
 ```
-
----
-
-## 📦 Install
-
-1. Install **[Fabric API](https://modrinth.com/mod/fabric-api)**.
-2. Download `ore-amplifier-1.0.0.jar` and place it in your `mods` folder.
-3. Launch the game — default settings are **100% (Vanilla rates)**. Tune them to your liking!
 
 ---
 
@@ -95,9 +77,10 @@ If you enjoy the **Instant Gratification** collection, consider fueling the next
 
 [![Ko-fi](https://img.shields.io/badge/Ko--fi-Support%20Me-FF5E5B?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/dasikigaijin/tip)
 [![SocioBuzz](https://img.shields.io/badge/SocioBuzz-Local_Support-7BB32E?style=for-the-badge)](https://sociabuzz.com/dasikigaijin/tribe)
+[![Saweria](https://img.shields.io/badge/Saweria-Local_Support-FFA500?style=for-the-badge)](https://saweria.co/DasikIgaijinn)
 
 > [!NOTE]
-> **Indonesian Users:** SocioBuzz supports local payment methods (Gopay, OVO, Dana, etc.) if you want to support me without using PayPal/Ko-fi!
+> **Indonesian Users:** SocioBuzz and Saweria support local payment methods (Gopay, OVO, Dana, etc.) if you want to support me without using PayPal/Ko-fi!
 
 ---
 
@@ -112,9 +95,10 @@ If you enjoy the **Instant Gratification** collection, consider fueling the next
 ---
 
 > [!IMPORTANT]
-> **Modpack Permissions:** You are free to include this mod in modpacks, **provided the modpack is hosted on the same platform** (e.g. Modrinth).
->
-> **Cross-platform distribution is not permitted.** If you download this mod from Modrinth, your modpack must also be published on Modrinth.
+> **📦 Modpack Permissions & Distribution:** You are free to include this mod in any modpack on any platform. However, the mod itself must be downloaded from its official distribution pages on **Modrinth** or **CurseForge**. Re-uploading or redistributing the mod jar file to third-party sites is strictly prohibited unless explicitly permitted by the creator.
+> 
+> **License & Forks:** Since the source code is licensed under **GNU GPLv3**, you are fully permitted to fork the repository, make modifications, build your own versions, and distribute them under the terms of the GPLv3. The prohibition on third-party redistribution applies exclusively to the official compiled releases/jars published by the original creator (Dasik/Rifaditya). Forks must be published as distinct projects, not direct re-uploads of official builds.
+
 
 ---
 

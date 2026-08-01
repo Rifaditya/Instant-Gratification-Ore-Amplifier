@@ -1,3 +1,4 @@
+// Copyright (C) 2026 Dasik (Rifaditya) | GNU GPLv3
 package net.instantgratification.oreamplifier.mixin;
 
 import net.instantgratification.oreamplifier.OreAmplifierFabric;
@@ -26,7 +27,7 @@ public class RarityFilterMixin {
     private int chance;
 
     @Inject(method = "shouldPlace", at = @At("HEAD"), cancellable = true)
-    private void amplifyRarity(PlacementContext context, RandomSource random, BlockPos origin, CallbackInfoReturnable<Boolean> cir) {
+    private void modded$amplifyRarity(PlacementContext context, RandomSource random, BlockPos origin, CallbackInfoReturnable<Boolean> cir) {
         Optional<PlacedFeature> topFeatureOpt = context.topFeature();
         if (topFeatureOpt.isEmpty()) {
             return;

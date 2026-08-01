@@ -33,7 +33,7 @@ Allows for fractional multipliers (e.g., 0.5x).
 
 ## Dependencies
 
-- **[DasikLibrary](file:///e:/Minecraft%20Project/DasikLibrary)**: Provides `StochasticUtil` for generation logic. (Required)
+- **[DasikLibrary](../../../../../DasikLibrary)**: Provides `StochasticUtil` for generation logic. (Required)
 
 ## Safety
 

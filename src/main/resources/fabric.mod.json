@@ -11,7 +11,7 @@
         "homepage": "https://example.com/",
         "sources": "https://github.com/example/ore-amplifier"
     },
-    "license": "All Rights Reserved",
+    "license": "GNU GPLv3",
     "icon": "assets/ore-amplifier/icon.png",
     "environment": "*",
     "entrypoints": {
@@ -20,6 +20,9 @@
         ],
         "client": [
             "net.instantgratification.oreamplifier.OreAmplifierClient"
+        ],
+        "modmenu": [
+            "net.instantgratification.oreamplifier.ModMenuIntegration"
         ]
     },
     "mixins": [
@@ -27,12 +30,13 @@
     ],
     "depends": {
         "fabricloader": ">=${loader_version}",
-        "minecraft": "~26.1-",
+        "minecraft": ">=26.2-",
         "java": ">=25",
         "fabric-api": "*",
         "dasik-library": "*"
     },
     "suggests": {
-        "another-mod": "*"
+        "yet_another_config_lib_v3": "*",
+        "modmenu": "*"
     }
 }

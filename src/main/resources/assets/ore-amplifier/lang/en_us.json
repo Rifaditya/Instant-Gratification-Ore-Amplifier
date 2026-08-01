@@ -1,7 +1,26 @@
 {
+    "gamerule.ig:ore_vanilla_global": "Vanilla Ore Fallback Multiplier (%)",
+    "gamerule.ig:ore_modded_global": "Modded Ore Multiplier (%)",
+    "gamerule.ig:ore_vein_size_multiplier": "Ore Vein Size Multiplier (%)",
+    "gamerule.ig:ore_vanilla_global.description": "The base multiplier for all Vanilla ores. Specific ore rules will override this setting. 100 = Normal, 200 = Double.",
+    "gamerule.ig:ore_modded_global.description": "Amplify your modded experience! Multiplies vein generation for all non-vanilla ores. Specific ore rules will automatically override this global setting.",
+    "gamerule.ig:ore_vein_size_multiplier.description": "Multiplies the block volume / size of individual generated ore veins. 100 = Normal size, 200 = Double size.",
     "gamerule.minecraft.ig_ore_vanilla_global": "Vanilla Ore Fallback Multiplier (%)",
     "gamerule.minecraft.ig_ore_modded_global": "Modded Ore Multiplier (%)",
     "gamerule.minecraft.ig_ore_vanilla_global.description": "The base multiplier for all Vanilla ores. Specific ore rules will override this setting. 100 = Normal, 200 = Double.",
     "gamerule.minecraft.ig_ore_modded_global.description": "Amplify your modded experience! Multiplies vein generation for all non-vanilla ores. Specific ore rules will automatically override this global setting.",
-    "gamerule.category.ore_amplifier": "Ore Amplifier"
+    "gamerule.category.ore_amplifier": "Ore Amplifier",
+    "config.ore-amplifier.title": "Ore Amplifier Config",
+    "config.ore-amplifier.category.general": "General Settings",
+    "config.ore-amplifier.group.options": "Multiplier Options",
+    "config.ore-amplifier.warning": "WARNING: Changes made here only affect the baseline defaults for NEW worlds. To configure your active/existing world, use the in-game /gamerule screen or command instead.",
+    "config.ore-amplifier.vanillaGlobalMultiplier": "Vanilla Ore Fallback Multiplier",
+    "config.ore-amplifier.vanillaGlobalMultiplier.description": "The base multiplier for all Vanilla ores. Default is 100.\n\n§6Notice:§r Global configuration settings only define default values for newly generated worlds. For existing worlds, change settings in-game via /gamerule or the GameRules edit GUI screen.",
+    "config.ore-amplifier.moddedGlobalMultiplier": "Modded Ore Fallback Multiplier",
+    "gamerule.minecraft.ig_ore_vein_size_multiplier": "Ore Vein Size Multiplier (%)",
+    "gamerule.minecraft.ig_ore_vein_size_multiplier.description": "Multiplies the block volume / size of individual generated ore veins. 100 = Normal size, 200 = Double size.",
+    "config.ore-amplifier.veinSizeMultiplier": "Ore Vein Size Multiplier",
+    "config.ore-amplifier.veinSizeMultiplier.description": "Multiplies the block volume / size of individual generated ore veins (100%–500%). Default is 100.",
+    "config.ore-amplifier.category.per_ore": "Per-Ore Multipliers",
+    "config.ore-amplifier.group.per_ore": "Specific Ore Controls"
 }

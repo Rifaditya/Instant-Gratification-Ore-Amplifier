@@ -8,20 +8,20 @@
 
 ## Features
 
-- **Amplified Generation**: Multiply **ore vein frequency** by up to **50x**.
+- **Amplified Generation**: Multiply **ore vein frequency** with no hard limits.
   - *Note: This increases the number of veins per chunk, NOT the size of the veins.*
-- **Safety Cap**: Built-in protection prevents game freezes if you accidentally type 99999.
+- **Unrestricted Control**: No built-in safety caps. You have full control over the world generator's limits.
 - **Dynamic Naming**: Rules appear as **"Iron Ore Multiplier"** instead of raw code (`ig_ore_minecraft_iron_ore`), thanks to `DasikLibrary`'s dynamic translation injection.
 - **Modded Ore Support**: Automatically detects modded ores and creates specific rules for them.
 - **Granular Control**: Set global defaults or tweak specific ores individually.
 - **Library Powered**: Uses **DasikLibrary** for high-precision stochastic generation.
-- **Pure GameRules**: No config files. Everything is adjustable in-game.
+- **Flexible Configuration**: Adjust settings in-game via native `GameRules` or using **ModMenu** + **YetAnotherConfigLib (YACL) v3** GUI. Defines global defaults in `config/ore-amplifier.json`.
 
 > **Note**: Changes only affect **newly generated chunks**. Existing chunks must be regenerated to see updated ore counts. Use an external tool like MCA Selector or delete the region files manually.
 
 ## Configuration
 
-All settings are `GameRules` — changeable via `/gamerule` or the Edit Game Rules screen.
+All settings are `GameRules` — changeable via `/gamerule`, the Edit Game Rules screen, or the ModMenu GUI config screen.
 
 | Rule Name | Internal ID | Default | Description |
 |---|---|---|---|
@@ -29,7 +29,7 @@ All settings are `GameRules` — changeable via `/gamerule` or the Edit Game Rul
 | **Modded Ore Multiplier** | `ig_ore_modded_global` | 100 | Base multiplier for Modded ores. Used if specific rule is 100. |
 | **[Ore Name] Multiplier** | `ig_ore_<mod>_<ore>` | 100 | Specific multiplier. 100 = Fallback to Global. Shows as readable text in-game! |
 
-*Safety Limit:* Multipliers are **uncapped**, but values above **5000 (50x)** may cause world generation to hang or freeze.
+*Safety Limit:* Multipliers are **completely uncapped**. However, extremely high values (e.g. 5000+) will significantly strain world generation. If the multiplier exceeds **1,000x (100,000+ veins)** for a single ore, the mod will trigger a **Detailed Crash Report** to help you identify the offending multiplier.
 
 ## Building
 
@@ -41,9 +41,9 @@ Output JAR: `build/libs/ore-amplifier-<version>.jar`
 
 ## Requirements
 
-- **Minecraft**: 26.1 Snapshot 8
+- **Minecraft**: 26.2 / 26.1.2
 - **Fabric Loader**: 0.18.4+
-- **DasikLibrary**: 1.6.9+build.5+
+- **DasikLibrary**: 1.8.0+
 - **Java**: 25+
 
 ## License

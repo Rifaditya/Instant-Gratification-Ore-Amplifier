@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:amethyst_geode",
+    "minecraft:monster_room",
+    "minecraft:monster_room_deep"
+  ]
+}

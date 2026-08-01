@@ -1,5 +1,89 @@
 # History
 
+## [1.3.0+26.2] - 2026-08-01
+
+### Vein Size Amplification Option
+* **What**: Added `ig:ore_vein_size_multiplier` GameRule (100%–500%) and `OreFeatureMixin` to multiply individual vein block volume during feature placement.
+* **Why**: Allows scaling individual vein sizes (e.g. 200% double-sized veins) alongside vein frequency count.
+* **How**: Created `OreFeatureMixin.java`, updated `OreAmplifierFabric.java`, `OreCommand.java`, `YaclScreenHelper.java`, and `en_us.json`.
+
+## [1.2.1+26.2] - 2026-08-01
+
+### 2-Way GameRule & Command & Config Synchronization
+* **What**: Updated `/oreamp set`, `/oreamp reset`, and `/oreamp reload` command handlers in `OreCommand.java` to synchronize changes to `config/ore-amplifier.json` and active world GameRules concurrently.
+* **Why**: Prevents desync between in-game Brigadier command modifications, world GameRules, and main menu YACL config settings.
+* **How**: Added `OreAmplifierConfig.save()` calls on `/oreamp set` and `/oreamp reset`, and GameRule updates on `/oreamp reload`.
+
+## [1.2.0+26.2] - 2026-08-01
+
+### Expanded YACL / ModMenu Config GUI
+* **What**: Added per-ore persistent configuration map `perOreMultipliers` and a new **Per-Ore Multipliers Category** to the YACL main menu config screen.
+* **Why**: Provides players and server admins with dynamic client-side GUI controls (0%–1000% sliders) for individual ore types (Iron, Gold, Diamond, Netherite, Coal, Copper, Lapis, Redstone, Emerald, Quartz).
+* **How**: Updated `OreAmplifierConfig.java`, `OreLogic.java`, `YaclScreenHelper.java`, and `en_us.json`.
+
+## [1.1.9+26.2] - 2026-08-01
+
+### Automated Test Integration
+* **What**: Added JUnit 5 support in `build.gradle` and created unit test suite `OreAmplifierTest.java`.
+* **Why**: Complies with Automated GameTest Verification Law and `gradle-tester` skill requirement to support headless automated testing (`./gradlew test`).
+* **How**: Implemented test cases for feature ID recognition, blacklist filtering, and multiplier math calculations.
+
+## [1.1.8+26.2] - 2026-08-01
+
+### Instant Gratification Concept Default Alignment
+* **What**: Aligned baseline global ore multipliers with Instant Gratification concept doc specifications: Vanilla default updated to **200% (2.0x)** and Modded default updated to **120% (1.2x)**.
+* **Why**: Enforces Instant Gratification design principle ("*Abundance is the default state; one vein should fuel a project*").
+* **How**: Updated `OreAmplifierConfig.java` default field values and `OreAmplifierFabric.java` GameRule registration defaults & auto-heal logic.
+
+## [1.1.7+26.2] - 2026-08-01
+
+### Early Init Unbound Tag Exception Guard
+* **What**: Wrapped `blockOpt.get().is(...)` in a `try-catch (IllegalStateException e)` block in `OreLogic.shouldAmplify()`.
+* **Why**: `Holder.Reference.isBound()` checks object binding, but `Holder.Reference.is(TagKey)` queries `this.tags` which is null before Minecraft binds datapack tags during startup.
+* **How**: Caught `IllegalStateException` during early init, falling back to static blacklist and name heuristics until tags bind.
+
+## [1.1.6+26.2] - 2026-08-01
+
+### Startup Tag Binding Guard
+* **What**: Added `blockOpt.get().isBound()` check prior to calling `.is(TagKey)` in `OreLogic.shouldAmplify()`.
+* **Why**: To prevent `IllegalStateException: Tags not bound` during pre-registration scan in `onInitialize()` before Minecraft tag binding phase.
+* **How**: Guarded block holder tag checks with `isBound()`.
+
+## [1.1.5+26.2] - 2026-08-01 (🚨 CRITICAL BUG / DO NOT PUBLISH)
+
+### Tag-Driven Blacklist Support (DO NOT PUBLISH BUILD)
+* **Status**: 🚨 **CRITICAL BUG / DO NOT PUBLISH**. This build introduced un-guarded dynamic tag checks during `onInitialize()` before Minecraft tag binding, causing an `IllegalStateException: Tags not bound` crash on startup. Use `v1.1.6+26.2` or newer instead.
+* **What**: Replaced static set in `OreLogic.java` with dynamic TagKey checks (`TagKey.create(Registries.PLACED_FEATURE, ...)` and `TagKey.create(Registries.BLOCK, ...)`).
+* **Why**: To empower modpack creators and datapack authors to configure worldgen feature exclusions dynamically via standard Minecraft JSON tags (`#c:ore_amplifier_blacklist`).
+* **How**: Added default convention tag JSON files under `data/c/tags/worldgen/placed_feature/` and updated `OreLogic.shouldAmplify()` to query registry tag membership.
+
+## [1.1.4+26.2] - 2026-08-01
+
+### Enhanced `/oreamp` Command Suite & Tab-Completion
+* **What**: Added `/oreamp help`, `/oreamp status`, `/oreamp get`, `/oreamp set`, `/oreamp reset`, and `/oreamp reload` subcommands with Brigadier auto-completion for registered ore IDs.
+* **Why**: To provide server operators with full in-game inspection and control over ore generation rates without editing JSON files or manually typing complex GameRule keys.
+* **How**: Implemented structured Brigadier tree in `OreCommand.java` utilizing `OreLogic` dynamic GameRule lookup and `SharedSuggestionProvider` filtering.
+
+## [1.1.3+26.2] - 2026-07-22
+
+### Standardized Warning Notice Tooltips
+* **What**: Appended `§6Notice:§r` warning text into option descriptions inside `en_us.json`.
+* **Why**: To clearly warn players that changing configuration settings only defines default values for newly generated worlds, and existing worlds must be changed in-game.
+* **How**: Modified translations inside `en_us.json` for config option description keys.
+
+## [1.1.0+26.1.2] - 2026-07-11
+
+### Added
+- **YACL & ModMenu GUI Config**: Added optional in-game configuration screen via ModMenu and YetAnotherConfigLib (YACL) v3.
+  - *Why*: Provides users with a clean main-menu GUI to customize baseline fallback multiplier settings without needing to be inside a loaded world.
+  - *How*: Implemented `ModMenuIntegration` registered under the `modmenu` entrypoint in `fabric.mod.json`, using deferred reflection isolation (`Class.forName`) to call `YaclScreenHelper.createScreen()` to shield classes and prevent dedicated server startup crashes when YACL/ModMenu are absent.
+- **Global Config Templates**: Created `ore-amplifier.json` template stored in the client `config/` directory.
+  - *Why*: Holds default parameters globally rather than world-locally.
+  - *How*: Added `OreAmplifierConfig` utilizing `net.dasik.social.api.config.ConfigHelper` from `dasik-library` to load and save `ore-amplifier.json` cleanly with atomic temporary swaps.
+- **New World Sync**: Synchronized global templates into active GameRules on new world generation.
+  - *Why*: World-specific level data overrides are required by the engine, but new worlds should inherit the user's template.
+  - *How*: Registered `ServerLifecycleEvents.SERVER_STARTED` event to reload the JSON configuration, and if `!server.getWorldData().overworldData().isInitialized()`, copy the template values (`vanillaGlobalMultiplier` and `moddedGlobalMultiplier`) into active GameRules.
+
 ## [1.0.0+build.70] - 2026-02-21
 
 ### Fixed
