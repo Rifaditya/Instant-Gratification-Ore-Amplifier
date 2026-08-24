@@ -13,7 +13,7 @@ Open this file in your editor and change `[ ]` to `[x]` when you publish a versi
 - [ ] **`1.1.7+26.2`** (2026-08-01) - Fix early init unbound tag exception (try-catch guard).
 - [ ] **`1.1.6+26.2`** (2026-08-01) - Fix startup tag binding crash (isBound guard).
 - [ ] ⛔ **`1.1.5+26.2`** (2026-08-01) - **[CRITICAL BUG / DO NOT PUBLISH]** Dynamic tag blacklist startup crash (`IllegalStateException: Tags not bound`).
-- [ ] **`1.1.4+26.2`** (2026-08-01) - Enhanced `/oreamp` command suite with tab-completion and status/get/set commands.
+- [x] **`1.1.4+26.2`** (2026-08-01) - Enhanced `/oreamp` command suite with tab-completion and status/get/set commands.
 - [x] **`1.1.3+26.2`** (2026-07-22) - ModVersionGuard Knot ClassLoader Fix.
 - [x] **`1.1.2+26.2`** (2026-07-22) - Forward Compatibility & Version Guard.
 - [x] **`1.1.1+26.1.2`** (2026-07-11) - - Standardized Config Warning. - - Appended gold warning notice to option descriptions inside en_us.json to clarify config-only-defaults behavior.
