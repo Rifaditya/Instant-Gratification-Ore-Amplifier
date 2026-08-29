@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.3.14+26.2]
+
+### Changed
+- **Directory & Archive Hygiene Standardization**: Renamed project subfolder to standard `Ore Amplifier v26.2`. Organized central release archive into versioned `Archive Jar of all versions/MC 26.2/` subdirectories with automated `archiveReleaseJar` build task.
+
 ## [1.3.13+26.2]
 
 ### Refactored

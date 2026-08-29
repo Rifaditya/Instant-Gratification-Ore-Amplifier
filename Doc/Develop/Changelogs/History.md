@@ -1,5 +1,12 @@
 # History
 
+## [1.3.14+26.2]
+
+### Directory & Archive Hygiene Standardization
+* **What**: Standardized project subfolder name (`Ore Amplifier v26.2`) and organized `Archive Jar of all versions` into `MC 26.1/` and `MC 26.2/` subdirectories.
+* **Why**: Enforces 100% compliance with Core Constitution directory and release archiving laws.
+* **How**: Renamed directory, sorted archive subfolders, and added automated `archiveReleaseJar` task to `build.gradle`.
+
 ## [1.3.13+26.2]
 
 ### Translation Streamlining
