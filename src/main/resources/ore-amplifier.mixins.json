@@ -5,8 +5,7 @@
     "mixins": [
         "RepeatingPlacementMixin",
         "RarityFilterMixin",
-        "OreFeatureMixin",
-        "ClientLanguageMixin"
+        "OreFeatureMixin"
     ],
     "injectors": {
         "defaultRequire": 1

@@ -1,5 +1,12 @@
 # History
 
+## [1.3.13+26.2]
+
+### Translation Streamlining
+* **What**: Removed `ClientLanguageMixin.java` and simplified `OreAmplifierClient.java`.
+* **Why**: Enforces "Thin Mod, Fat Library" architecture by eliminating redundant client language mixins.
+* **How**: Delegated dynamic GameRule translation injection natively to `DasikLibrary`'s `DynamicGameRuleManager`.
+
 ## [1.3.12+26.2]
 
 ### Mixin & Dead Code Hygiene Cleanup

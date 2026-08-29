@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.3.13+26.2]
+
+### Refactored
+- **"Thin Mod, Fat Library" Dynamic Translation Streamlining**: Removed duplicate `ClientLanguageMixin.java` and unregistered from `ore-amplifier.mixins.json`. Delegated dynamic translation injection 100% natively to `DasikLibrary`'s `DynamicGameRuleManager`.
+
 ## [1.3.12+26.2]
 
 ### Fixed
