@@ -1,5 +1,12 @@
 # History
 
+## [1.3.9+26.2]
+
+### Indonesian & Malay Localization & Player Guide
+* **What**: Added full Indonesian and Malay language dictionaries (`id_id.json`, `ms_my.json`) and player guide (`Doc/Players/index_id_id.md`).
+* **Why**: Provides native in-game localization for Indonesian and Malaysian players across GameRules, category names, YACL v3 GUI configuration screens, warnings, and descriptions.
+* **How**: Created `src/main/resources/assets/ore-amplifier/lang/id_id.json` and `ms_my.json` with 24 translated keys and added `Doc/Players/index_id_id.md`.
+
 ## [1.3.8+26.2]
 
 ### Japanese Localization & Player Guide

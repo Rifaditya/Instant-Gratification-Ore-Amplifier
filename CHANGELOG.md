@@ -1,3 +1,9 @@
+## [1.3.9+26.2]
+
+### Added
+- **Indonesian & Malay Localization (`id_id`, `ms_my`)**: Added comprehensive Indonesian and Malay translations (`id_id.json` & `ms_my.json`) covering all static GameRules, category titles, YACL v3 GUI configuration screens, warnings, and descriptions.
+- **Indonesian Player Guide**: Added `Doc/Players/index_id_id.md` player guide.
+
 ## [1.3.8+26.2]
 
 ### Added
