@@ -1,3 +1,9 @@
+## [1.3.4+26.2]
+
+### Added
+- **Spanish Localization (`es_es`, `es_mx`)**: Added comprehensive Spanish (Spain & Latin America) translations (`es_es.json` & `es_mx.json`) covering all static GameRules, category titles, YACL v3 GUI configuration screens, warnings, and descriptions.
+- **Spanish Player Guide**: Added `Doc/Players/index_es_es.md` player guide.
+
 ## [1.3.3+26.2]
 
 ### Added

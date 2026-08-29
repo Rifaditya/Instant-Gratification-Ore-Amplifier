@@ -1,5 +1,12 @@
 # History
 
+## [1.3.4+26.2]
+
+### Spanish Localization & Player Guide
+* **What**: Added full Spanish language dictionaries (`es_es.json`, `es_mx.json`) and player guide (`Doc/Players/index_es_es.md`).
+* **Why**: Provides native in-game localization for Spanish-speaking players (Spain & Latin America) across GameRules, category names, YACL v3 GUI configuration screens, warnings, and descriptions.
+* **How**: Created `src/main/resources/assets/ore-amplifier/lang/es_es.json` and `es_mx.json` with 24 translated keys and added `Doc/Players/index_es_es.md`.
+
 ## [1.3.3+26.2]
 
 ### Russian Localization & Player Guide
