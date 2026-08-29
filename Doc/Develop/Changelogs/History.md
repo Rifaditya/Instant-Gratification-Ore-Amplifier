@@ -1,5 +1,12 @@
 # History
 
+## [1.3.11+26.2]
+
+### Manifest & Metadata Standardization
+* **What**: Standardized `fabric.mod.json` with complete Modrinth project metadata (`projectId: "41q8zP62"`), authoritative GitHub URLs, SPDX `GPL-3.0-or-later` license, and YACL suggestions.
+* **Why**: Ensures 100% automatic platform recognition on Modrinth/CurseForge and aligns with Core Constitution completeness mandates.
+* **How**: Updated `src/main/resources/fabric.mod.json` with `custom.modrinth`, `contact`, and `license` blocks.
+
 ## [1.3.10+26.2]
 
 ### Korean Localization & Player Guide

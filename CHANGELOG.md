@@ -1,3 +1,10 @@
+# Changelog
+
+## [1.3.11+26.2]
+
+### Fixed
+- **Manifest & Metadata Standardization (`fabric.mod.json`)**: Added `custom.modrinth` metadata block (`projectId: "41q8zP62"`), updated live contact and issue tracker URLs (`https://modrinth.com/mod/instant-gratification-ore-amplifier`), standardized license identifier to `GPL-3.0-or-later`, and declared `yet-another-config-lib` in `suggests`.
+
 ## [1.3.10+26.2]
 
 ### Added

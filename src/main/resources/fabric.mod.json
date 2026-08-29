@@ -8,12 +8,19 @@
         "Instant Gratification"
     ],
     "contact": {
-        "homepage": "https://example.com/",
-        "sources": "https://github.com/example/ore-amplifier"
+        "homepage": "https://modrinth.com/mod/instant-gratification-ore-amplifier",
+        "sources": "https://github.com/Rifaditya/Instant-Gratification-Ore-Amplifier",
+        "issues": "https://github.com/Rifaditya/Instant-Gratification-Ore-Amplifier/issues"
     },
-    "license": "GNU GPLv3",
+    "license": "GPL-3.0-or-later",
     "icon": "assets/ore-amplifier/icon.png",
     "environment": "*",
+    "custom": {
+        "modrinth": {
+            "projectId": "41q8zP62",
+            "slug": "instant-gratification-ore-amplifier"
+        }
+    },
     "entrypoints": {
         "main": [
             "net.instantgratification.oreamplifier.OreAmplifierFabric"
@@ -36,6 +43,7 @@
         "dasik-library": "*"
     },
     "suggests": {
+        "yet-another-config-lib": "*",
         "yet_another_config_lib_v3": "*",
         "modmenu": "*"
     }
