@@ -1,3 +1,9 @@
+## [1.3.5+26.2]
+
+### Added
+- **German Localization (`de_de`, `de_at`)**: Added comprehensive German translations (`de_de.json` & `de_at.json`) covering all static GameRules, category titles, YACL v3 GUI configuration screens, warnings, and descriptions.
+- **German Player Guide**: Added `Doc/Players/index_de_de.md` player guide.
+
 ## [1.3.4+26.2]
 
 ### Added

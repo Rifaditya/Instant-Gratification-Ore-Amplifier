@@ -1,5 +1,12 @@
 # History
 
+## [1.3.5+26.2]
+
+### German Localization & Player Guide
+* **What**: Added full German language dictionaries (`de_de.json`, `de_at.json`) and player guide (`Doc/Players/index_de_de.md`).
+* **Why**: Provides native in-game localization for German-speaking players (Germany & Austria) across GameRules, category names, YACL v3 GUI configuration screens, warnings, and descriptions.
+* **How**: Created `src/main/resources/assets/ore-amplifier/lang/de_de.json` and `de_at.json` with 24 translated keys and added `Doc/Players/index_de_de.md`.
+
 ## [1.3.4+26.2]
 
 ### Spanish Localization & Player Guide
