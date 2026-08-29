@@ -5,6 +5,7 @@ Open this file in your editor and change `[ ]` to `[x]` when you publish a versi
 
 ## 🚀 Published & Backlog Queue
 
+- [ ] **`1.3.10+26.2`** - Korean Localization (`ko_kr.json`) & Player Guide.
 - [ ] **`1.3.9+26.2`** - Indonesian & Malay Localization (`id_id.json`, `ms_my.json`) & Player Guide.
 - [ ] **`1.3.8+26.2`** - Japanese Localization (`ja_jp.json`) & Player Guide.
 - [ ] **`1.3.7+26.2`** - Portuguese Localization (`pt_br.json`, `pt_pt.json`) & Player Guide.

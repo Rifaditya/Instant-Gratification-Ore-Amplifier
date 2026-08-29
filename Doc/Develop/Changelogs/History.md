@@ -1,5 +1,12 @@
 # History
 
+## [1.3.10+26.2]
+
+### Korean Localization & Player Guide
+* **What**: Added full Korean language dictionary (`ko_kr.json`) and player guide (`Doc/Players/index_ko_kr.md`).
+* **Why**: Provides native in-game localization for Korean players across GameRules, category names, YACL v3 GUI configuration screens, warnings, and descriptions.
+* **How**: Created `src/main/resources/assets/ore-amplifier/lang/ko_kr.json` with 24 translated keys and added `Doc/Players/index_ko_kr.md`.
+
 ## [1.3.9+26.2]
 
 ### Indonesian & Malay Localization & Player Guide

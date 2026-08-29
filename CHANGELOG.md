@@ -1,3 +1,9 @@
+## [1.3.10+26.2]
+
+### Added
+- **Korean Localization (`ko_kr`)**: Added comprehensive Korean translation (`ko_kr.json`) covering all static GameRules, category titles, YACL v3 GUI configuration screens, warnings, and descriptions.
+- **Korean Player Guide**: Added `Doc/Players/index_ko_kr.md` player guide.
+
 ## [1.3.9+26.2]
 
 ### Added
