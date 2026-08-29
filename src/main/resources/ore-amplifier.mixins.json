@@ -3,8 +3,6 @@
     "package": "net.instantgratification.oreamplifier.mixin",
     "compatibilityLevel": "JAVA_25",
     "mixins": [
-        "PlacedFeatureMixin",
-        "CountPlacementModifierMixin",
         "RepeatingPlacementMixin",
         "RarityFilterMixin",
         "OreFeatureMixin",

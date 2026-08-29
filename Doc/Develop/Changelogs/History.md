@@ -1,5 +1,12 @@
 # History
 
+## [1.3.12+26.2]
+
+### Mixin & Dead Code Hygiene Cleanup
+* **What**: Removed orphaned dummy mixins (`PlacedFeatureMixin.java`, `CountPlacementModifierMixin.java`) and unused skeleton class (`OreAmplifierFabricClient.java`).
+* **Why**: Optimizes classloading performance by removing redundant mixin transformations.
+* **How**: Deleted orphaned classes and unregistered from `src/main/resources/ore-amplifier.mixins.json`.
+
 ## [1.3.11+26.2]
 
 ### Manifest & Metadata Standardization

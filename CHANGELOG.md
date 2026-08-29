@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.3.12+26.2]
+
+### Fixed
+- **Mixin & Dead Code Hygiene Cleanup**: Removed orphaned dummy classes (`PlacedFeatureMixin.java`, `CountPlacementModifierMixin.java`) and unregistered them from `ore-amplifier.mixins.json`. Deleted unused client skeleton `OreAmplifierFabricClient.java` to streamline classloading.
+
 ## [1.3.11+26.2]
 
 ### Fixed
