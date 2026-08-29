@@ -1,5 +1,12 @@
 # History
 
+## [1.3.6+26.2]
+
+### French Localization & Player Guide
+* **What**: Added full French language dictionaries (`fr_fr.json`, `fr_ca.json`) and player guide (`Doc/Players/index_fr_fr.md`).
+* **Why**: Provides native in-game localization for French-speaking players (France & Canada) across GameRules, category names, YACL v3 GUI configuration screens, warnings, and descriptions.
+* **How**: Created `src/main/resources/assets/ore-amplifier/lang/fr_fr.json` and `fr_ca.json` with 24 translated keys and added `Doc/Players/index_fr_fr.md`.
+
 ## [1.3.5+26.2]
 
 ### German Localization & Player Guide

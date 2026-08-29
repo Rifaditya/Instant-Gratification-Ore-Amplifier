@@ -1,3 +1,9 @@
+## [1.3.6+26.2]
+
+### Added
+- **French Localization (`fr_fr`, `fr_ca`)**: Added comprehensive French & Canadian French translations (`fr_fr.json` & `fr_ca.json`) covering all static GameRules, category titles, YACL v3 GUI configuration screens, warnings, and descriptions.
+- **French Player Guide**: Added `Doc/Players/index_fr_fr.md` player guide.
+
 ## [1.3.5+26.2]
 
 ### Added

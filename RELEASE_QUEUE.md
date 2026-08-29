@@ -5,6 +5,7 @@ Open this file in your editor and change `[ ]` to `[x]` when you publish a versi
 
 ## 🚀 Published & Backlog Queue
 
+- [ ] **`1.3.6+26.2`** - French Localization (`fr_fr.json`, `fr_ca.json`) & Player Guide.
 - [ ] **`1.3.5+26.2`** - German Localization (`de_de.json`, `de_at.json`) & Player Guide.
 - [ ] **`1.3.4+26.2`** - Spanish Localization (`es_es.json`, `es_mx.json`) & Player Guide.
 - [ ] **`1.3.3+26.2`** - Russian Localization (`ru_ru.json`) & Player Guide.
