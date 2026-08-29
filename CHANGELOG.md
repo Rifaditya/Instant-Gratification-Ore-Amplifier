@@ -1,3 +1,9 @@
+## [1.3.8+26.2]
+
+### Added
+- **Japanese Localization (`ja_jp`)**: Added comprehensive Japanese translation (`ja_jp.json`) covering all static GameRules, category titles, YACL v3 GUI configuration screens, warnings, and descriptions.
+- **Japanese Player Guide**: Added `Doc/Players/index_ja_jp.md` player guide.
+
 ## [1.3.7+26.2]
 
 ### Added

@@ -1,5 +1,12 @@
 # History
 
+## [1.3.8+26.2]
+
+### Japanese Localization & Player Guide
+* **What**: Added full Japanese language dictionary (`ja_jp.json`) and player guide (`Doc/Players/index_ja_jp.md`).
+* **Why**: Provides native in-game localization for Japanese-speaking players across GameRules, category names, YACL v3 GUI configuration screens, warnings, and descriptions.
+* **How**: Created `src/main/resources/assets/ore-amplifier/lang/ja_jp.json` with 24 translated keys and added `Doc/Players/index_ja_jp.md`.
+
 ## [1.3.7+26.2]
 
 ### Portuguese Localization & Player Guide
