@@ -232,4 +232,4 @@ On `SERVER_STARTED`, if a world has never been initialized with Ore Amplifier co
 /gamerule ig:ore_vein_size_multiplier 500
 ```
 
-For the complete command reference, see [[Commands]].
+For the complete command reference, see [[Commands Reference|Commands]].

@@ -25,4 +25,6 @@
 
 $$	ext{amplifiedCount} = 	ext{StochasticUtil.getAmplifiedCount}(	ext{original}, 	ext{multiplier\%}, 	ext{random})$$
 
-$$	ext{amplifiedSize} = \left\lfloor 	ext{originalSize} 	imes rac{	ext{multiplier}}{100.0} ightceil$$
+$$	ext{amplifiedSize} = \left\lfloor 	ext{originalSize} 	imes rac{	ext{multiplier}}{100.0} 
+ight
+ceil$$

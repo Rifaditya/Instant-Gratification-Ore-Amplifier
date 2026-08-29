@@ -78,14 +78,18 @@ $$	ext{amplifiedCount} = 	ext{StochasticUtil.getAmplifiedCount}(	ext{original}, 
 
 算法流程：
 1. 计算浮点放大值：$	ext{rawValue} = 	ext{original} 	imes rac{	ext{multiplier}}{100}$
-2. 取整数部分：$	ext{intPart} = \lfloor 	ext{rawValue} floor$
+2. 取整数部分：$	ext{intPart} = \lfloor 	ext{rawValue} 
+floor$
 3. 取小数余数部分：$	ext{frac} = 	ext{rawValue} - 	ext{intPart}$
 4. 以 $	ext{frac}$ 的概率决定是否额外 $+1$：$	ext{result} = 	ext{intPart} + (	ext{random.nextFloat()} < 	ext{frac}\ ?\ 1 : 0)$
 
 #### 实例计算：
-- **5 条矿脉 × 200% (2.0×)** = 10.0 $ightarrow$ **100% 生成 10 条**
-- **1 条矿脉 × 120% (1.2×)** = 1.2 $ightarrow$ **80% 生成 1 条，20% 生成 2 条**
-- **3 条矿脉 × 150% (1.5×)** = 4.5 $ightarrow$ **50% 生成 4 条，50% 生成 5 条**
+- **5 条矿脉 × 200% (2.0×)** = 10.0 $
+ightarrow$ **100% 生成 10 条**
+- **1 条矿脉 × 120% (1.2×)** = 1.2 $
+ightarrow$ **80% 生成 1 条，20% 生成 2 条**
+- **3 条矿脉 × 150% (1.5×)** = 4.5 $
+ightarrow$ **50% 生成 4 条，50% 生成 5 条**
 
 ---
 
@@ -93,7 +97,9 @@ $$	ext{amplifiedCount} = 	ext{StochasticUtil.getAmplifiedCount}(	ext{original}, 
 
 通过 `ig:ore_vein_size_multiplier` 游戏规则控制单条矿脉包含的方块总数：
 
-$$	ext{amplifiedSize} = \left\lfloor 	ext{originalSize} 	imes rac{	ext{multiplier}}{100.0} ightceil$$
+$$	ext{amplifiedSize} = \left\lfloor 	ext{originalSize} 	imes rac{	ext{multiplier}}{100.0} 
+ight
+ceil$$
 
 > ⚠️ 矿脉体积倍增仅在倍率 **> 100** 时生效。默认 100% 时不改变方块大小。
 
