@@ -1,5 +1,12 @@
 # History
 
+## [1.3.2+26.2]
+
+### Traditional Chinese Localization & Player Guide
+* **What**: Added full Traditional Chinese language dictionaries (`zh_tw.json`, `zh_hk.json`) and player guide (`Doc/Players/index_zh_tw.md`).
+* **Why**: Provides native in-game localization for Traditional Chinese players (Taiwan, Hong Kong, Macau) across GameRules, category names, YACL v3 GUI configuration screens, warnings, and descriptions.
+* **How**: Created `src/main/resources/assets/ore-amplifier/lang/zh_tw.json` and `zh_hk.json` with 24 translated keys and added `Doc/Players/index_zh_tw.md`.
+
 ## [1.3.1+26.2]
 
 ### Simplified Chinese Localization & Player Guide

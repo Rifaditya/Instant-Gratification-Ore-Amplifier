@@ -1,3 +1,9 @@
+## [1.3.2+26.2]
+
+### Added
+- **Traditional Chinese Localization (`zh_tw`, `zh_hk`)**: Added comprehensive Traditional Chinese translations (`zh_tw.json` & `zh_hk.json`) covering all static GameRules, category titles, YACL v3 GUI configuration screens, warnings, and descriptions.
+- **Traditional Chinese Player Guide**: Added `Doc/Players/index_zh_tw.md` player guide.
+
 ## [1.3.1+26.2]
 
 ### Added
