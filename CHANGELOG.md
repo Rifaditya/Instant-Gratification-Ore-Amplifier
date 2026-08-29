@@ -1,3 +1,9 @@
+## [1.3.1+26.2]
+
+### Added
+- **Simplified Chinese Localization (`zh_cn`)**: Added comprehensive Simplified Chinese translations (`zh_cn.json`) covering all static GameRules, category titles, YACL v3 GUI configuration screens, warnings, and descriptions.
+- **Simplified Chinese Player Guide**: Added `Doc/Players/index_zh_cn.md` player guide.
+
 ## [1.3.0+26.2] - 2026-08-01
 
 ### Added

@@ -1,5 +1,12 @@
 # History
 
+## [1.3.1+26.2]
+
+### Simplified Chinese Localization & Player Guide
+* **What**: Added full Simplified Chinese language dictionary (`zh_cn.json`) and player guide (`Doc/Players/index_zh_cn.md`).
+* **Why**: Provides native in-game localization for Simplified Chinese players across GameRules, category names, YACL v3 GUI configuration screens, warnings, and descriptions.
+* **How**: Created `src/main/resources/assets/ore-amplifier/lang/zh_cn.json` with 26 translated keys and added `Doc/Players/index_zh_cn.md`.
+
 ## [1.3.0+26.2] - 2026-08-01
 
 ### Vein Size Amplification Option
