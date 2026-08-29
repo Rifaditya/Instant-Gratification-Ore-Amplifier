@@ -1,3 +1,9 @@
+## [1.3.3+26.2]
+
+### Added
+- **Russian Localization (`ru_ru`)**: Added comprehensive Russian translations (`ru_ru.json`) covering all static GameRules, category titles, YACL v3 GUI configuration screens, warnings, and descriptions.
+- **Russian Player Guide**: Added `Doc/Players/index_ru_ru.md` player guide.
+
 ## [1.3.2+26.2]
 
 ### Added

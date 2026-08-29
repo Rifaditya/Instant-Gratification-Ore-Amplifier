@@ -1,5 +1,12 @@
 # History
 
+## [1.3.3+26.2]
+
+### Russian Localization & Player Guide
+* **What**: Added full Russian language dictionary (`ru_ru.json`) and player guide (`Doc/Players/index_ru_ru.md`).
+* **Why**: Provides native in-game localization for Russian-speaking players across GameRules, category names, YACL v3 GUI configuration screens, warnings, and descriptions.
+* **How**: Created `src/main/resources/assets/ore-amplifier/lang/ru_ru.json` with 24 translated keys and added `Doc/Players/index_ru_ru.md`.
+
 ## [1.3.2+26.2]
 
 ### Traditional Chinese Localization & Player Guide

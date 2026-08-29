@@ -5,6 +5,7 @@ Open this file in your editor and change `[ ]` to `[x]` when you publish a versi
 
 ## 🚀 Published & Backlog Queue
 
+- [ ] **`1.3.3+26.2`** - Russian Localization (`ru_ru.json`) & Player Guide.
 - [ ] **`1.3.2+26.2`** - Traditional Chinese Localization (`zh_tw.json`, `zh_hk.json`) & Player Guide.
 - [ ] **`1.3.1+26.2`** - Simplified Chinese Localization (`zh_cn.json`) & Player Guide.
 - [ ] **`1.3.0+26.2`** (2026-08-01) - Vein Size Amplification Option (100%-500% vein size scaling).
