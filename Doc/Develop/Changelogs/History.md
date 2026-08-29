@@ -1,5 +1,12 @@
 # History
 
+## [1.3.7+26.2]
+
+### Portuguese Localization & Player Guide
+* **What**: Added full Portuguese language dictionaries (`pt_br.json`, `pt_pt.json`) and player guide (`Doc/Players/index_pt_br.md`).
+* **Why**: Provides native in-game localization for Portuguese-speaking players (Brazil & Portugal) across GameRules, category names, YACL v3 GUI configuration screens, warnings, and descriptions.
+* **How**: Created `src/main/resources/assets/ore-amplifier/lang/pt_br.json` and `pt_pt.json` with 24 translated keys and added `Doc/Players/index_pt_br.md`.
+
 ## [1.3.6+26.2]
 
 ### French Localization & Player Guide

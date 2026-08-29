@@ -1,3 +1,9 @@
+## [1.3.7+26.2]
+
+### Added
+- **Portuguese Localization (`pt_br`, `pt_pt`)**: Added comprehensive Brazilian & European Portuguese translations (`pt_br.json` & `pt_pt.json`) covering all static GameRules, category titles, YACL v3 GUI configuration screens, warnings, and descriptions.
+- **Portuguese Player Guide**: Added `Doc/Players/index_pt_br.md` player guide.
+
 ## [1.3.6+26.2]
 
 ### Added
