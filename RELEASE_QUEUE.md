@@ -5,7 +5,7 @@ Open this file in your editor and change `[ ]` to `[x]` when you publish a versi
 
 ## 🚀 Published & Backlog Queue
 
-- [ ] **`1.3.14+26.2`** - Directory & Archive Hygiene Standardization (`Ore Amplifier v26.2` subfolder & versioned archive).
+- [x] **`1.3.14+26.2`** - Directory & Archive Hygiene Standardization (`Ore Amplifier v26.2` subfolder & versioned archive).
 - [ ] **`1.3.13+26.2`** - Translation Streamlining (Deleted redundant `ClientLanguageMixin`, delegated to `DasikLibrary`).
 - [ ] **`1.3.12+26.2`** - Mixin & Dead Code Hygiene Cleanup (Deleted empty `PlacedFeatureMixin`, `CountPlacementModifierMixin`, `OreAmplifierFabricClient`).
 - [ ] **`1.3.11+26.2`** - Manifest & Metadata Standardization (`fabric.mod.json`, Modrinth block `41q8zP62`, URLs, license).
