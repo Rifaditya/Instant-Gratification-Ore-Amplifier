@@ -19,6 +19,12 @@
         "modrinth": {
             "projectId": "41q8zP62",
             "slug": "instant-gratification-ore-amplifier"
+        },
+        "modmenu": {
+            "links": {
+                "modmenu.donate": "https://ko-fi.com/dasikigaijin",
+                "modmenu.kofi": "https://ko-fi.com/dasikigaijin"
+            }
         }
     },
     "entrypoints": {
