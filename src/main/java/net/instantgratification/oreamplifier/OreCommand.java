@@ -14,6 +14,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.gamerules.GameRule;
 import net.dasik.social.api.gamerule.DynamicGameRuleManager;
+import net.dasik.social.api.config.DasikSupportHelper;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -40,6 +41,7 @@ public class OreCommand {
                                     "§a/oreamp reset§r - Reset all multipliers back to 100% (Default)\n" +
                                     "§a/oreamp reload§r - Reload configuration templates"
                             ), false);
+                            source.sendSuccess(DasikSupportHelper::getCommandFooter, false);
                             return 1;
                         }))
                 .then(Commands.literal("status")
@@ -70,6 +72,7 @@ public class OreCommand {
                                     " • Vein Size Multiplier: §a" + veinSize + "%§r\n" +
                                     " • Custom Per-Ore Overrides: §a" + activeOverrides.get() + " active§r"
                             ), false);
+                            source.sendSuccess(DasikSupportHelper::getCommandFooter, false);
                             return 1;
                         }))
                 .then(Commands.literal("get")
