@@ -6,7 +6,7 @@ Open this file in your editor and change `[ ]` to `[x]` when you publish a versi
 ## 🚀 Published & Backlog Queue
 
 - [ ] **`1.3.16+26.2`** (2026-09-05) - Add top-pinned Ko-fi creator support button across YACL config categories & polish config translations.
-- [x] **`1.3.15+26.2`** (2026-09-05) - Append in-game Ko-fi creator support footer to /oreamp help and status commands.
+- [ ] **`1.3.15+26.2`** (2026-09-05) - Append in-game Ko-fi creator support footer to /oreamp help and status commands.
 - [x] **`1.3.14+26.2`** - Directory & Archive Hygiene Standardization (`Ore Amplifier v26.2` subfolder & versioned archive).
 - [x] **`1.3.13+26.2`** - Translation Streamlining (Deleted redundant `ClientLanguageMixin`, delegated to `DasikLibrary`).
 - [x] **`1.3.12+26.2`** - Mixin & Dead Code Hygiene Cleanup (Deleted empty `PlacedFeatureMixin`, `CountPlacementModifierMixin`, `OreAmplifierFabricClient`).
