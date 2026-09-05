@@ -81,8 +81,16 @@ afterEvaluate {
                     jarFile = file("build/libs/${project.archives_base_name}-${project.mod_version}.jar")
                 }
                 if (jarFile.exists()) {
+                    def mcVer = project.hasProperty('minecraft_version') ? project.minecraft_version.toString() : ""
+                    def targetSubdir = mcVer.startsWith("26.3") ? "MC 26.3" :
+                                       mcVer.startsWith("26.2") ? "MC 26.2" :
+                                       mcVer.startsWith("26.1") ? "MC 26.1" :
+                                       mcVer.startsWith("1.21.11") ? "MC 1.21.11" :
+                                       mcVer.startsWith("1.21") ? "MC 1.21.1" :
+                                       mcVer.startsWith("1.20") ? "MC 1.20.1" : "MC Unknown"
+
                     // 1. Central Versioned Archive
-                    def archiveDir = file("../Archive Jar of all versions/MC 26.2")
+                    def archiveDir = file("../Archive Jar of all versions/${targetSubdir}")
                     archiveDir.mkdirs()
                     copy {
                         from jarFile
@@ -90,11 +98,22 @@ afterEvaluate {
                     }
                     println "[AUTO-ARCHIVE] Successfully copied ${jarFile.name} to central Archive directory: ${archiveDir.canonicalPath}"
 
-                    // 2. Modrinth Profile Sync (if directory exists)
-                    def targetProfiles = [
+                    // 2. Dynamic Modrinth Profile Sync (Strictly matching target Minecraft version)
+                    def targetProfiles = mcVer.startsWith("26.3") ? [
+                        file("C:/Users/fmrif/AppData/Roaming/ModrinthApp/profiles/Fabric 26.3ish/mods")
+                    ] : mcVer.startsWith("26.2") ? [
                         file("C:/Users/fmrif/AppData/Roaming/ModrinthApp/profiles/Fabric 26.2 (1)/mods"),
                         file("C:/Users/fmrif/AppData/Roaming/ModrinthApp/profiles/Fabric 26.x test the latest/mods")
-                    ]
+                    ] : mcVer.startsWith("26.1") ? [
+                        file("C:/Users/fmrif/AppData/Roaming/ModrinthApp/profiles/Fabric 26.1.2/mods")
+                    ] : mcVer.startsWith("1.21.11") ? [
+                        file("C:/Users/fmrif/AppData/Roaming/ModrinthApp/profiles/Fabric 1.21.11/mods")
+                    ] : mcVer.startsWith("1.21") ? [
+                        file("C:/Users/fmrif/AppData/Roaming/ModrinthApp/profiles/Fabric 1.21.1/mods")
+                    ] : mcVer.startsWith("1.20") ? [
+                        file("C:/Users/fmrif/AppData/Roaming/ModrinthApp/profiles/Fabric 1.20.1/mods")
+                    ] : []
+
                     targetProfiles.each { modrinthProfileMods ->
                         if (modrinthProfileMods.exists()) {
                             modrinthProfileMods.listFiles().each { f ->
@@ -108,6 +127,48 @@ afterEvaluate {
                                 into modrinthProfileMods
                             }
                             println "[MODRINTH-SYNC] Deployed ${jarFile.name} to Modrinth profile mods folder: ${modrinthProfileMods.canonicalPath}"
+                        }
+                    }
+
+                    // 3. Central Release Hub Archives Sync
+                    File hubCandidate = projectDir
+                    File hubDir = null
+                    while (hubCandidate != null) {
+                        File checkDir = new File(hubCandidate, "minecraft-mod-release-hub")
+                        if (checkDir.exists()) {
+                            hubDir = checkDir
+                            break
+                        }
+                        hubCandidate = hubCandidate.parentFile
+                    }
+                    if (hubDir == null) {
+                        File fallback = new File("E:/Minecraft Project/minecraft-mod-release-hub")
+                        if (fallback.exists()) hubDir = fallback
+                    }
+                    if (hubDir != null && hubDir.exists()) {
+                        File hubConfigFile = new File(hubDir, "config/platform_projects.json")
+                        if (hubConfigFile.exists()) {
+                            try {
+                                def hubJson = new groovy.json.JsonSlurper().parse(hubConfigFile)
+                                def curPath = projectDir.canonicalPath.replace('\\', '/').toLowerCase()
+                                def matchedMod = hubJson.find { name, data ->
+                                    data.root_dir && curPath.contains(data.root_dir.replace('\\', '/').toLowerCase())
+                                }?.key
+                                if (matchedMod) {
+                                    File targetArchiveDir = new File(hubDir, "archives/${matchedMod}")
+                                    if (!targetArchiveDir.exists()) {
+                                        targetArchiveDir.mkdirs()
+                                    }
+                                    def targetFileToCopy = (tasks.findByName('remapJar') ?: tasks.findByName('jar')).archiveFile.get().asFile
+                                    copy {
+                                        from targetFileToCopy
+                                        into targetArchiveDir
+                                    }
+                                    println "[HUB-ARCHIVE] Successfully copied ${targetFileToCopy.name} to release hub archives: ${targetArchiveDir.canonicalPath}"
+                                }
+                            } catch (Exception e) {
+                                println "[HUB-ARCHIVE] Note: Could not copy to release hub: ${e.message}"
+                            }
                         }
                     }
                 }

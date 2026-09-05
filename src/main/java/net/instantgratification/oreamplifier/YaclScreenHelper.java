@@ -4,6 +4,7 @@ package net.instantgratification.oreamplifier;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.gui.controllers.slider.IntegerSliderController;
+import net.dasik.social.api.config.DasikSupportHelper;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
@@ -12,6 +13,15 @@ import java.util.List;
 public class YaclScreenHelper {
     public static ConfigScreenFactory<?> createScreen() {
         return YaclScreenHelper::buildScreen;
+    }
+
+    private static ConfigCategory.Builder createCategory(Component name) {
+        ConfigCategory.Builder builder = ConfigCategory.createBuilder().name(name);
+        Option<?> button = (Option<?>) DasikSupportHelper.createYaclButton();
+        if (button != null) {
+            builder.option(button);
+        }
+        return builder;
     }
 
     private static Screen buildScreen(Screen parent) {
@@ -58,11 +68,9 @@ public class YaclScreenHelper {
 
         return YetAnotherConfigLib.createBuilder()
                 .title(Component.translatable("config.ore-amplifier.title"))
-                .category(ConfigCategory.createBuilder()
-                        .name(Component.translatable("config.ore-amplifier.category.general"))
+                .category(createCategory(Component.translatable("config.ore-amplifier.category.general"))
                         .group(OptionGroup.createBuilder()
                                 .name(Component.translatable("config.ore-amplifier.group.options"))
-                                .option(LabelOption.create(Component.translatable("config.ore-amplifier.warning")))
                                 .option(Option.<Integer>createBuilder()
                                         .name(Component.translatable("config.ore-amplifier.vanillaGlobalMultiplier"))
                                         .description(OptionDescription.of(Component.translatable("config.ore-amplifier.vanillaGlobalMultiplier.description")))
@@ -95,8 +103,7 @@ public class YaclScreenHelper {
                                         .build())
                                 .build())
                         .build())
-                .category(ConfigCategory.createBuilder()
-                        .name(Component.translatable("config.ore-amplifier.category.per_ore"))
+                .category(createCategory(Component.translatable("config.ore-amplifier.category.per_ore"))
                         .group(perOreGroup.build())
                         .build())
                 .save(OreAmplifierConfig::save)
