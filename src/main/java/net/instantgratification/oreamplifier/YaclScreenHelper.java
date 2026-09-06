@@ -5,11 +5,14 @@ import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.gui.controllers.slider.IntegerSliderController;
 import net.dasik.social.api.config.DasikSupportHelper;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
 import java.util.List;
 
+@Environment(EnvType.CLIENT)
 public class YaclScreenHelper {
     public static ConfigScreenFactory<?> createScreen() {
         return YaclScreenHelper::buildScreen;

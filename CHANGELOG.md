@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.3.19+26.2] - 2026-09-05
+
+### Changed
+- **DasikLibrary 1.8.39 Alignment**: Upgraded to DasikLibrary 1.8.39, adopting formal `@DasikApiStatus` / `@APIDasikStatus` API governance and client side-safety architecture.
+- **License Normalization**: Standardized single-line GPLv3 headers across all source files.
+
+## [1.3.18+26.2] - 2026-09-05
+
+### Fixed
+- **Client Side-Safety Annotations**: Annotated `YaclScreenHelper`, `ModMenuIntegration`, and `OreAmplifierClient` with `@Environment(EnvType.CLIENT)`, eliminating dedicated server classloading hazards and aligning with the Client Side-Safety Standard.
+
+## [1.3.17+26.2] - 2026-09-05
+
+### Changed
+- **Mixin Modernization**: Replaced invasive `@Redirect` on `RepeatingPlacement.count(...)` and field `@Redirect` on `OreConfiguration.size` with non-invasive `@ModifyExpressionValue` from MixinExtras, eliminating shadow casting and ensuring high compatibility with other worldgen mods.
+- **Player Agency & Sandbox Freedom**: Removed artificial `rawCount > 100000` crash report in `RepeatingPlacementMixin`, giving players and modpack makers complete freedom to amplify ore generation without arbitrary limits.
+
 ## [1.3.14+26.2]
 
 ### Changed

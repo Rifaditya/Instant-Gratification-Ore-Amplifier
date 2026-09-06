@@ -3,9 +3,11 @@ package net.instantgratification.oreamplifier;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
 
-// Verified against: ModMenuApi.java (ModMenu 26.2+)
+@Environment(EnvType.CLIENT)
 public class ModMenuIntegration implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
