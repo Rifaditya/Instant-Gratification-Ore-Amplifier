@@ -1,0 +1,56 @@
+{
+    "schemaVersion": 1,
+    "id": "ore-amplifier",
+    "version": "1.3.20+26.3",
+    "name": "Ore Amplifier",
+    "description": "Multiplies ore generation (vein count) for both Vanilla and Modded ores. Fully configurable via GameRules with dynamic detection for new ores. Part of the Instant Gratification Collection.",
+    "authors": [
+        "Instant Gratification"
+    ],
+    "contact": {
+        "homepage": "https://modrinth.com/mod/instant-gratification-ore-amplifier",
+        "sources": "https://github.com/Rifaditya/Instant-Gratification-Ore-Amplifier",
+        "issues": "https://github.com/Rifaditya/Instant-Gratification-Ore-Amplifier/issues"
+    },
+    "license": "GPL-3.0-or-later",
+    "icon": "assets/ore-amplifier/icon.png",
+    "environment": "*",
+    "custom": {
+        "modrinth": {
+            "projectId": "41q8zP62",
+            "slug": "instant-gratification-ore-amplifier"
+        },
+        "modmenu": {
+            "links": {
+                "modmenu.donate": "https://ko-fi.com/dasikigaijin",
+                "modmenu.kofi": "https://ko-fi.com/dasikigaijin"
+            }
+        }
+    },
+    "entrypoints": {
+        "main": [
+            "net.instantgratification.oreamplifier.OreAmplifierFabric"
+        ],
+        "client": [
+            "net.instantgratification.oreamplifier.OreAmplifierClient"
+        ],
+        "modmenu": [
+            "net.instantgratification.oreamplifier.ModMenuIntegration"
+        ]
+    },
+    "mixins": [
+        "ore-amplifier.mixins.json"
+    ],
+    "depends": {
+        "fabricloader": ">=0.19.3",
+        "minecraft": ">=26.3-",
+        "java": ">=25",
+        "fabric-api": "*",
+        "dasik-library": ">=1.8.36"
+    },
+    "suggests": {
+        "yet-another-config-lib": "*",
+        "yet_another_config_lib_v3": "*",
+        "modmenu": "*"
+    }
+}
