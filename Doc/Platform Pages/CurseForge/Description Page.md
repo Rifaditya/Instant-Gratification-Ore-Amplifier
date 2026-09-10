@@ -5,6 +5,7 @@
 
 </div>
 <p align="center">
+    <a href="https://discord.gg/EV99bgAFqb" target="_blank" rel="noopener"><img src="https://img.shields.io/badge/Discord-Join_Community-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Join Discord"></a>
     <a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api"><img src="https://img.shields.io/badge/Requires-Fabric_API-blue?style=for-the-badge&logo=fabric" alt="Requires Fabric API"></a>
     <a href="https://www.curseforge.com/minecraft/mc-mods/dasik-library"><img src="https://img.shields.io/badge/Requires-Dasik_Library-orange?style=for-the-badge&logo=curseforge" alt="CurseForge: Dasik Library"></a>
     <img src="https://img.shields.io/badge/Language-Java-orange?style=for-the-badge&logo=java" alt="Java">
@@ -70,33 +71,72 @@ Built with compatibility in mind.
 /gamerule ig_ore_minecraft_diamond_ore 1000 → 10x Diamonds specifically
 ```
 
----
+<hr>
 
-## ☕ Support
+<h2>☕ Support</h2>
 
-If you enjoy the **Instant Gratification** collection, consider fueling the next update!
+<p>If you enjoy the <strong>Instant Gratification</strong> collection, consider fueling future updates!</p>
 
-<p>
-    <a href="https://ko-fi.com/dasikigaijin/tip"><img src="https://img.shields.io/badge/Ko--fi-Support%20Me-FF5E5B?style=for-the-badge&logo=ko-fi&logoColor=white" alt="Ko-fi"></a>
-    <a href="https://sociabuzz.com/dasikigaijin/tribe"><img src="https://img.shields.io/badge/SocioBuzz-Local_Support-7BB32E?style=for-the-badge" alt="SocioBuzz"></a>
-    <a href="https://saweria.co/DasikIgaijinn"><img src="https://img.shields.io/badge/Saweria-Local_Support-FFA500?style=for-the-badge" alt="Saweria"></a>
+<p align="center">
+  <a href="https://ko-fi.com/dasikigaijin/tip"><img src="https://img.shields.io/badge/Ko--fi-Support%20Me-FF5E5B?style=for-the-badge&amp;logo=ko-fi&amp;logoColor=white" alt="Ko-fi"></a>
+  <a href="https://sociabuzz.com/dasikigaijin/tribe"><img src="https://img.shields.io/badge/SocioBuzz-Local_Support-7BB32E?style=for-the-badge" alt="SocioBuzz"></a>
+  <a href="https://saweria.co/DasikIgaijinn"><img src="https://img.shields.io/badge/Saweria-Local_Support-FFA500?style=for-the-badge" alt="Saweria"></a>
 </p>
 
-<blockquote>
-<strong>Indonesian Users:</strong> SocioBuzz and Saweria support local payment methods (Gopay, OVO, Dana, etc.) if you want to support me without using PayPal/Ko-fi!
-</blockquote>
+<blockquote><p><strong>🇮🇩 Indonesian Users:</strong> SocioBuzz and Saweria support local payment methods (Gopay, OVO, Dana, etc.) if you want to support me without using PayPal/Ko-fi!</p></blockquote>
 
----
+<blockquote><p><strong>Dedicated Server Hosting Partner:</strong><br>Looking for a high-performance server to host your community or play with friends? Check out <strong>BisectHosting</strong> for 1-click modpack installations, automated backups, and 24/7 dedicated customer support. Use promo code <strong><code>Dasik</code></strong> for 25% off your first month!</p></blockquote>
 
-## 📜 Credits
+<h3>💬 Join the Community &amp; Get Support</h3>
+<p>Looking for help, want to test early beta builds, or vote on upcoming features? Join our official Discord community!</p>
+<p align="center">
+  <a href="https://discord.gg/EV99bgAFqb" target="_blank" rel="noopener">
+    <img src="https://img.shields.io/badge/Discord-Join_Community-5865F2?style=for-the-badge&amp;logo=discord&amp;logoColor=white" alt="Join Official Discord">
+  </a>
+</p>
 
-| Role | Author |
-| :--- | :--- |
-| **Creator** | **Rifaditya** (Dasik) |
-| **Collection** | Instant Gratification |
-| **License** | GPLv3 |
+<hr>
 
----
+<h2>📜 Credits &amp; Modpack Permissions</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Information</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Creator / Author</strong></td>
+      <td><strong>Dasik</strong> (Rifaditya)</td>
+    </tr>
+    <tr>
+      <td><strong>Community</strong></td>
+      <td><a href="https://discord.gg/EV99bgAFqb" target="_blank" rel="noopener">Official Discord</a></td>
+    </tr>
+    <tr>
+      <td><strong>Collection</strong></td>
+      <td><a href="https://www.curseforge.com/members/dasikigaijin/projects">Instant Gratification</a></td>
+    </tr>
+    <tr>
+      <td><strong>License</strong></td>
+      <td><a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU General Public License v3.0 (GPLv3)</a></td>
+    </tr>
+    <tr>
+      <td><strong>Source Code</strong></td>
+      <td><a href="https://github.com/Rifaditya/Instant-Gratification-Ore-Amplifier">GitHub - Rifaditya/Instant-Gratification-Ore-Amplifier</a></td>
+    </tr>
+    <tr>
+      <td><strong>Issue Tracker</strong></td>
+      <td><a href="https://github.com/Rifaditya/Instant-Gratification-Ore-Amplifier/issues">GitHub Issues</a></td>
+    </tr>
+    <tr>
+      <td><strong>Documentation / Wiki</strong></td>
+      <td><a href="https://github.com/Rifaditya/Instant-Gratification-Ore-Amplifier/wiki">GitHub Wiki</a></td>
+    </tr>
+  </tbody>
+</table>
 
 <blockquote>
   <p><strong>📦 Modpack Permissions &amp; Distribution:</strong><br>
@@ -106,13 +146,9 @@ If you enjoy the **Instant Gratification** collection, consider fueling the next
   <strong>However, straight 1:1 re-uploads, clone forks with no meaningful functional changes, or re-publishing identical builds under different project names (e.g. to farm downloads or rewards) are strictly forbidden.</strong></p>
 </blockquote>
 
+<hr>
 
----
-
-<div align="center">
-
-**Made with ❤️ for the Minecraft community**
-
-*Part of the Instant Gratification Collection*
-
-</div>
+<p align="center">
+  <strong>Made with ❤️ for the Minecraft community</strong><br>
+  <em>Part of the Instant Gratification Collection</em>
+</p>
