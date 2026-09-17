@@ -20,7 +20,7 @@ public class OreAmplifierConfig {
     }
 
     public void setOreOverride(String oreId, int multiplier) {
-        if (multiplier < 0) {
+        if (multiplier <= 0 || multiplier == 100) {
             perOreMultipliers.remove(oreId);
         } else {
             perOreMultipliers.put(oreId, multiplier);
@@ -43,11 +43,18 @@ public class OreAmplifierConfig {
 
     public static synchronized void save() {
         if (CONFIG_PATH == null) return;
+        INSTANCE.pruneDefaults();
         net.dasik.social.api.config.ConfigHelper.save(
                 CONFIG_PATH,
                 INSTANCE,
                 org.slf4j.LoggerFactory.getLogger("OreAmplifier")
         );
+    }
+
+    public void pruneDefaults() {
+        if (perOreMultipliers != null) {
+            perOreMultipliers.entrySet().removeIf(e -> e.getValue() == null || e.getValue() <= 0 || e.getValue() == 100);
+        }
     }
 
     public static OreAmplifierConfig get() {

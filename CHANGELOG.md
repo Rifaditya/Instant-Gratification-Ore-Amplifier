@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.3.20+26.2] - 2026-09-17
+
+### Changed
+- **Anti-Config Bombing Sparse Delta Persistence**: Upgraded `OreAmplifierConfig` to automatically prune default 100% (1x) entries from `perOreMultipliers` before saving. Global config files now exclusively serialize active custom overrides, keeping `config/ore-amplifier.json` clean, compact (<50 lines), and 100% Git/Packwiz-friendly.
+
 ## [1.3.19+26.2] - 2026-09-05
 
 ### Changed

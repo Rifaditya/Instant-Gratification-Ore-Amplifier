@@ -57,4 +57,19 @@ public class OreAmplifierTest {
         int expectedModdedCount = Math.round(10 * (moddedMultiplier / 100.0f));
         assertEquals(12, expectedModdedCount, "120% multiplier should increase count from 10 to 12");
     }
+
+    @Test
+    @DisplayName("Verify Sparse Delta Config Pruning")
+    public void testSparseDeltaPruning() {
+        var config = net.instantgratification.oreamplifier.OreAmplifierConfig.get();
+        config.setOreOverride("mod:custom_ore", 300);
+        config.setOreOverride("mod:default_ore", 100);
+
+        assertEquals(300, config.getOreOverride("mod:custom_ore"));
+        assertEquals(-1, config.getOreOverride("mod:default_ore"), "100% default override must be removed from sparse map");
+
+        config.pruneDefaults();
+        assertTrue(config.perOreMultipliers.containsKey("mod:custom_ore"));
+        assertFalse(config.perOreMultipliers.containsKey("mod:default_ore"));
+    }
 }
