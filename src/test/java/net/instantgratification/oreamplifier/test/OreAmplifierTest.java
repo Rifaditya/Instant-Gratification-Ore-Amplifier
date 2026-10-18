@@ -57,4 +57,29 @@ public class OreAmplifierTest {
         int expectedModdedCount = Math.round(10 * (moddedMultiplier / 100.0f));
         assertEquals(12, expectedModdedCount, "120% multiplier should increase count from 10 to 12");
     }
+
+    @Test
+    @DisplayName("Verify Sparse Delta Config Pruning")
+    public void testSparseDeltaPruning() {
+        var config = net.instantgratification.oreamplifier.OreAmplifierConfig.get();
+        config.setOreOverride("mod:custom_ore", 300);
+        config.setOreOverride("mod:default_ore", 100);
+
+        assertEquals(300, config.getOreOverride("mod:custom_ore"));
+        assertEquals(-1, config.getOreOverride("mod:default_ore"), "100% default override must be removed from sparse map");
+
+        config.pruneDefaults();
+        assertTrue(config.perOreMultipliers.containsKey("mod:custom_ore"));
+        assertFalse(config.perOreMultipliers.containsKey("mod:default_ore"));
+    }
+
+    @Test
+    @DisplayName("Verify UniversalConfigScreen ConfigOption Field Discovery")
+    public void testUniversalConfigScreenDiscovery() throws Exception {
+        java.lang.reflect.Method method = net.dasik.social.api.client.gui.UniversalConfigScreen.class.getDeclaredMethod("discoverConfigFields", Class.class);
+        method.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        java.util.List<java.lang.reflect.Field> fields = (java.util.List<java.lang.reflect.Field>) method.invoke(null, net.instantgratification.oreamplifier.OreAmplifierConfig.class);
+        assertEquals(3, fields.size(), "Should discover exactly 3 @ConfigOption annotated fields");
+    }
 }

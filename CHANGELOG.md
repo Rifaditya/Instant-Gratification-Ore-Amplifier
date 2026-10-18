@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.21+26.3] - 2026-10-18
+
+### Changed
+- **UniversalConfigScreen Client GUI Migration**: Migrated client configuration screen to DasikLibrary's zero-boilerplate `UniversalConfigScreen` engine with live DynamicGameRule synchronization (`ig:ore_vanilla_global`, `ig:ore_modded_global`, `ig:ore_vein_size_multiplier`).
+- **Boilerplate Reduction**: Purged 129 lines of custom YACL builder code, replacing manual screen construction with reflective `@ConfigOption` annotations.
+- **Sparse Delta Pruning**: Enforced anti-config bombing hygiene by automatically pruning default (100% or non-positive) multiplier entries from saved configuration files.
+
 ## [1.3.20+26.3] - 2026-09-07
 
 ### Fixed

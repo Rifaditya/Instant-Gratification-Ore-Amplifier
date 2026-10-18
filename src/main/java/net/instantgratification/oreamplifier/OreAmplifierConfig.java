@@ -2,6 +2,7 @@
 package net.instantgratification.oreamplifier;
 
 import java.nio.file.Path;
+import net.dasik.social.api.config.ConfigOption;
 
 public class OreAmplifierConfig {
     private static OreAmplifierConfig INSTANCE = new OreAmplifierConfig();
@@ -10,9 +11,48 @@ public class OreAmplifierConfig {
     public static final int VERSION = 1;
     public int configVersion = VERSION;
 
+    @ConfigOption(
+            category = "general",
+            group = "options",
+            min = 1,
+            max = 1000,
+            step = 10,
+            slider = true,
+            syncGameRule = true,
+            gameRuleName = "ig:ore_vanilla_global",
+            nameKey = "config.ore-amplifier.vanillaGlobalMultiplier",
+            descriptionKey = "config.ore-amplifier.vanillaGlobalMultiplier.description"
+    )
     public int vanillaGlobalMultiplier = 200;
+
+    @ConfigOption(
+            category = "general",
+            group = "options",
+            min = 1,
+            max = 1000,
+            step = 10,
+            slider = true,
+            syncGameRule = true,
+            gameRuleName = "ig:ore_modded_global",
+            nameKey = "config.ore-amplifier.moddedGlobalMultiplier",
+            descriptionKey = "config.ore-amplifier.moddedGlobalMultiplier.description"
+    )
     public int moddedGlobalMultiplier = 120;
+
+    @ConfigOption(
+            category = "general",
+            group = "options",
+            min = 100,
+            max = 500,
+            step = 10,
+            slider = true,
+            syncGameRule = true,
+            gameRuleName = "ig:ore_vein_size_multiplier",
+            nameKey = "config.ore-amplifier.veinSizeMultiplier",
+            descriptionKey = "config.ore-amplifier.veinSizeMultiplier.description"
+    )
     public int veinSizeMultiplier = 100;
+
     public java.util.Map<String, Integer> perOreMultipliers = new java.util.HashMap<>();
 
     public int getOreOverride(String oreId) {
@@ -20,7 +60,7 @@ public class OreAmplifierConfig {
     }
 
     public void setOreOverride(String oreId, int multiplier) {
-        if (multiplier < 0) {
+        if (multiplier <= 0 || multiplier == 100) {
             perOreMultipliers.remove(oreId);
         } else {
             perOreMultipliers.put(oreId, multiplier);
@@ -43,11 +83,18 @@ public class OreAmplifierConfig {
 
     public static synchronized void save() {
         if (CONFIG_PATH == null) return;
+        INSTANCE.pruneDefaults();
         net.dasik.social.api.config.ConfigHelper.save(
                 CONFIG_PATH,
                 INSTANCE,
                 org.slf4j.LoggerFactory.getLogger("OreAmplifier")
         );
+    }
+
+    public void pruneDefaults() {
+        if (perOreMultipliers != null) {
+            perOreMultipliers.entrySet().removeIf(e -> e.getValue() == null || e.getValue() <= 0 || e.getValue() == 100);
+        }
     }
 
     public static OreAmplifierConfig get() {

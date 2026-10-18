@@ -4,6 +4,8 @@ This file tracks release versions for **Ore Amplifier 26.3** (`Minecraft 26.3` M
 
 ## 🚀 Published & Backlog Queue
 
+* ⏸️ **`1.3.21+26.3`** (Parity Hold) - Migrated client config GUI to UniversalConfigScreen; waiting on multi-era parity.
+
 * ⏸️ **`1.3.20+26.3`** (Parity Hold) - Verified working lead build on Minecraft 26.3-pre-2; waiting on parity.
 
 * ⏸️ **`1.3.14+26.3`** ⛔ (BUGGED / ON-HOLD / DO NOT PUBLISH) - **⛔ BUGGED / ON-HOLD (CRITICAL)** `[ERR-20260907-001]` / `[BL-OREAMP-001]`: RepeatingPlacement is an interface in 26.3. Complete feature milestone codebase compiled for Minecraft 26.3 with native Feature architecture.
