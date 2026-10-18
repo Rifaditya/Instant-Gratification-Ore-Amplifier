@@ -1,5 +1,12 @@
 # History
 
+## [1.3.21+26.3] - 2026-10-18
+
+### UniversalConfigScreen Client GUI Migration ([BL-OA-005])
+* **What**: Migrated ModMenu configuration screen to DasikLibrary's centralized `UniversalConfigScreen` and `@ConfigOption` framework.
+* **Why**: Purged 129 lines of redundant reflection and category/group/slider builder boilerplate, eliminated server classloader hazards, and standardized automated creator support touchpoints (Ko-fi & Discord).
+* **How**: Annotated `vanillaGlobalMultiplier`, `moddedGlobalMultiplier`, and `veinSizeMultiplier` with `@ConfigOption` (`syncGameRule = true`), wired `ModMenuIntegration` to `UniversalConfigScreen.createFactory("ore-amplifier", OreAmplifierConfig.get(), OreAmplifierConfig::save)`, added `pruneDefaults()` anti-config bombing persistence, and deleted `YaclScreenHelper.java`. Added reflection discovery & sparse delta unit tests.
+
 ## [1.3.14+26.2]
 
 ### Directory & Archive Hygiene Standardization
