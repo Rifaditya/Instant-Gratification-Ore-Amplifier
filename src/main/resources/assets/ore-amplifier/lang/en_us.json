@@ -17,6 +17,7 @@
     "config.ore-amplifier.vanillaGlobalMultiplier": "Vanilla Ore Fallback Multiplier",
     "config.ore-amplifier.vanillaGlobalMultiplier.description": "The base multiplier for all Vanilla ores. Default is 100.",
     "config.ore-amplifier.moddedGlobalMultiplier": "Modded Ore Fallback Multiplier",
+    "config.ore-amplifier.moddedGlobalMultiplier.description": "Amplify your modded experience! Multiplies vein generation for all non-vanilla ores. Default is 120.",
     "gamerule.minecraft.ig_ore_vein_size_multiplier": "Ore Vein Size Multiplier (%)",
     "gamerule.minecraft.ig_ore_vein_size_multiplier.description": "Multiplies the block volume / size of individual generated ore veins. 100 = Normal size, 200 = Double size.",
     "config.ore-amplifier.veinSizeMultiplier": "Ore Vein Size Multiplier",

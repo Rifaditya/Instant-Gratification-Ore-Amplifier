@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.21+26.2] - 2026-10-18
+
+### Changed
+- **UniversalConfigScreen Client GUI Migration ([BL-OA-005])**: Migrated ModMenu configuration screen to DasikLibrary's centralized `UniversalConfigScreen` and `@ConfigOption` framework.
+- **Boilerplate Elimination**: Permanently purged custom `YaclScreenHelper.java` (-129 LOC), eradicating server classloader risks and standardizing creator support touchpoints.
+- **DasikLibrary 1.11.2 Upgrade**: Parameterized toolchain dependency and updated manifest bounds to `dasik-library >= 1.11.2`.
+
 ## [1.3.20+26.2] - 2026-09-17
 
 ### Changed

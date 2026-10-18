@@ -72,4 +72,14 @@ public class OreAmplifierTest {
         assertTrue(config.perOreMultipliers.containsKey("mod:custom_ore"));
         assertFalse(config.perOreMultipliers.containsKey("mod:default_ore"));
     }
+
+    @Test
+    @DisplayName("Verify UniversalConfigScreen ConfigOption Field Discovery")
+    public void testUniversalConfigScreenDiscovery() throws Exception {
+        java.lang.reflect.Method method = net.dasik.social.api.client.gui.UniversalConfigScreen.class.getDeclaredMethod("discoverConfigFields", Class.class);
+        method.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        java.util.List<java.lang.reflect.Field> fields = (java.util.List<java.lang.reflect.Field>) method.invoke(null, net.instantgratification.oreamplifier.OreAmplifierConfig.class);
+        assertEquals(3, fields.size(), "Should discover exactly 3 @ConfigOption annotated fields");
+    }
 }
