@@ -161,10 +161,6 @@ If you enjoy the **Instant Gratification Collection**, consider fueling future d
 > [!NOTE]
 > **🇮🇩 Indonesian Users:** SocioBuzz and Saweria support local payment methods (Gopay, OVO, Dana, etc.) if you want to support me without using PayPal/Ko-fi!
 
-> [!TIP]
-> **Dedicated Server Hosting Partner:**
-> Looking for a reliable server to play with friends? Check out **BisectHosting** for 1-click modpack installations, automated backups, and 24/7 dedicated customer support.
-
 ---
 
 ## 📜 Credits & Modpack Permissions
