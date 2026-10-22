@@ -48,7 +48,7 @@ public class OreCommand {
                         .executes(context -> {
                             CommandSourceStack source = context.getSource();
                             MinecraftServer server = source.getServer();
-                            GameRules rules = server.getGameRules();
+                            GameRules rules = server != null && server.overworld() != null ? server.overworld().getGameRules() : source.getLevel().getGameRules();
 
                             int vanillaGlobal = rules.get(OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL);
                             int moddedGlobal = rules.get(OreAmplifierFabric.IG_ORE_MODDED_GLOBAL);
@@ -77,9 +77,9 @@ public class OreCommand {
                         }))
                 .then(Commands.literal("get")
                         .then(Commands.literal("global")
-                                .executes(context -> {
+                                 .executes(context -> {
                                     CommandSourceStack source = context.getSource();
-                                    GameRules rules = source.getServer().getGameRules();
+                                    GameRules rules = source.getLevel().getGameRules();
                                     int vanilla = rules.get(OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL);
                                     int modded = rules.get(OreAmplifierFabric.IG_ORE_MODDED_GLOBAL);
                                     int veinSize = rules.get(OreAmplifierFabric.IG_ORE_VEIN_SIZE);
@@ -104,8 +104,8 @@ public class OreCommand {
                                         return 0;
                                     }
 
-                                    int multiplier = OreLogic.getMultiplier(id, source.getServer().getGameRules());
-                                    String details = OreLogic.getMultiplierDetails(id, source.getServer().getGameRules());
+                                    int multiplier = OreLogic.getMultiplier(id, source.getLevel().getGameRules());
+                                    String details = OreLogic.getMultiplierDetails(id, source.getLevel().getGameRules());
 
                                     source.sendSuccess(() -> Component.literal(
                                             "§e[Ore Multiplier]§r §a" + id + "§r: §b" + multiplier + "%§r (" + details + ")"
@@ -120,7 +120,7 @@ public class OreCommand {
                                                 .executes(context -> {
                                                     CommandSourceStack source = context.getSource();
                                                     int val = IntegerArgumentType.getInteger(context, "multiplier");
-                                                    source.getServer().getGameRules().set(OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL, val, source.getServer());
+                                                    source.getLevel().getGameRules().set(OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL, val, source.getServer());
                                                     OreAmplifierConfig.get().vanillaGlobalMultiplier = val;
                                                     OreAmplifierConfig.save();
                                                     source.sendSuccess(() -> Component.literal("§e[Ore Amplifier]§r Vanilla Global set to §a" + val + "%§r"), true);
@@ -131,7 +131,7 @@ public class OreCommand {
                                                 .executes(context -> {
                                                     CommandSourceStack source = context.getSource();
                                                     int val = IntegerArgumentType.getInteger(context, "multiplier");
-                                                    source.getServer().getGameRules().set(OreAmplifierFabric.IG_ORE_MODDED_GLOBAL, val, source.getServer());
+                                                    source.getLevel().getGameRules().set(OreAmplifierFabric.IG_ORE_MODDED_GLOBAL, val, source.getServer());
                                                     OreAmplifierConfig.get().moddedGlobalMultiplier = val;
                                                     OreAmplifierConfig.save();
                                                     source.sendSuccess(() -> Component.literal("§e[Ore Amplifier]§r Modded Global set to §a" + val + "%§r"), true);
@@ -163,7 +163,7 @@ public class OreCommand {
                             OreAmplifierConfig.load(net.fabricmc.loader.api.FabricLoader.getInstance().getConfigDir());
                             CommandSourceStack source = context.getSource();
                             if (source.getServer() != null) {
-                                GameRules rules = source.getServer().getGameRules();
+                                GameRules rules = source.getLevel().getGameRules();
                                 rules.set(OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL, OreAmplifierConfig.get().vanillaGlobalMultiplier, source.getServer());
                                 rules.set(OreAmplifierFabric.IG_ORE_MODDED_GLOBAL, OreAmplifierConfig.get().moddedGlobalMultiplier, source.getServer());
                                 rules.set(OreAmplifierFabric.IG_ORE_VEIN_SIZE, OreAmplifierConfig.get().veinSizeMultiplier, source.getServer());
@@ -176,7 +176,7 @@ public class OreCommand {
                         .executes(context -> {
                             CommandSourceStack source = context.getSource();
                             MinecraftServer server = source.getServer();
-                            GameRules rules = server.getGameRules();
+                            GameRules rules = server != null && server.overworld() != null ? server.overworld().getGameRules() : source.getLevel().getGameRules();
 
                             // 1. Reset GameRules
                             rules.set(OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL, 200, server);

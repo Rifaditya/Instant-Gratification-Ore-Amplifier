@@ -108,8 +108,8 @@ public class OreLogic {
                 .description("Multiplier for " + featureId.getPath().replace('_', ' ') + ". Default is 100 (1x).")
                 .register();
 
-        if (dynamicRule != null) {
-            server.getGameRules().set(dynamicRule, value, server);
+        if (dynamicRule != null && server.overworld() != null) {
+            server.overworld().getGameRules().set(dynamicRule, value, server);
             return true;
         }
         return false;
@@ -145,7 +145,27 @@ public class OreLogic {
 
     public static int getAmplifiedCount(int originalCount, int multiplierPercent,
             net.minecraft.util.RandomSource random) {
-        return net.dasik.social.util.StochasticUtil.getAmplifiedCount(originalCount, multiplierPercent, random);
+        float multiplier = (float) multiplierPercent / 100.0f;
+        float targetCount = (float) originalCount * multiplier;
+        int baseCount = (int) targetCount;
+        float residue = targetCount - (float) baseCount;
+        if (random.nextFloat() < residue) {
+            baseCount++;
+        }
+        return baseCount;
+    }
+
+    public static boolean getAmplifiedProbability(float baseProbability, int multiplierPercent,
+            net.minecraft.util.RandomSource random) {
+        float multiplier = (float) multiplierPercent / 100.0f;
+        float targetProbability = baseProbability * multiplier;
+        if (targetProbability >= 1.0f) {
+            return true;
+        }
+        if (targetProbability <= 0.0f) {
+            return false;
+        }
+        return random.nextFloat() < targetProbability;
     }
 
     public static void logAmplification(Identifier id, int original, int modified, int multiplier) {

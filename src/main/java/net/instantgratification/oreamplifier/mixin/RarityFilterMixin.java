@@ -53,7 +53,7 @@ public class RarityFilterMixin {
              int multiplier = OreLogic.getMultiplier(featureId, context.getLevel().getLevel().getGameRules());
              if (multiplier != 100) {  // Changed from > 100 to != 100 to support reduction
                  float baseProbability = 1.0F / (float) this.chance;
-                 boolean success = net.dasik.social.util.StochasticUtil.getAmplifiedProbability(baseProbability, multiplier, random);
+                 boolean success = OreLogic.getAmplifiedProbability(baseProbability, multiplier, random);
                  
                  if (success) {
                       OreLogic.logAmplification(featureId, 1, Math.max(1, (int)(multiplier / 100.0F * this.chance)), multiplier); // Rough logging

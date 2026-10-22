@@ -28,7 +28,7 @@ public class OreAmplifierFabric implements ModInitializer {
     @Override
     public void onInitialize() {
         net.instantgratification.oreamplifier.util.ModVersionGuard.checkClass("Ore Amplifier", "net.minecraft.world.level.levelgen.feature.Feature");
-        LOGGER.info("Ore Amplifier Initializing (Snapshot 26.1 Native)...");
+        LOGGER.info("Ore Amplifier Initializing (1.21.11 Native)...");
 
         // Load global JSON configuration
         OreAmplifierConfig.load(net.fabricmc.loader.api.FabricLoader.getInstance().getConfigDir());
@@ -71,16 +71,17 @@ public class OreAmplifierFabric implements ModInitializer {
         ServerLifecycleEvents.SERVER_STARTING.register(server -> {
             SERVER_INSTANCE = server;
 
-            // Auto-heal: if global rules are 0 they would disable all generation; reset to
-            // normal
-            GameRules rules = server.getGameRules();
-            if (rules.get(IG_ORE_VANILLA_GLOBAL) == 0) {
-                rules.set(IG_ORE_VANILLA_GLOBAL, 200, server);
-                LOGGER.info("OreAmplifier: Auto-healed vanilla global multiplier to 200.");
-            }
-            if (rules.get(IG_ORE_MODDED_GLOBAL) == 0) {
-                rules.set(IG_ORE_MODDED_GLOBAL, 120, server);
-                LOGGER.info("OreAmplifier: Auto-healed modded global multiplier to 120.");
+            // Auto-heal: if global rules are 0 they would disable all generation; reset to normal
+            if (server.overworld() != null) {
+                GameRules rules = server.overworld().getGameRules();
+                if (rules.get(IG_ORE_VANILLA_GLOBAL) == 0) {
+                    rules.set(IG_ORE_VANILLA_GLOBAL, 200, server);
+                    LOGGER.info("OreAmplifier: Auto-healed vanilla global multiplier to 200.");
+                }
+                if (rules.get(IG_ORE_MODDED_GLOBAL) == 0) {
+                    rules.set(IG_ORE_MODDED_GLOBAL, 120, server);
+                    LOGGER.info("OreAmplifier: Auto-healed modded global multiplier to 120.");
+                }
             }
         });
 
@@ -89,8 +90,8 @@ public class OreAmplifierFabric implements ModInitializer {
             OreAmplifierConfig.load(net.fabricmc.loader.api.FabricLoader.getInstance().getConfigDir());
 
             // Write defaults to new worlds on initialization
-            if (!server.getWorldData().overworldData().isInitialized()) {
-                GameRules rules = server.getGameRules();
+            if (!server.getWorldData().overworldData().isInitialized() && server.overworld() != null) {
+                GameRules rules = server.overworld().getGameRules();
                 rules.set(IG_ORE_VANILLA_GLOBAL, OreAmplifierConfig.get().vanillaGlobalMultiplier, server);
                 rules.set(IG_ORE_MODDED_GLOBAL, OreAmplifierConfig.get().moddedGlobalMultiplier, server);
                 LOGGER.info("OreAmplifier: Initialized new world GameRules from config template.");

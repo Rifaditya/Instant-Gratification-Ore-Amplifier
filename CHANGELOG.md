@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.21+1.21.11] - 2026-10-22
+
+### Added
+- **Transitional Anchor Port for MC 1.21.11 ([BL-OA-007])**: Initial transitional anchor port bringing full Ore Amplifier feature parity to Minecraft 1.21.11.
+- **Pillar 5 Sidedness Contract Verification**: Headless unit verification enforcing zero client-side imports or references in common worldgen logic.
+
+### Changed
+- **UniversalConfigScreen Integration**: Full integration with DasikLibrary 1.4.0+1.21.11's `UniversalConfigScreen` and `@ConfigOption` reflection framework.
+- **Toolchain Modernization**: Fabric Loom Remap 1.15-SNAPSHOT, Java 21, Fabric Loader 0.19.3, and DasikLibrary 1.4.0+1.21.11 compatibility.
+- **Level-Scoped GameRule Resolution**: Adapted GameRule lookups and mutations to `server.overworld().getGameRules()` and `source.getLevel().getGameRules()` for Minecraft 1.21.11.
+
+
 ## [1.3.21+26.2] - 2026-10-18
 
 ### Changed
