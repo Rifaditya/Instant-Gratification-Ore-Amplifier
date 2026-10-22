@@ -68,10 +68,15 @@ public class OreAmplifierConfig {
 
     public static synchronized void load(Path configDir) {
         CONFIG_PATH = configDir.resolve("ore-amplifier.json");
-        INSTANCE = net.dasik.social.api.config.ConfigHelper.loadOrCreate(
+        INSTANCE = net.dasik.social.api.config.ConfigHelper.load(
                 CONFIG_PATH,
+                INSTANCE,
                 OreAmplifierConfig.class,
-                OreAmplifierConfig::new
+                VERSION,
+                cfg -> cfg.configVersion,
+                (cfg, ver) -> cfg.configVersion = ver,
+                null,
+                OreAmplifierFabric.LOGGER
         );
     }
 
@@ -80,7 +85,8 @@ public class OreAmplifierConfig {
         INSTANCE.pruneDefaults();
         net.dasik.social.api.config.ConfigHelper.save(
                 CONFIG_PATH,
-                INSTANCE
+                INSTANCE,
+                OreAmplifierFabric.LOGGER
         );
     }
 

@@ -30,7 +30,7 @@ public class OreAmplifierSidednessContractTest {
         if (Files.exists(path)) {
             return path;
         }
-        Path fallback = Paths.get("Instant Gratification Collection/Ore Amplifier/Ore Amplifier v1.21.11/ore-amplifier", relative);
+        Path fallback = Paths.get("Instant Gratification Collection/Ore Amplifier/Ore Amplifier v1.21.1/ore-amplifier", relative);
         if (Files.exists(fallback)) {
             return fallback;
         }

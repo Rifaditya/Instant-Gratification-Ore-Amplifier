@@ -4,11 +4,11 @@ package net.instantgratification.oreamplifier;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.gamerule.v1.CustomGameRuleCategory;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.level.gamerules.GameRules;
-import net.minecraft.world.level.gamerules.GameRule;
-import net.minecraft.world.level.gamerules.GameRuleCategory;
-import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.GameRules;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.dasik.social.api.gamerule.DynamicGameRuleManager;
 import org.slf4j.Logger;
@@ -20,22 +20,22 @@ public class OreAmplifierFabric implements ModInitializer {
     public static MinecraftServer SERVER_INSTANCE;
 
     // Static GameRule handles registered at init time
-    public static GameRuleCategory ORE_AMPLIFIER_CATEGORY;
-    public static GameRule<Integer> IG_ORE_VANILLA_GLOBAL;
-    public static GameRule<Integer> IG_ORE_MODDED_GLOBAL;
-    public static GameRule<Integer> IG_ORE_VEIN_SIZE;
+    public static CustomGameRuleCategory ORE_AMPLIFIER_CATEGORY;
+    public static GameRules.Key<GameRules.IntegerValue> IG_ORE_VANILLA_GLOBAL;
+    public static GameRules.Key<GameRules.IntegerValue> IG_ORE_MODDED_GLOBAL;
+    public static GameRules.Key<GameRules.IntegerValue> IG_ORE_VEIN_SIZE;
 
     @Override
     public void onInitialize() {
         net.instantgratification.oreamplifier.util.ModVersionGuard.checkClass("Ore Amplifier", "net.minecraft.world.level.levelgen.feature.Feature");
-        LOGGER.info("Ore Amplifier Initializing (1.21.11 Native)...");
+        LOGGER.info("Ore Amplifier Initializing (1.21.1 Native)...");
 
         // Load global JSON configuration
         OreAmplifierConfig.load(net.fabricmc.loader.api.FabricLoader.getInstance().getConfigDir());
 
         // Register custom GameRule category
         ORE_AMPLIFIER_CATEGORY = DynamicGameRuleManager
-                .registerCategory(Identifier.fromNamespaceAndPath("minecraft", "ore_amplifier"));
+                .registerCategory(ResourceLocation.fromNamespaceAndPath("minecraft", "ore_amplifier"), Component.translatable("gamerule.category.minecraft.ore_amplifier"));
 
         // Register global fallback rules
         IG_ORE_VANILLA_GLOBAL = DynamicGameRuleManager.integerRule("ig:ore_vanilla_global", ORE_AMPLIFIER_CATEGORY, OreAmplifierConfig.get().vanillaGlobalMultiplier)
@@ -57,12 +57,12 @@ public class OreAmplifierFabric implements ModInitializer {
         // Block-based pre-registration (catches modded ore blocks by name)
         // Filter aligned with OreLogic.shouldAmplify() to prevent ghost rules.
         BuiltInRegistries.BLOCK.stream().forEach(block -> {
-            Identifier id = BuiltInRegistries.BLOCK.getKey(block);
+            ResourceLocation id = BuiltInRegistries.BLOCK.getKey(block);
             if (id != null && OreLogic.shouldAmplify(id)) {
                 String ruleName = "ig:ore_" + id.getNamespace() + "_" + id.getPath();
                 DynamicGameRuleManager.integerRule(ruleName, ORE_AMPLIFIER_CATEGORY, 100)
                         .range(0, 1000)
-                        .name(DynamicGameRuleManager.generateReadableName(ruleName))
+                        .name(OreLogic.generateReadableName(ruleName))
                         .description("Multiplier for " + id.getPath().replace('_', ' ') + ". Default is 100 (1x).")
                         .register();
             }
@@ -74,12 +74,12 @@ public class OreAmplifierFabric implements ModInitializer {
             // Auto-heal: if global rules are 0 they would disable all generation; reset to normal
             if (server.overworld() != null) {
                 GameRules rules = server.overworld().getGameRules();
-                if (rules.get(IG_ORE_VANILLA_GLOBAL) == 0) {
-                    rules.set(IG_ORE_VANILLA_GLOBAL, 200, server);
+                if (rules.getInt(IG_ORE_VANILLA_GLOBAL) == 0) {
+                    rules.getRule(IG_ORE_VANILLA_GLOBAL).set(200, server);
                     LOGGER.info("OreAmplifier: Auto-healed vanilla global multiplier to 200.");
                 }
-                if (rules.get(IG_ORE_MODDED_GLOBAL) == 0) {
-                    rules.set(IG_ORE_MODDED_GLOBAL, 120, server);
+                if (rules.getInt(IG_ORE_MODDED_GLOBAL) == 0) {
+                    rules.getRule(IG_ORE_MODDED_GLOBAL).set(120, server);
                     LOGGER.info("OreAmplifier: Auto-healed modded global multiplier to 120.");
                 }
             }
@@ -92,8 +92,8 @@ public class OreAmplifierFabric implements ModInitializer {
             // Write defaults to new worlds on initialization
             if (!server.getWorldData().overworldData().isInitialized() && server.overworld() != null) {
                 GameRules rules = server.overworld().getGameRules();
-                rules.set(IG_ORE_VANILLA_GLOBAL, OreAmplifierConfig.get().vanillaGlobalMultiplier, server);
-                rules.set(IG_ORE_MODDED_GLOBAL, OreAmplifierConfig.get().moddedGlobalMultiplier, server);
+                rules.getRule(IG_ORE_VANILLA_GLOBAL).set(OreAmplifierConfig.get().vanillaGlobalMultiplier, server);
+                rules.getRule(IG_ORE_MODDED_GLOBAL).set(OreAmplifierConfig.get().moddedGlobalMultiplier, server);
                 LOGGER.info("OreAmplifier: Initialized new world GameRules from config template.");
             }
         });

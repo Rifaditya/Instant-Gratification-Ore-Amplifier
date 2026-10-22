@@ -5,6 +5,8 @@ Open this file in your editor and change `[ ]` to `[x]` when you publish a versi
 
 ## 🚀 Published & Backlog Queue
 
+- [ ] **1.3.21+1.21.1** (2026-10-22) - Modern Era Anchor Port for MC 1.21.1 ([BL-OA-008]): Ground-zero port with Fabric Loom 1.10.2, Java 21, Mojang mappings, and UniversalConfigScreen.
+
 - [ ] **`1.3.21+1.21.11`** (2026-10-22) - Transitional Anchor Port for MC 1.21.11 ([BL-OA-007]): Ground-zero port with UniversalConfigScreen and level-scoped GameRule resolution.
 
 - [x] **`1.3.21+26.2`** (2026-10-18) - - **UniversalConfigScreen Migration ([BL-OA-005])**: Migrated ModMenu configuration screen to DasikLibrary's centralized UniversalConfigScreen & purged YaclScreenHelper.

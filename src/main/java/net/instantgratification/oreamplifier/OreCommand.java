@@ -6,13 +6,12 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
-import net.minecraft.commands.arguments.IdentifierArgument;
+import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.level.gamerules.GameRules;
-import net.minecraft.world.level.gamerules.GameRule;
+import net.minecraft.world.level.GameRules;
 import net.dasik.social.api.gamerule.DynamicGameRuleManager;
 import net.dasik.social.api.config.DasikSupportHelper;
 
@@ -50,16 +49,16 @@ public class OreCommand {
                             MinecraftServer server = source.getServer();
                             GameRules rules = server != null && server.overworld() != null ? server.overworld().getGameRules() : source.getLevel().getGameRules();
 
-                            int vanillaGlobal = rules.get(OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL);
-                            int moddedGlobal = rules.get(OreAmplifierFabric.IG_ORE_MODDED_GLOBAL);
-                            int veinSize = rules.get(OreAmplifierFabric.IG_ORE_VEIN_SIZE);
+                            int vanillaGlobal = rules.getInt(OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL);
+                            int moddedGlobal = rules.getInt(OreAmplifierFabric.IG_ORE_MODDED_GLOBAL);
+                            int veinSize = rules.getInt(OreAmplifierFabric.IG_ORE_VEIN_SIZE);
 
                             AtomicInteger activeOverrides = new AtomicInteger(0);
                             DynamicGameRuleManager.getDynamicRules().forEach((key, rule) -> {
                                 if (key.startsWith("ig:ore_")) {
                                     @SuppressWarnings("unchecked")
-                                    GameRule<Integer> intRule = (GameRule<Integer>) rule;
-                                    if (rules.get(intRule) != 100) {
+                                    GameRules.Key<GameRules.IntegerValue> intRule = (GameRules.Key<GameRules.IntegerValue>) rule;
+                                    if (rules.getInt(intRule) != 100) {
                                         activeOverrides.incrementAndGet();
                                     }
                                 }
@@ -80,9 +79,9 @@ public class OreCommand {
                                  .executes(context -> {
                                     CommandSourceStack source = context.getSource();
                                     GameRules rules = source.getLevel().getGameRules();
-                                    int vanilla = rules.get(OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL);
-                                    int modded = rules.get(OreAmplifierFabric.IG_ORE_MODDED_GLOBAL);
-                                    int veinSize = rules.get(OreAmplifierFabric.IG_ORE_VEIN_SIZE);
+                                    int vanilla = rules.getInt(OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL);
+                                    int modded = rules.getInt(OreAmplifierFabric.IG_ORE_MODDED_GLOBAL);
+                                    int veinSize = rules.getInt(OreAmplifierFabric.IG_ORE_VEIN_SIZE);
 
                                     source.sendSuccess(() -> Component.literal(
                                             "§e[Ore Amplifier Globals]§r\n" +
@@ -92,12 +91,12 @@ public class OreCommand {
                                     ), false);
                                     return 1;
                                 }))
-                        .then(Commands.argument("ore", IdentifierArgument.id())
+                        .then(Commands.argument("ore", ResourceLocationArgument.id())
                                 .suggests((context, builder) -> SharedSuggestionProvider.suggestResource(
                                         BuiltInRegistries.BLOCK.keySet().stream().filter(OreLogic::shouldAmplify), builder))
                                 .executes(context -> {
                                     CommandSourceStack source = context.getSource();
-                                    Identifier id = IdentifierArgument.getId(context, "ore");
+                                    ResourceLocation id = ResourceLocationArgument.getId(context, "ore");
 
                                     if (!OreLogic.shouldAmplify(id)) {
                                         source.sendFailure(Component.literal("§c" + id + " is not recognized as an amplifiable ore block.§r"));
@@ -113,14 +112,14 @@ public class OreCommand {
                                     return 1;
                                 })))
                 .then(Commands.literal("set")
-                        .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
+                        .requires(source -> source.hasPermission(2))
                         .then(Commands.literal("global")
                                 .then(Commands.literal("vanilla")
                                         .then(Commands.argument("multiplier", IntegerArgumentType.integer(0, 1000))
                                                 .executes(context -> {
                                                     CommandSourceStack source = context.getSource();
                                                     int val = IntegerArgumentType.getInteger(context, "multiplier");
-                                                    source.getLevel().getGameRules().set(OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL, val, source.getServer());
+                                                    source.getLevel().getGameRules().getRule(OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL).set(val, source.getServer());
                                                     OreAmplifierConfig.get().vanillaGlobalMultiplier = val;
                                                     OreAmplifierConfig.save();
                                                     source.sendSuccess(() -> Component.literal("§e[Ore Amplifier]§r Vanilla Global set to §a" + val + "%§r"), true);
@@ -131,19 +130,19 @@ public class OreCommand {
                                                 .executes(context -> {
                                                     CommandSourceStack source = context.getSource();
                                                     int val = IntegerArgumentType.getInteger(context, "multiplier");
-                                                    source.getLevel().getGameRules().set(OreAmplifierFabric.IG_ORE_MODDED_GLOBAL, val, source.getServer());
+                                                    source.getLevel().getGameRules().getRule(OreAmplifierFabric.IG_ORE_MODDED_GLOBAL).set(val, source.getServer());
                                                     OreAmplifierConfig.get().moddedGlobalMultiplier = val;
                                                     OreAmplifierConfig.save();
                                                     source.sendSuccess(() -> Component.literal("§e[Ore Amplifier]§r Modded Global set to §a" + val + "%§r"), true);
                                                     return 1;
                                                 }))))
-                        .then(Commands.argument("ore", IdentifierArgument.id())
+                        .then(Commands.argument("ore", ResourceLocationArgument.id())
                                 .suggests((context, builder) -> SharedSuggestionProvider.suggestResource(
                                         BuiltInRegistries.BLOCK.keySet().stream().filter(OreLogic::shouldAmplify), builder))
                                 .then(Commands.argument("multiplier", IntegerArgumentType.integer(0, 1000))
                                         .executes(context -> {
                                             CommandSourceStack source = context.getSource();
-                                            Identifier id = IdentifierArgument.getId(context, "ore");
+                                            ResourceLocation id = ResourceLocationArgument.getId(context, "ore");
                                             int val = IntegerArgumentType.getInteger(context, "multiplier");
 
                                             if (!OreLogic.shouldAmplify(id)) {
@@ -158,36 +157,36 @@ public class OreCommand {
                                             return 1;
                                         }))))
                 .then(Commands.literal("reload")
-                        .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
+                        .requires(source -> source.hasPermission(2))
                         .executes(context -> {
                             OreAmplifierConfig.load(net.fabricmc.loader.api.FabricLoader.getInstance().getConfigDir());
                             CommandSourceStack source = context.getSource();
                             if (source.getServer() != null) {
                                 GameRules rules = source.getLevel().getGameRules();
-                                rules.set(OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL, OreAmplifierConfig.get().vanillaGlobalMultiplier, source.getServer());
-                                rules.set(OreAmplifierFabric.IG_ORE_MODDED_GLOBAL, OreAmplifierConfig.get().moddedGlobalMultiplier, source.getServer());
-                                rules.set(OreAmplifierFabric.IG_ORE_VEIN_SIZE, OreAmplifierConfig.get().veinSizeMultiplier, source.getServer());
+                                rules.getRule(OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL).set(OreAmplifierConfig.get().vanillaGlobalMultiplier, source.getServer());
+                                rules.getRule(OreAmplifierFabric.IG_ORE_MODDED_GLOBAL).set(OreAmplifierConfig.get().moddedGlobalMultiplier, source.getServer());
+                                rules.getRule(OreAmplifierFabric.IG_ORE_VEIN_SIZE).set(OreAmplifierConfig.get().veinSizeMultiplier, source.getServer());
                             }
                             context.getSource().sendSuccess(() -> Component.literal("§e[Ore Amplifier]§r Configuration templates reloaded & GameRules synced!"), true);
                             return 1;
                         }))
                 .then(Commands.literal("reset")
-                        .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
+                        .requires(source -> source.hasPermission(2))
                         .executes(context -> {
                             CommandSourceStack source = context.getSource();
                             MinecraftServer server = source.getServer();
                             GameRules rules = server != null && server.overworld() != null ? server.overworld().getGameRules() : source.getLevel().getGameRules();
 
                             // 1. Reset GameRules
-                            rules.set(OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL, 200, server);
-                            rules.set(OreAmplifierFabric.IG_ORE_MODDED_GLOBAL, 120, server);
-                            rules.set(OreAmplifierFabric.IG_ORE_VEIN_SIZE, 100, server);
+                            rules.getRule(OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL).set(200, server);
+                            rules.getRule(OreAmplifierFabric.IG_ORE_MODDED_GLOBAL).set(120, server);
+                            rules.getRule(OreAmplifierFabric.IG_ORE_VEIN_SIZE).set(100, server);
 
                             DynamicGameRuleManager.getDynamicRules().entrySet().forEach(entry -> {
                                 if (entry.getKey().startsWith("ig:ore_")) {
                                     @SuppressWarnings("unchecked")
-                                    GameRule<Integer> intRule = (GameRule<Integer>) entry.getValue();
-                                    rules.set(intRule, 100, server);
+                                    GameRules.Key<GameRules.IntegerValue> intRule = (GameRules.Key<GameRules.IntegerValue>) entry.getValue();
+                                    rules.getRule(intRule).set(100, server);
                                 }
                             });
 

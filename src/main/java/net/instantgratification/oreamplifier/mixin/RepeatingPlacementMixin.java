@@ -4,7 +4,7 @@ package net.instantgratification.oreamplifier.mixin;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.instantgratification.oreamplifier.OreLogic;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.OreFeature;
@@ -31,10 +31,10 @@ public abstract class RepeatingPlacementMixin {
         }
 
         PlacedFeature placedFeature = topFeatureOpt.get();
-        Identifier featureId = null;
+        ResourceLocation featureId = null;
 
         if (placedFeature.feature().unwrapKey().isPresent()) {
-            featureId = placedFeature.feature().unwrapKey().get().identifier();
+            featureId = placedFeature.feature().unwrapKey().get().location();
         } else {
             ConfiguredFeature<?, ?> configured = placedFeature.feature().value();
             if (configured.feature() instanceof OreFeature) {

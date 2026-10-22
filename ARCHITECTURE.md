@@ -1,4 +1,4 @@
-# Architecture & Symbol Index: Ore Amplifier (MC 1.21.11)
+# Architecture & Symbol Index: Ore Amplifier (MC 1.21.1)
 
 ## 1. Mod Metadata & Entrypoint
 - **Mod ID**: `ore-amplifier`

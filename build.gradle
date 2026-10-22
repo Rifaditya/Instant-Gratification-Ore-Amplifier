@@ -1,5 +1,5 @@
 plugins {
-    id 'net.fabricmc.fabric-loom-remap' version '1.15-SNAPSHOT'
+    id 'fabric-loom' version '1.10.2'
     id 'maven-publish'
 }
 
@@ -14,10 +14,9 @@ repositories {
     mavenLocal()
     mavenCentral()
     maven { url "https://maven.fabricmc.net/" }
-    maven { url "https://maven.isxander.dev/releases" }
     maven { url "https://maven.terraformersmc.com/releases/" }
     flatDir {
-        dirs 'e:/Minecraft Project/Dasik Library v1.21.11/Archive Jar of all versions/MC 1.21.11'
+        dirs 'e:/Minecraft Project/Dasik Library v1.21.1/Archive Jar of all versions/MC 1.21.1'
     }
 }
 
@@ -93,12 +92,12 @@ jar {
 tasks.register('archiveReleaseJar') {
     dependsOn 'remapJar'
     doLast {
-        def targetSubdir = "MC 1.21.11"
+        def targetSubdir = "MC 1.21.1"
         def localArchiveDir = file("../Archive Jar of all versions/${targetSubdir}")
         def rootArchiveDir = file("../../Archive Jar of all versions/${targetSubdir}")
         def centralHubDir = file("e:/Minecraft Project/minecraft-mod-release-hub/archives/Ore Amplifier")
         def vaultDir = new File("D:/Minecraft Mod Archive Jars/Ore Amplifier")
-        def profileDir = new File(System.getProperty("user.home"), "AppData/Roaming/ModrinthApp/profiles/Fabric 1.21.11/mods")
+        def profileDir = new File(System.getProperty("user.home"), "AppData/Roaming/ModrinthApp/profiles/Fabric 1.21.1/mods")
 
         def targetTask = tasks.findByName('remapJar') ?: tasks.findByName('jar')
         def builtJar = targetTask != null ? targetTask.archiveFile.get().asFile : null

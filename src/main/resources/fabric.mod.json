@@ -42,11 +42,11 @@
         "ore-amplifier.mixins.json"
     ],
     "depends": {
-        "fabricloader": ">=0.19.3",
-        "minecraft": ">=1.21.11 <1.22-",
+        "fabricloader": ">=0.16.0",
+        "minecraft": ">=1.21 <1.21.2-",
         "java": ">=21",
         "fabric-api": "*",
-        "dasik-library": ">=1.4.0+1.21.11"
+        "dasik-library": ">=1.4.0+1.21.1"
     },
     "suggests": {
         "yet-another-config-lib": "*",
