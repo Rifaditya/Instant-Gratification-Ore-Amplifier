@@ -1,5 +1,5 @@
 plugins {
-    id 'net.fabricmc.fabric-loom' version '1.15.2'
+    id 'net.fabricmc.fabric-loom' version '1.15.5'
     id 'maven-publish'
 }
 
@@ -21,8 +21,9 @@ repositories {
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
 
-    implementation "net.fabricmc:fabric-loader:${project.fabric_loader_version}"
+    implementation "net.fabricmc:fabric-loader:${project.hasProperty('loader_version') ? project.loader_version : project.fabric_loader_version}"
     implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    implementation "net.fabricmc.fabric-api:fabric-permission-api-v1:1.0.0+5f4a394125"
 
     implementation "net.dasik.social:dasik-library:${project.dasik_library_version}"
 
@@ -41,14 +42,13 @@ test {
     useJUnitPlatform()
 }
 
-
 processResources {
     inputs.property "version", project.version
-    inputs.property "loader_version", project.fabric_loader_version
+    inputs.property "loader_version", (project.hasProperty('loader_version') ? project.loader_version : project.fabric_loader_version)
     inputs.property "minecraft_version", project.minecraft_version
     filesMatching("fabric.mod.json") {
         expand "version": project.version,
-               "loader_version": project.fabric_loader_version,
+               "loader_version": (project.hasProperty('loader_version') ? project.loader_version : project.fabric_loader_version),
                "minecraft_version": project.minecraft_version
     }
 }
@@ -84,7 +84,7 @@ afterEvaluate {
     if (targetJarTask != null) {
         def archiveTask = tasks.register('archiveReleaseJar') {
             group = 'build'
-            description = 'Automatically copies built release JAR to central Archive directory and Modrinth profile'
+            description = 'Automatically copies built release JAR to central Archive directory, external vault, and Modrinth profile'
             dependsOn targetJarTask
             doLast {
                 def jarFile = targetJarTask.archiveFile.get().asFile
@@ -95,21 +95,30 @@ afterEvaluate {
                     def mcVer = project.hasProperty('minecraft_version') ? project.minecraft_version.toString() : ""
                     def targetSubdir = mcVer.startsWith("26.3") ? "MC 26.3" :
                                        mcVer.startsWith("26.2") ? "MC 26.2" :
-                                       mcVer.startsWith("26.1") ? "MC 26.1" :
+                                       mcVer.startsWith("26.1") ? "MC 26.1.2" :
                                        mcVer.startsWith("1.21.11") ? "MC 1.21.11" :
                                        mcVer.startsWith("1.21") ? "MC 1.21.1" :
                                        mcVer.startsWith("1.20") ? "MC 1.20.1" : "MC Unknown"
 
-                    // 1. Central Versioned Archive
-                    def archiveDir = file("../Archive Jar of all versions/${targetSubdir}")
-                    archiveDir.mkdirs()
+                    // 1. Subproject local archive
+                    def subprojectArchive = file("../Archive Jar of all versions/${targetSubdir}")
+                    subprojectArchive.mkdirs()
                     copy {
                         from jarFile
-                        into archiveDir
+                        into subprojectArchive
                     }
-                    println "[AUTO-ARCHIVE] Successfully copied ${jarFile.name} to central Archive directory: ${archiveDir.canonicalPath}"
+                    println "[AUTO-ARCHIVE] Successfully copied ${jarFile.name} to subproject Archive directory: ${subprojectArchive.canonicalPath}"
 
-                    // 2. Dynamic Modrinth Profile Sync (Strictly matching target Minecraft version)
+                    // 1b. Root Collection Archive
+                    def collectionArchive = file("../../Archive Jar of all versions/${targetSubdir}")
+                    collectionArchive.mkdirs()
+                    copy {
+                        from jarFile
+                        into collectionArchive
+                    }
+                    println "[AUTO-ARCHIVE] Successfully copied ${jarFile.name} to root collection Archive directory: ${collectionArchive.canonicalPath}"
+
+                    // 2. Modrinth Profile Sync
                     def targetProfiles = mcVer.startsWith("26.3") ? [
                         file("C:/Users/fmrif/AppData/Roaming/ModrinthApp/profiles/Fabric 26.3ish/mods")
                     ] : mcVer.startsWith("26.2") ? [
@@ -181,6 +190,16 @@ afterEvaluate {
                                 println "[HUB-ARCHIVE] Note: Could not copy to release hub: ${e.message}"
                             }
                         }
+                    }
+
+                    // 4. External Vault Sync (D: Drive)
+                    File externalVault = new File("D:/Minecraft Mod Archive Jars/Ore Amplifier")
+                    if (externalVault.exists()) {
+                        copy {
+                            from jarFile
+                            into externalVault
+                        }
+                        println "[EXTERNAL-VAULT] Successfully copied ${jarFile.name} to external vault: ${externalVault.canonicalPath}"
                     }
                 }
             }

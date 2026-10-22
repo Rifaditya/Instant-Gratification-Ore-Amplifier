@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.3.21+26.1.2] - 2026-10-22
+
+### Added
+- **Modern Sovereign Anchor Port for MC 26.1.2 ([BL-OA-006])**: Initial modern sovereign port bringing full Ore Amplifier feature parity to Minecraft 26.1.2.
+- **Pillar 5 Sidedness Contract Verification**: Headless unit verification enforcing zero client-side imports or references in common worldgen logic.
+
+### Changed
+- **UniversalConfigScreen Integration**: Full integration with DasikLibrary's `UniversalConfigScreen` and `@ConfigOption` reflection framework.
+- **Toolchain Modernization**: Fabric Loom 1.15.5, Java 25, Fabric Loader 0.19.5, and DasikLibrary 1.11.2 compatibility.
+
+
 ## [1.3.21+26.2] - 2026-10-18
 
 ### Changed
