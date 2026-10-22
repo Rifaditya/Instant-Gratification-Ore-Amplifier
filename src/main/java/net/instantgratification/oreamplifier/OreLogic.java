@@ -1,9 +1,9 @@
 // Copyright (C) 2026 Dasik (Rifaditya) | GNU GPLv3
 package net.instantgratification.oreamplifier;
 
-import net.minecraft.world.level.gamerules.GameRules;
-import net.minecraft.world.level.gamerules.GameRule;
-import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.GameRules;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.dasik.social.api.gamerule.DynamicGameRuleManager;
 
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -11,41 +11,54 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.RandomSource;
 import java.util.Set;
 
 public class OreLogic {
 
     public static final TagKey<PlacedFeature> CONVENTION_BLACKLIST_FEATURE = TagKey.create(
-            Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath("c", "ore_amplifier_blacklist"));
+            Registries.PLACED_FEATURE, new ResourceLocation("c", "ore_amplifier_blacklist"));
     public static final TagKey<PlacedFeature> MOD_BLACKLIST_FEATURE = TagKey.create(
-            Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath("ore-amplifier", "blacklist"));
+            Registries.PLACED_FEATURE, new ResourceLocation("ore-amplifier", "blacklist"));
 
     public static final TagKey<Block> CONVENTION_BLACKLIST_BLOCK = TagKey.create(
-            Registries.BLOCK, Identifier.fromNamespaceAndPath("c", "ore_amplifier_blacklist"));
+            Registries.BLOCK, new ResourceLocation("c", "ore_amplifier_blacklist"));
     public static final TagKey<Block> MOD_BLACKLIST_BLOCK = TagKey.create(
-            Registries.BLOCK, Identifier.fromNamespaceAndPath("ore-amplifier", "blacklist"));
+            Registries.BLOCK, new ResourceLocation("ore-amplifier", "blacklist"));
 
     private static final Set<String> STATIC_BLACKLIST = Set.of(
             "minecraft:amethyst_geode",
             "minecraft:monster_room",
             "minecraft:monster_room_deep");
 
+    public static String generateReadableName(String ruleName) {
+        String clean = ruleName.startsWith("ig:ore_") ? ruleName.substring(7) : ruleName;
+        String[] parts = clean.split("_");
+        StringBuilder sb = new StringBuilder();
+        for (String part : parts) {
+            if (!part.isEmpty()) {
+                sb.append(Character.toUpperCase(part.charAt(0))).append(part.substring(1)).append(" ");
+            }
+        }
+        return sb.toString().trim() + " Multiplier";
+    }
+
     /**
-     * Returns true if the given feature/block ID represents an ore that should be
-     * amplified.
+     * Returns true if the given feature/block ID represents an ore that should be amplified.
      * Checks dynamic tag blacklist and static blacklist first; then applies name-based heuristics.
      */
-    public static boolean shouldAmplify(Identifier id) {
+    public static boolean shouldAmplify(ResourceLocation id) {
         if (id == null) return false;
 
         if (STATIC_BLACKLIST.contains(id.toString()))
             return false;
 
         // Check Block tag membership safely (handles early init before tags are bound)
-        var blockOpt = BuiltInRegistries.BLOCK.get(id);
-        if (blockOpt.isPresent()) {
+        var holderOpt = BuiltInRegistries.BLOCK.getHolder(ResourceKey.create(Registries.BLOCK, id));
+        if (holderOpt.isPresent()) {
             try {
-                if (blockOpt.get().is(CONVENTION_BLACKLIST_BLOCK) || blockOpt.get().is(MOD_BLACKLIST_BLOCK)) {
+                if (holderOpt.get().is(CONVENTION_BLACKLIST_BLOCK) || holderOpt.get().is(MOD_BLACKLIST_BLOCK)) {
                     return false;
                 }
             } catch (IllegalStateException e) {
@@ -66,7 +79,7 @@ public class OreLogic {
      * 1. Specific per-feature GameRule (e.g. ig:ore_minecraft_iron_ore)
      * 2. Namespace fallback (vanilla / modded global)
      */
-    public static int getMultiplier(Identifier featureId, GameRules rules) {
+    public static int getMultiplier(ResourceLocation featureId, GameRules rules) {
         if (featureId == null)
             return 100;
 
@@ -76,40 +89,53 @@ public class OreLogic {
             return configOverride;
         }
 
-        // 1. Check specific dynamic rule (pre-registered at init; safe after registry
-        // freeze)
+        // 1. Check specific dynamic rule (pre-registered at init; safe after registry freeze)
         String dynamicRuleName = "ig:ore_" + featureId.getNamespace() + "_" + featureId.getPath();
-        GameRule<Integer> dynamicRule = DynamicGameRuleManager.registerInteger(
-                dynamicRuleName, OreAmplifierFabric.ORE_AMPLIFIER_CATEGORY, 100);
-        if (dynamicRule != null) {
-            int val = rules.get(dynamicRule);
+        var dynamicRuleKey = DynamicGameRuleManager.getDynamicRules().get(dynamicRuleName);
+        if (dynamicRuleKey == null) {
+            dynamicRuleKey = DynamicGameRuleManager.integerRule(
+                    dynamicRuleName, OreAmplifierFabric.ORE_AMPLIFIER_CATEGORY, 100)
+                    .name(generateReadableName(dynamicRuleName))
+                    .description("Multiplier for " + featureId.getPath().replace('_', ' ') + ". Default is 100 (1x).")
+                    .register();
+        }
+
+        if (dynamicRuleKey != null) {
+            @SuppressWarnings("unchecked")
+            GameRules.Key<GameRules.IntegerValue> intKey = (GameRules.Key<GameRules.IntegerValue>) dynamicRuleKey;
+            int val = rules.getInt(intKey);
             if (val != 100)
                 return val; // Only use override if player explicitly changed it
         }
 
         // 2. Namespace fallback
         if (featureId.getNamespace().equals("minecraft")) {
-            return rules.get(OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL);
+            return rules.getInt(OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL);
         } else {
-            return rules.get(OreAmplifierFabric.IG_ORE_MODDED_GLOBAL);
+            return rules.getInt(OreAmplifierFabric.IG_ORE_MODDED_GLOBAL);
         }
     }
 
     /**
      * Sets the multiplier for a specific feature ID by updating its dynamic GameRule.
      */
-    public static boolean setMultiplier(Identifier featureId, int value, net.minecraft.server.MinecraftServer server) {
+    public static boolean setMultiplier(ResourceLocation featureId, int value, MinecraftServer server) {
         if (featureId == null || server == null) return false;
 
         String dynamicRuleName = "ig:ore_" + featureId.getNamespace() + "_" + featureId.getPath();
-        GameRule<Integer> dynamicRule = DynamicGameRuleManager.integerRule(
-                dynamicRuleName, OreAmplifierFabric.ORE_AMPLIFIER_CATEGORY, 100)
-                .name(DynamicGameRuleManager.generateReadableName(dynamicRuleName))
-                .description("Multiplier for " + featureId.getPath().replace('_', ' ') + ". Default is 100 (1x).")
-                .register();
+        var dynamicRuleKey = DynamicGameRuleManager.getDynamicRules().get(dynamicRuleName);
+        if (dynamicRuleKey == null) {
+            dynamicRuleKey = DynamicGameRuleManager.integerRule(
+                    dynamicRuleName, OreAmplifierFabric.ORE_AMPLIFIER_CATEGORY, 100)
+                    .name(generateReadableName(dynamicRuleName))
+                    .description("Multiplier for " + featureId.getPath().replace('_', ' ') + ". Default is 100 (1x).")
+                    .register();
+        }
 
-        if (dynamicRule != null) {
-            server.getGameRules().set(dynamicRule, value, server);
+        if (dynamicRuleKey != null) {
+            @SuppressWarnings("unchecked")
+            GameRules.Key<GameRules.IntegerValue> intKey = (GameRules.Key<GameRules.IntegerValue>) dynamicRuleKey;
+            server.getGameRules().getRule(intKey).set(value, server);
             return true;
         }
         return false;
@@ -118,37 +144,56 @@ public class OreLogic {
     /**
      * Returns descriptive information about whether a feature uses a specific override or global fallback.
      */
-    public static String getMultiplierDetails(Identifier featureId, GameRules rules) {
+    public static String getMultiplierDetails(ResourceLocation featureId, GameRules rules) {
         if (featureId == null) return "Invalid Ore ID";
 
         String dynamicRuleName = "ig:ore_" + featureId.getNamespace() + "_" + featureId.getPath();
-        GameRule<Integer> dynamicRule = DynamicGameRuleManager.registerInteger(
-                dynamicRuleName, OreAmplifierFabric.ORE_AMPLIFIER_CATEGORY, 100);
+        var dynamicRuleKey = DynamicGameRuleManager.getDynamicRules().get(dynamicRuleName);
 
-        if (dynamicRule != null) {
-            int val = rules.get(dynamicRule);
+        if (dynamicRuleKey != null) {
+            @SuppressWarnings("unchecked")
+            GameRules.Key<GameRules.IntegerValue> intKey = (GameRules.Key<GameRules.IntegerValue>) dynamicRuleKey;
+            int val = rules.getInt(intKey);
             if (val != 100) {
                 return val + "% (Specific Override)";
             }
         }
 
         if (featureId.getNamespace().equals("minecraft")) {
-            int val = rules.get(OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL);
+            int val = rules.getInt(OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL);
             return val + "% (Global Vanilla Fallback)";
         } else {
-            int val = rules.get(OreAmplifierFabric.IG_ORE_MODDED_GLOBAL);
+            int val = rules.getInt(OreAmplifierFabric.IG_ORE_MODDED_GLOBAL);
             return val + "% (Global Modded Fallback)";
         }
     }
 
     private static int logCount = 0;
 
-    public static int getAmplifiedCount(int originalCount, int multiplierPercent,
-            net.minecraft.util.RandomSource random) {
-        return net.dasik.social.util.StochasticUtil.getAmplifiedCount(originalCount, multiplierPercent, random);
+    public static int getAmplifiedCount(int originalCount, int multiplierPercent, RandomSource random) {
+        float multiplier = (float) multiplierPercent / 100.0f;
+        float targetCount = (float) originalCount * multiplier;
+        int baseCount = (int) targetCount;
+        float residue = targetCount - (float) baseCount;
+        if (random.nextFloat() < residue) {
+            baseCount++;
+        }
+        return baseCount;
     }
 
-    public static void logAmplification(Identifier id, int original, int modified, int multiplier) {
+    public static boolean getAmplifiedProbability(float baseProbability, int multiplierPercent, RandomSource random) {
+        float multiplier = (float) multiplierPercent / 100.0f;
+        float targetProbability = baseProbability * multiplier;
+        if (targetProbability >= 1.0f) {
+            return true;
+        }
+        if (targetProbability <= 0.0f) {
+            return false;
+        }
+        return random.nextFloat() < targetProbability;
+    }
+
+    public static void logAmplification(ResourceLocation id, int original, int modified, int multiplier) {
         if (logCount < 10) {
             OreAmplifierFabric.LOGGER.info("OreAmplifier: Amplified {} from {} to {} (Mult: {}%)", id, original,
                     modified, multiplier);

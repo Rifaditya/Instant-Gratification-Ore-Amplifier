@@ -2,7 +2,7 @@
 package net.instantgratification.oreamplifier.test;
 
 import net.instantgratification.oreamplifier.OreLogic;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,10 +20,10 @@ public class OreAmplifierTest {
     @Test
     @DisplayName("Verify Vanilla Ore Logic & Name Filtering")
     public void testVanillaOreIdentification() {
-        Identifier ironOre = Identifier.fromNamespaceAndPath("minecraft", "iron_ore");
-        Identifier deepslateCoal = Identifier.fromNamespaceAndPath("minecraft", "deepslate_coal_ore");
-        Identifier netherQuartz = Identifier.fromNamespaceAndPath("minecraft", "nether_quartz_ore");
-        Identifier ancientDebris = Identifier.fromNamespaceAndPath("minecraft", "ancient_debris");
+        ResourceLocation ironOre = new ResourceLocation("minecraft", "iron_ore");
+        ResourceLocation deepslateCoal = new ResourceLocation("minecraft", "deepslate_coal_ore");
+        ResourceLocation netherQuartz = new ResourceLocation("minecraft", "nether_quartz_ore");
+        ResourceLocation ancientDebris = new ResourceLocation("minecraft", "ancient_debris");
 
         assertTrue(OreLogic.shouldAmplify(ironOre), "Iron Ore should be recognized for amplification");
         assertTrue(OreLogic.shouldAmplify(deepslateCoal), "Deepslate Coal Ore should be recognized");
@@ -34,9 +34,9 @@ public class OreAmplifierTest {
     @Test
     @DisplayName("Verify Blacklist Filtering")
     public void testBlacklistFiltering() {
-        Identifier amethystGeode = Identifier.fromNamespaceAndPath("minecraft", "amethyst_geode");
-        Identifier monsterRoom = Identifier.fromNamespaceAndPath("minecraft", "monster_room");
-        Identifier dirt = Identifier.fromNamespaceAndPath("minecraft", "dirt");
+        ResourceLocation amethystGeode = new ResourceLocation("minecraft", "amethyst_geode");
+        ResourceLocation monsterRoom = new ResourceLocation("minecraft", "monster_room");
+        ResourceLocation dirt = new ResourceLocation("minecraft", "dirt");
 
         assertFalse(OreLogic.shouldAmplify(amethystGeode), "Amethyst Geode must be blacklisted");
         assertFalse(OreLogic.shouldAmplify(monsterRoom), "Monster Room must be blacklisted");

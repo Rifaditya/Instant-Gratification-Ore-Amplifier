@@ -18,7 +18,7 @@ public class OreFeatureMixin {
             try {
                 var level = context.level().getLevel();
                 if (level != null && OreAmplifierFabric.IG_ORE_VEIN_SIZE != null) {
-                    int multiplier = level.getGameRules().get(OreAmplifierFabric.IG_ORE_VEIN_SIZE);
+                    int multiplier = level.getGameRules().getInt(OreAmplifierFabric.IG_ORE_VEIN_SIZE);
                     if (multiplier > 100) {
                         return Math.round(originalSize * (multiplier / 100.0f));
                     }

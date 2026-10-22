@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.21+1.20.1] - 2026-10-22
+
+### Added
+- **Long-Term Support Anchor Port for MC 1.20.1 ([BL-OA-009])**: Ground-zero port bringing full Ore Amplifier feature parity to Minecraft 1.20.1 LTS.
+- **Pillar 5 Sidedness Contract Verification**: Headless unit verification enforcing zero client-side imports or references in common worldgen logic and single-line GNU GPLv3 license headers.
+
+### Changed
+- **Toolchain Calibration**: Calibrated to Fabric Loom 1.10.2, Java 17, Fabric Loader 0.15.11, Fabric API 0.92.2+1.20.1, and DasikLibrary 1.4.0+1.20.1.
+- **UniversalConfigScreen Client GUI Integration**: Full integration with DasikLibrary's centralized UniversalConfigScreen and @ConfigOption reflection architecture.
+- **Mojang Mappings & API Alignment**: Full adaptation to Minecraft 1.20.1 Mojang mappings (`ResourceLocation`, `CustomGameRuleCategory`, `GameRules.Key<GameRules.IntegerValue>`).
+
+
 ## [1.3.21+26.2] - 2026-10-18
 
 ### Changed

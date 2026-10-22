@@ -5,6 +5,8 @@ Open this file in your editor and change `[ ]` to `[x]` when you publish a versi
 
 ## 🚀 Published & Backlog Queue
 
+- [ ] **`1.3.21+1.20.1`** (2026-10-22) - Ground-zero port bringing full Ore Amplifier feature parity to Minecraft 1.20.1 LTS ([BL-OA-009]).
+
 - [x] **`1.3.21+26.2`** (2026-10-18) - - **UniversalConfigScreen Migration ([BL-OA-005])**: Migrated ModMenu configuration screen to DasikLibrary's centralized UniversalConfigScreen & purged YaclScreenHelper.
 - [x] **`1.3.20+26.2`** (2026-09-17) - - **Anti-Config Bombing Sparse Delta Standard**: Overhauled `OreAmplifierConfig` to automatically prune default 100% multipliers, ensuring `config/ore-amplifier.json` only serializes non-default overrides and stays under 50 lines.
 - [x] **`1.3.16+26.2`** (2026-09-05) - Add top-pinned Ko-fi creator support button across YACL config categories & polish config translations.

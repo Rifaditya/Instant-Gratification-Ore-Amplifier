@@ -73,10 +73,10 @@ public class OreAmplifierConfig {
                 INSTANCE,
                 OreAmplifierConfig.class,
                 VERSION,
-                config -> config.configVersion,
-                (config, ver) -> config.configVersion = ver,
+                cfg -> cfg.configVersion,
+                (cfg, ver) -> cfg.configVersion = ver,
                 null,
-                org.slf4j.LoggerFactory.getLogger("OreAmplifier")
+                OreAmplifierFabric.LOGGER
         );
     }
 
@@ -86,7 +86,7 @@ public class OreAmplifierConfig {
         net.dasik.social.api.config.ConfigHelper.save(
                 CONFIG_PATH,
                 INSTANCE,
-                org.slf4j.LoggerFactory.getLogger("OreAmplifier")
+                OreAmplifierFabric.LOGGER
         );
     }
 
