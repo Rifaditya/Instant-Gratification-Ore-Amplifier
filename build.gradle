@@ -67,6 +67,18 @@ jar {
     from("LICENSE") {
         rename { "${it}_${project.archives_base_name}" }
     }
+    manifest {
+        attributes([
+            'Specification-Title'     : project.archives_base_name,
+            'Specification-Vendor'    : "Dasik",
+            'Specification-Version'   : "1",
+            'Implementation-Title'    : project.name,
+            'Implementation-Version'  : project.mod_version,
+            'Implementation-Vendor'   : "Dasik",
+            'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+            'X-Origin-Signature'      : "0xDA51C"
+        ])
+    }
 }
 
 afterEvaluate {
