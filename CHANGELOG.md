@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.3.22+1.21.1] - 2026-10-28
+
+### Added
+- **5-Pillar Testing & Runtime Verification Harness ([BL-OA-003])**: Implemented comprehensive testing suite satisfying studio verification standards:
+  - **Pillar 1 (OreAmplifierStressFuzzTest)**: 20,000 deterministic chaos property fuzzing iterations verifying getAmplifiedCount bounds, non-negative saturation, and static blacklist heuristics.
+  - **Pillar 2 (OreAmplifierConcurrencyLoadTest)**: 50 virtual worker threads executing 20,000 operations verifying deadlock-free concurrency, lock-free config safety, and zero ConcurrentModificationException.
+  - **Pillar 3 (OreAmplifierCommandTest)**: Headless Brigadier AST hierarchy assertions, Gamemaster level 2 permission gating, static GameRule handles, and conventional tag keys.
+  - **Pillar 4 (OreAmplifierGameTest)**: Headless state simulation validating BuiltInRegistries.BLOCK ore identification, Monte Carlo stochastic multiplier convergence, and sparse delta config pruning.
+  - **Pillar 5 (OreAmplifierSidednessContractTest)**: Sidedness isolation asserting 0 client package references in common code/bytecode and verifying single-line GPLv3 license headers across all source files.
+
+### Fixed
+- **Saturated Arithmetic Guard**: Enforced integer saturation in OreLogic.getAmplifiedCount, preventing 32-bit signed integer wrap-around on extreme count/multiplier inputs adhering to the Freedom Over Anti-Crash policy.
+- **Config Concurrency Thread-Safety**: Converted OreAmplifierConfig.perOreMultipliers to thread-safe ConcurrentHashMap with synchronized mutation/pruning guards.
+
+
 ## [1.3.21+1.21.1] - 2026-10-22
 
 ### Added
@@ -70,12 +85,12 @@
 ## [1.3.11+26.2]
 
 ### Fixed
-- **Manifest & Metadata Standardization (`fabric.mod.json`)**: Added `custom.modrinth` metadata block (`projectId: "41q8zP62"`), updated live contact and issue tracker URLs (`https://modrinth.com/mod/instant-gratification-ore-amplifier`), standardized license identifier to `GPL-3.0-or-later`, and declared `yet-another-config-lib` in `suggests`.
+- **Manifest & Metadata Standardization** (`fabric.mod.json`): Added `custom.modrinth` metadata block (`projectId: "41q8zP62"`), updated live contact and issue tracker URLs (`https://modrinth.com/mod/instant-gratification-ore-amplifier`), standardized license identifier to `GPL-3.0-or-later`, and declared `yet-another-config-lib` in `suggests`.
 
 ## [1.3.10+26.2]
 
 ### Added
-- **Korean Localization (`ko_kr`)**: Added comprehensive Korean translation (`ko_kr.json`) covering all static GameRules, category titles, YACL v3 GUI configuration screens, warnings, and descriptions.
+- **Korean Localization** (`ko_kr`): Added comprehensive Korean translation (`ko_kr.json`) covering all static GameRules, category titles, YACL v3 GUI configuration screens, warnings, and descriptions.
 - **Korean Player Guide**: Added `Doc/Players/index_ko_kr.md` player guide.
 
 ## [1.3.9+26.2]
@@ -87,7 +102,7 @@
 ## [1.3.8+26.2]
 
 ### Added
-- **Japanese Localization (`ja_jp`)**: Added comprehensive Japanese translation (`ja_jp.json`) covering all static GameRules, category titles, YACL v3 GUI configuration screens, warnings, and descriptions.
+- **Japanese Localization** (`ja_jp`): Added comprehensive Japanese translation (`ja_jp.json`) covering all static GameRules, category titles, YACL v3 GUI configuration screens, warnings, and descriptions.
 - **Japanese Player Guide**: Added `Doc/Players/index_ja_jp.md` player guide.
 
 ## [1.3.7+26.2]
@@ -117,7 +132,7 @@
 ## [1.3.3+26.2]
 
 ### Added
-- **Russian Localization (`ru_ru`)**: Added comprehensive Russian translations (`ru_ru.json`) covering all static GameRules, category titles, YACL v3 GUI configuration screens, warnings, and descriptions.
+- **Russian Localization** (`ru_ru`): Added comprehensive Russian translations (`ru_ru.json`) covering all static GameRules, category titles, YACL v3 GUI configuration screens, warnings, and descriptions.
 - **Russian Player Guide**: Added `Doc/Players/index_ru_ru.md` player guide.
 
 ## [1.3.2+26.2]
@@ -129,7 +144,7 @@
 ## [1.3.1+26.2]
 
 ### Added
-- **Simplified Chinese Localization (`zh_cn`)**: Added comprehensive Simplified Chinese translations (`zh_cn.json`) covering all static GameRules, category titles, YACL v3 GUI configuration screens, warnings, and descriptions.
+- **Simplified Chinese Localization** (`zh_cn`): Added comprehensive Simplified Chinese translations (`zh_cn.json`) covering all static GameRules, category titles, YACL v3 GUI configuration screens, warnings, and descriptions.
 - **Simplified Chinese Player Guide**: Added `Doc/Players/index_zh_cn.md` player guide.
 
 ## [1.3.0+26.2] - 2026-08-01
