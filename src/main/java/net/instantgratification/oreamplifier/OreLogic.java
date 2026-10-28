@@ -171,14 +171,24 @@ public class OreLogic {
     private static int logCount = 0;
 
     public static int getAmplifiedCount(int originalCount, int multiplierPercent, RandomSource random) {
-        float multiplier = (float) multiplierPercent / 100.0f;
-        float targetCount = (float) originalCount * multiplier;
-        int baseCount = (int) targetCount;
-        float residue = targetCount - (float) baseCount;
-        if (random.nextFloat() < residue) {
-            baseCount++;
+        if (originalCount <= 0) {
+            return originalCount;
         }
-        return baseCount;
+        if (multiplierPercent <= 0) {
+            return 0;
+        }
+        double targetCount = (double) originalCount * ((double) multiplierPercent / 100.0);
+        if (targetCount >= Integer.MAX_VALUE) {
+            return Integer.MAX_VALUE;
+        }
+        int baseCount = (int) targetCount;
+        double residue = targetCount - (double) baseCount;
+        if (random.nextFloat() < residue) {
+            if (baseCount < Integer.MAX_VALUE) {
+                baseCount++;
+            }
+        }
+        return (baseCount < 0) ? Integer.MAX_VALUE : baseCount;
     }
 
     public static boolean getAmplifiedProbability(float baseProbability, int multiplierPercent, RandomSource random) {
