@@ -15,26 +15,50 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * OreAmplifierSidednessContractTest: Pillar 5 Sidedness & Mixin Contract Verification Suite.
- *
- * Verifies:
- * - Zero references to net.minecraft.client.* or com.mojang.blaze3d.* in common / non-client classes.
- * - Single-line GNU GPLv3 license headers on line 1 across all Java source files.
+ * Pillar 5: Sidedness & Mixin Contract Verification Suite for Ore Amplifier.
+ * Asserts complete client separation in common sources and bytecode,
+ * and verifies single-line GNU GPLv3 license headers on line 1 across all Java source files.
  */
 public class OreAmplifierSidednessContractTest {
 
     private static final String EXPECTED_LICENSE_HEADER = "// Copyright (C) 2026 Dasik (Rifaditya) | GNU GPLv3";
 
+    // Dynamic byte arrays to prevent constant pool self-matching (ERR-SELF-MATCH)
+    private static final String CLIENT_SRC_FORBIDDEN = new String(new byte[]{
+            110, 101, 116, 46, 109, 105, 110, 101, 99, 114, 97, 102, 116, 46, 99, 108, 105, 101, 110, 116, 46
+    }); // "net.minecraft.client."
+
+    private static final String BLAZE3D_SRC_FORBIDDEN = new String(new byte[]{
+            99, 111, 109, 46, 109, 111, 106, 97, 110, 103, 46, 98, 108, 97, 122, 101, 51, 100, 46
+    }); // "com.mojang.blaze3d."
+
+    private static final String CLIENT_BYTECODE_FORBIDDEN = new String(new byte[]{
+            110, 101, 116, 47, 109, 105, 110, 101, 99, 114, 97, 102, 116, 47, 99, 108, 105, 101, 110, 116, 47
+    }); // "net/minecraft/client/"
+
+    private static final String BLAZE3D_BYTECODE_FORBIDDEN = new String(new byte[]{
+            99, 111, 109, 47, 109, 111, 106, 97, 110, 103, 47, 98, 108, 97, 122, 101, 51, 100, 47
+    }); // "com/mojang/blaze3d/"
+
     private Path resolvePath(String relative) {
-        Path path = Paths.get(relative);
-        if (Files.exists(path)) {
-            return path;
+        Path direct = Paths.get(relative);
+        if (Files.exists(direct)) {
+            return direct;
         }
-        Path fallback = Paths.get("Instant Gratification Collection/Ore Amplifier/Ore Amplifier v1.21.11/ore-amplifier", relative);
-        if (Files.exists(fallback)) {
-            return fallback;
+        Path sub12111 = Paths.get("Instant Gratification Collection/Ore Amplifier/Ore Amplifier v1.21.11/ore-amplifier", relative);
+        if (Files.exists(sub12111)) {
+            return sub12111;
         }
-        return path;
+        Path cur = Paths.get("").toAbsolutePath();
+        for (int i = 0; i < 5; i++) {
+            Path check = cur.resolve(relative);
+            if (Files.exists(check)) {
+                return check;
+            }
+            if (cur.getParent() == null) break;
+            cur = cur.getParent();
+        }
+        return direct;
     }
 
     @Test
@@ -57,11 +81,36 @@ public class OreAmplifierSidednessContractTest {
                 List<String> lines = Files.readAllLines(file, StandardCharsets.UTF_8);
                 for (int i = 0; i < lines.size(); i++) {
                     String line = lines.get(i);
-                    assertFalse(line.contains("net.minecraft.client") && !line.contains("@Environment"),
-                            "Forbidden net.minecraft.client reference found in non-client class " + fileName + ":" + (i + 1) + " -> " + line.trim());
-                    assertFalse(line.contains("com.mojang.blaze3d"),
+                    assertFalse(line.contains(CLIENT_SRC_FORBIDDEN) && !line.contains("@Environment"),
+                            "Forbidden client reference found in non-client class " + fileName + ":" + (i + 1) + " -> " + line.trim());
+                    assertFalse(line.contains(BLAZE3D_SRC_FORBIDDEN),
                             "Forbidden Blaze3D reference found in non-client class " + fileName + ":" + (i + 1) + " -> " + line.trim());
                 }
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("Pillar 5: Common Non-Client Bytecode Contains Zero Constant Pool Client References")
+    void testNoClientReferencesInBytecode() throws IOException {
+        Path classesRoot = resolvePath("build/classes/java/main");
+        if (!Files.exists(classesRoot)) {
+            return;
+        }
+
+        try (Stream<Path> stream = Files.walk(classesRoot)) {
+            List<Path> classFiles = stream.filter(p -> p.toString().endsWith(".class")).toList();
+            for (Path classFile : classFiles) {
+                String fileName = classFile.getFileName().toString();
+                if (fileName.equals("OreAmplifierClient.class") || fileName.equals("ModMenuIntegration.class")) {
+                    continue;
+                }
+
+                String raw = new String(Files.readAllBytes(classFile), StandardCharsets.ISO_8859_1);
+                assertFalse(raw.contains(CLIENT_BYTECODE_FORBIDDEN),
+                        "Forbidden client constant pool reference in bytecode: " + fileName);
+                assertFalse(raw.contains(BLAZE3D_BYTECODE_FORBIDDEN),
+                        "Forbidden Blaze3D constant pool reference in bytecode: " + fileName);
             }
         }
     }

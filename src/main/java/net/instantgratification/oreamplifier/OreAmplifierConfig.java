@@ -52,13 +52,14 @@ public class OreAmplifierConfig {
             descriptionKey = "config.ore-amplifier.veinSizeMultiplier.description"
     )
     public int veinSizeMultiplier = 100;
-    public java.util.Map<String, Integer> perOreMultipliers = new java.util.HashMap<>();
+    public java.util.Map<String, Integer> perOreMultipliers = new java.util.concurrent.ConcurrentHashMap<>();
 
-    public int getOreOverride(String oreId) {
+    public synchronized int getOreOverride(String oreId) {
         return perOreMultipliers.getOrDefault(oreId, -1);
     }
 
-    public void setOreOverride(String oreId, int multiplier) {
+    public synchronized void setOreOverride(String oreId, int multiplier) {
+        if (oreId == null) return;
         if (multiplier <= 0 || multiplier == 100) {
             perOreMultipliers.remove(oreId);
         } else {
@@ -84,7 +85,7 @@ public class OreAmplifierConfig {
         );
     }
 
-    public void pruneDefaults() {
+    public synchronized void pruneDefaults() {
         if (perOreMultipliers != null) {
             perOreMultipliers.entrySet().removeIf(e -> e.getValue() == null || e.getValue() <= 0 || e.getValue() == 100);
         }
