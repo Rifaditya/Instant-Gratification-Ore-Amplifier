@@ -145,7 +145,14 @@ public class OreLogic {
 
     public static int getAmplifiedCount(int originalCount, int multiplierPercent,
             net.minecraft.util.RandomSource random) {
-        return net.dasik.social.util.StochasticUtil.getAmplifiedCount(originalCount, multiplierPercent, random);
+        if (originalCount <= 0) {
+            return originalCount;
+        }
+        if (multiplierPercent <= 0) {
+            return 0;
+        }
+        int count = net.dasik.social.util.StochasticUtil.getAmplifiedCount(originalCount, multiplierPercent, random);
+        return (count < 0) ? Integer.MAX_VALUE : count;
     }
 
     public static void logAmplification(Identifier id, int original, int modified, int multiplier) {
