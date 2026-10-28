@@ -1,5 +1,12 @@
 # History
 
+## [1.3.22+26.3] - 2026-10-28
+
+### 5-Pillar Testing & Saturated Concurrency Hardening ([BL-OA-003])
+* **What**: Adopted the studio-standard 5-Pillar Testing and Sidedness Verification Harness and hardened ore multiplier calculations against arithmetic overflow and concurrency issues.
+* **Why**: Prevents integer overflow crashes when using extreme multipliers (up to `Integer.MAX_VALUE`), ensures thread safety under concurrent world ticking, and guarantees 100% side-safety with zero client imports on dedicated servers.
+* **How**: Hardened `OreLogic.getAmplifiedCount` with double-precision math and `Integer.MAX_VALUE` saturation clamping; refactored config caches to `ConcurrentHashMap`; authored Pillars 1-5 test suite (`OreAmplifierStressFuzzTest`, `OreAmplifierConcurrencyLoadTest`, `OreAmplifierCommandTest`, `OreAmplifierGameTest`, and `OreAmplifierSidednessContractTest`). 100% test pass rate.
+
 ## [1.3.21+26.3] - 2026-10-18
 
 ### UniversalConfigScreen Client GUI Migration ([BL-OA-005])
