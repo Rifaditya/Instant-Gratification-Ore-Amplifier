@@ -4,6 +4,8 @@ This file tracks release versions for **Ore Amplifier 26.3** (`Minecraft 26.3` M
 
 ## 🚀 Published & Backlog Queue
 
+* ⏸️ **`1.3.22+26.3`** (Parity Hold) - Adopted 5-pillar testing harness and saturated arithmetic guards ([BL-OA-003]); waiting on multi-era parity.
+
 * ⏸️ **`1.3.21+26.3`** (Parity Hold) - Migrated client config GUI to UniversalConfigScreen; waiting on multi-era parity.
 
 * ⏸️ **`1.3.20+26.3`** (Parity Hold) - Verified working lead build on Minecraft 26.3-pre-2; waiting on parity.
