@@ -27,7 +27,6 @@ public class OreAmplifierFabric implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        net.instantgratification.oreamplifier.util.ModVersionGuard.checkClass("Ore Amplifier", "net.minecraft.world.level.levelgen.feature.Feature");
         LOGGER.info("Ore Amplifier Initializing (1.21.1 Native)...");
 
         // Load global JSON configuration
