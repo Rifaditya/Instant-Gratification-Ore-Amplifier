@@ -3,7 +3,6 @@ package net.instantgratification.oreamplifier;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.gamerule.v1.CustomGameRuleCategory;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.GameRules;
@@ -95,8 +94,7 @@ public class OreAmplifierFabric implements ModInitializer {
             }
         });
 
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-            OreCommand.register(dispatcher);
-        });
+        // Initialize Universal Brigadier Command Suite via ModCommandDispatcher
+        OreCommand.init();
     }
 }
