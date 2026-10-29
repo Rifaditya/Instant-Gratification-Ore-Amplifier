@@ -3,6 +3,11 @@ package net.instantgratification.oreamplifier;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import java.util.List;
+import net.dasik.social.api.command.GameRuleCommandBridge;
+import net.dasik.social.api.command.ModCommandDispatcher;
+import net.dasik.social.api.command.UniversalCommandRegistry;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
@@ -10,199 +15,117 @@ import net.minecraft.commands.arguments.IdentifierArgument;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.gamerules.GameRules;
-import net.minecraft.world.level.gamerules.GameRule;
-import net.dasik.social.api.gamerule.DynamicGameRuleManager;
-import net.dasik.social.api.config.DasikSupportHelper;
 
-import java.util.concurrent.atomic.AtomicInteger;
+public final class OreCommand {
+    public static final String ROOT_LITERAL = "oreamp";
+    public static final String MOD_NAME = "Ore Amplifier";
 
-public class OreCommand {
+    private static volatile GameRuleCommandBridge activeBridge;
+
+    private OreCommand() {}
+
+    public static void init() {
+        ModCommandDispatcher.init();
+        activeBridge = createBridge();
+        ModCommandDispatcher.registerSuite(ROOT_LITERAL, builder -> configureBuilder(builder, activeBridge));
+    }
+
+    public static UniversalCommandRegistry.Builder configureBuilder(UniversalCommandRegistry.Builder builder, GameRuleCommandBridge bridge) {
+        return builder
+            .withRootLiteral(ROOT_LITERAL)
+            .withModName(MOD_NAME)
+            .withBridge(bridge)
+            .withStatusSupplier(level -> {
+                int vanilla = OreAmplifierConfig.get().vanillaGlobalMultiplier;
+                int modded = OreAmplifierConfig.get().moddedGlobalMultiplier;
+                int veinSize = OreAmplifierConfig.get().veinSizeMultiplier;
+                int activeOverrides = OreAmplifierConfig.get().perOreMultipliers.size();
+                return List.of(
+                    "Vanilla Global Multiplier: " + vanilla + "%",
+                    "Modded Global Multiplier: " + modded + "%",
+                    "Vein Size Multiplier: " + veinSize + "%",
+                    "Custom Per-Ore Overrides: " + activeOverrides + " active"
+                );
+            })
+            .withReloadAction(server -> {
+                OreAmplifierConfig.load(FabricLoader.getInstance().getConfigDir());
+                if (server != null) {
+                    GameRules rules = server.getGameRules();
+                    rules.set(OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL, OreAmplifierConfig.get().vanillaGlobalMultiplier, server);
+                    rules.set(OreAmplifierFabric.IG_ORE_MODDED_GLOBAL, OreAmplifierConfig.get().moddedGlobalMultiplier, server);
+                    rules.set(OreAmplifierFabric.IG_ORE_VEIN_SIZE, OreAmplifierConfig.get().veinSizeMultiplier, server);
+                }
+            })
+            .withCustomSubcommand(Commands.literal("ore")
+                .then(Commands.argument("ore", IdentifierArgument.id())
+                    .suggests((context, suggestionsBuilder) -> SharedSuggestionProvider.suggestResource(
+                        BuiltInRegistries.BLOCK.keySet().stream().filter(OreLogic::shouldAmplify), suggestionsBuilder))
+                    .executes(context -> {
+                        CommandSourceStack source = context.getSource();
+                        Identifier id = IdentifierArgument.getId(context, "ore");
+                        if (!OreLogic.shouldAmplify(id)) {
+                            source.sendFailure(Component.literal("§c" + id + " is not recognized as an amplifiable ore block.§r"));
+                            return 0;
+                        }
+                        int mult = OreLogic.getMultiplier(id, source.getServer().getGameRules());
+                        String details = OreLogic.getMultiplierDetails(id, source.getServer().getGameRules());
+                        source.sendSuccess(() -> Component.literal("§e[Ore Multiplier]§r §a" + id + "§r: §b" + mult + "%§r (" + details + ")"), false);
+                        return 1;
+                    })
+                    .then(Commands.argument("multiplier", IntegerArgumentType.integer(0, 1000))
+                        .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
+                        .executes(context -> {
+                            CommandSourceStack source = context.getSource();
+                            Identifier id = IdentifierArgument.getId(context, "ore");
+                            int val = IntegerArgumentType.getInteger(context, "multiplier");
+                            if (!OreLogic.shouldAmplify(id)) {
+                                source.sendFailure(Component.literal("§c" + id + " is not recognized as an amplifiable ore block.§r"));
+                                return 0;
+                            }
+                            OreLogic.setMultiplier(id, val, source.getServer());
+                            OreAmplifierConfig.get().setOreOverride(id.toString(), val);
+                            OreAmplifierConfig.save();
+                            source.sendSuccess(() -> Component.literal("§e[Ore Amplifier]§r Multiplier for §a" + id + "§r set to §b" + val + "%§r"), true);
+                            return 1;
+                        }))));
+    }
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("oreamp")
-                .executes(context -> {
-                    context.getSource().sendSuccess(
-                            () -> Component.literal("§e[Ore Amplifier]§r Use §a/oreamp help§r for command list."),
-                            false);
-                    return 1;
-                })
-                .then(Commands.literal("help")
-                        .executes(context -> {
-                            CommandSourceStack source = context.getSource();
-                            source.sendSuccess(() -> Component.literal(
-                                    "§e--- Ore Amplifier Commands ---§r\n" +
-                                    "§a/oreamp status§r - Show current global and override stats\n" +
-                                    "§a/oreamp get global§r - View vanilla & modded global multipliers\n" +
-                                    "§a/oreamp get <ore_id>§r - Query multiplier for a specific ore\n" +
-                                    "§a/oreamp set global <vanilla|modded> <val>§r - Set global multiplier (0-1000%)\n" +
-                                    "§a/oreamp set <ore_id> <val>§r - Set specific ore multiplier (0-1000%)\n" +
-                                    "§a/oreamp reset§r - Reset all multipliers back to 100% (Default)\n" +
-                                    "§a/oreamp reload§r - Reload configuration templates"
-                            ), false);
-                            source.sendSuccess(DasikSupportHelper::getCommandFooter, false);
-                            return 1;
-                        }))
-                .then(Commands.literal("status")
-                        .executes(context -> {
-                            CommandSourceStack source = context.getSource();
-                            MinecraftServer server = source.getServer();
-                            GameRules rules = server.getGameRules();
+        if (activeBridge == null) {
+            activeBridge = createBridge();
+        }
+        configureBuilder(UniversalCommandRegistry.builder(ROOT_LITERAL, dispatcher), activeBridge).register();
+    }
 
-                            int vanillaGlobal = rules.get(OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL);
-                            int moddedGlobal = rules.get(OreAmplifierFabric.IG_ORE_MODDED_GLOBAL);
-                            int veinSize = rules.get(OreAmplifierFabric.IG_ORE_VEIN_SIZE);
+    public static GameRuleCommandBridge createBridge() {
+        GameRuleCommandBridge bridge = new GameRuleCommandBridge();
+        OreAmplifierConfig config = OreAmplifierConfig.get();
 
-                            AtomicInteger activeOverrides = new AtomicInteger(0);
-                            DynamicGameRuleManager.getDynamicRules().forEach((key, rule) -> {
-                                if (key.startsWith("ig:ore_")) {
-                                    @SuppressWarnings("unchecked")
-                                    GameRule<Integer> intRule = (GameRule<Integer>) rule;
-                                    if (rules.get(intRule) != 100) {
-                                        activeOverrides.incrementAndGet();
-                                    }
-                                }
-                            });
+        bridge.registerInteger("vanilla", OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL, config.vanillaGlobalMultiplier, 1, 1000);
+        bridge.registerInteger("modded", OreAmplifierFabric.IG_ORE_MODDED_GLOBAL, config.moddedGlobalMultiplier, 1, 1000);
+        bridge.registerInteger("vein_size", OreAmplifierFabric.IG_ORE_VEIN_SIZE, config.veinSizeMultiplier, 100, 500);
 
-                            source.sendSuccess(() -> Component.literal(
-                                    "§e[Ore Amplifier Status]§r\n" +
-                                    " • Vanilla Global Multiplier: §a" + vanillaGlobal + "%§r\n" +
-                                    " • Modded Global Multiplier: §a" + moddedGlobal + "%§r\n" +
-                                    " • Vein Size Multiplier: §a" + veinSize + "%§r\n" +
-                                    " • Custom Per-Ore Overrides: §a" + activeOverrides.get() + " active§r"
-                            ), false);
-                            source.sendSuccess(DasikSupportHelper::getCommandFooter, false);
-                            return 1;
-                        }))
-                .then(Commands.literal("get")
-                        .then(Commands.literal("global")
-                                .executes(context -> {
-                                    CommandSourceStack source = context.getSource();
-                                    GameRules rules = source.getServer().getGameRules();
-                                    int vanilla = rules.get(OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL);
-                                    int modded = rules.get(OreAmplifierFabric.IG_ORE_MODDED_GLOBAL);
-                                    int veinSize = rules.get(OreAmplifierFabric.IG_ORE_VEIN_SIZE);
+        bridge.setSaveCallback(server -> {
+            Object v = bridge.getRuleEntry("vanilla") != null ? bridge.getRuleEntry("vanilla").getCurrentValue() : null;
+            if (v instanceof Number n) config.vanillaGlobalMultiplier = n.intValue();
 
-                                    source.sendSuccess(() -> Component.literal(
-                                            "§e[Ore Amplifier Globals]§r\n" +
-                                            " • Vanilla Global: §a" + vanilla + "%§r\n" +
-                                            " • Modded Global: §a" + modded + "%§r\n" +
-                                            " • Vein Size: §a" + veinSize + "%§r"
-                                    ), false);
-                                    return 1;
-                                }))
-                        .then(Commands.argument("ore", IdentifierArgument.id())
-                                .suggests((context, builder) -> SharedSuggestionProvider.suggestResource(
-                                        BuiltInRegistries.BLOCK.keySet().stream().filter(OreLogic::shouldAmplify), builder))
-                                .executes(context -> {
-                                    CommandSourceStack source = context.getSource();
-                                    Identifier id = IdentifierArgument.getId(context, "ore");
+            Object m = bridge.getRuleEntry("modded") != null ? bridge.getRuleEntry("modded").getCurrentValue() : null;
+            if (m instanceof Number n) config.moddedGlobalMultiplier = n.intValue();
 
-                                    if (!OreLogic.shouldAmplify(id)) {
-                                        source.sendFailure(Component.literal("§c" + id + " is not recognized as an amplifiable ore block.§r"));
-                                        return 0;
-                                    }
+            Object s = bridge.getRuleEntry("vein_size") != null ? bridge.getRuleEntry("vein_size").getCurrentValue() : null;
+            if (s instanceof Number n) config.veinSizeMultiplier = n.intValue();
 
-                                    int multiplier = OreLogic.getMultiplier(id, source.getServer().getGameRules());
-                                    String details = OreLogic.getMultiplierDetails(id, source.getServer().getGameRules());
+            OreAmplifierConfig.save();
+        });
 
-                                    source.sendSuccess(() -> Component.literal(
-                                            "§e[Ore Multiplier]§r §a" + id + "§r: §b" + multiplier + "%§r (" + details + ")"
-                                    ), false);
-                                    return 1;
-                                })))
-                .then(Commands.literal("set")
-                        .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
-                        .then(Commands.literal("global")
-                                .then(Commands.literal("vanilla")
-                                        .then(Commands.argument("multiplier", IntegerArgumentType.integer(0, 1000))
-                                                .executes(context -> {
-                                                    CommandSourceStack source = context.getSource();
-                                                    int val = IntegerArgumentType.getInteger(context, "multiplier");
-                                                    source.getServer().getGameRules().set(OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL, val, source.getServer());
-                                                    OreAmplifierConfig.get().vanillaGlobalMultiplier = val;
-                                                    OreAmplifierConfig.save();
-                                                    source.sendSuccess(() -> Component.literal("§e[Ore Amplifier]§r Vanilla Global set to §a" + val + "%§r"), true);
-                                                    return 1;
-                                                })))
-                                .then(Commands.literal("modded")
-                                        .then(Commands.argument("multiplier", IntegerArgumentType.integer(0, 1000))
-                                                .executes(context -> {
-                                                    CommandSourceStack source = context.getSource();
-                                                    int val = IntegerArgumentType.getInteger(context, "multiplier");
-                                                    source.getServer().getGameRules().set(OreAmplifierFabric.IG_ORE_MODDED_GLOBAL, val, source.getServer());
-                                                    OreAmplifierConfig.get().moddedGlobalMultiplier = val;
-                                                    OreAmplifierConfig.save();
-                                                    source.sendSuccess(() -> Component.literal("§e[Ore Amplifier]§r Modded Global set to §a" + val + "%§r"), true);
-                                                    return 1;
-                                                }))))
-                        .then(Commands.argument("ore", IdentifierArgument.id())
-                                .suggests((context, builder) -> SharedSuggestionProvider.suggestResource(
-                                        BuiltInRegistries.BLOCK.keySet().stream().filter(OreLogic::shouldAmplify), builder))
-                                .then(Commands.argument("multiplier", IntegerArgumentType.integer(0, 1000))
-                                        .executes(context -> {
-                                            CommandSourceStack source = context.getSource();
-                                            Identifier id = IdentifierArgument.getId(context, "ore");
-                                            int val = IntegerArgumentType.getInteger(context, "multiplier");
+        return bridge;
+    }
 
-                                            if (!OreLogic.shouldAmplify(id)) {
-                                                source.sendFailure(Component.literal("§c" + id + " is not recognized as an amplifiable ore block.§r"));
-                                                return 0;
-                                            }
-
-                                            OreLogic.setMultiplier(id, val, source.getServer());
-                                            OreAmplifierConfig.get().setOreOverride(id.toString(), val);
-                                            OreAmplifierConfig.save();
-                                            source.sendSuccess(() -> Component.literal("§e[Ore Amplifier]§r Multiplier for §a" + id + "§r set to §b" + val + "%§r"), true);
-                                            return 1;
-                                        }))))
-                .then(Commands.literal("reload")
-                        .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
-                        .executes(context -> {
-                            OreAmplifierConfig.load(net.fabricmc.loader.api.FabricLoader.getInstance().getConfigDir());
-                            CommandSourceStack source = context.getSource();
-                            if (source.getServer() != null) {
-                                GameRules rules = source.getServer().getGameRules();
-                                rules.set(OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL, OreAmplifierConfig.get().vanillaGlobalMultiplier, source.getServer());
-                                rules.set(OreAmplifierFabric.IG_ORE_MODDED_GLOBAL, OreAmplifierConfig.get().moddedGlobalMultiplier, source.getServer());
-                                rules.set(OreAmplifierFabric.IG_ORE_VEIN_SIZE, OreAmplifierConfig.get().veinSizeMultiplier, source.getServer());
-                            }
-                            context.getSource().sendSuccess(() -> Component.literal("§e[Ore Amplifier]§r Configuration templates reloaded & GameRules synced!"), true);
-                            return 1;
-                        }))
-                .then(Commands.literal("reset")
-                        .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
-                        .executes(context -> {
-                            CommandSourceStack source = context.getSource();
-                            MinecraftServer server = source.getServer();
-                            GameRules rules = server.getGameRules();
-
-                            // 1. Reset GameRules
-                            rules.set(OreAmplifierFabric.IG_ORE_VANILLA_GLOBAL, 200, server);
-                            rules.set(OreAmplifierFabric.IG_ORE_MODDED_GLOBAL, 120, server);
-                            rules.set(OreAmplifierFabric.IG_ORE_VEIN_SIZE, 100, server);
-
-                            DynamicGameRuleManager.getDynamicRules().entrySet().forEach(entry -> {
-                                if (entry.getKey().startsWith("ig:ore_")) {
-                                    @SuppressWarnings("unchecked")
-                                    GameRule<Integer> intRule = (GameRule<Integer>) entry.getValue();
-                                    rules.set(intRule, 100, server);
-                                }
-                            });
-
-                            // 2. Reset JSON Config Template
-                            OreAmplifierConfig.get().vanillaGlobalMultiplier = 200;
-                            OreAmplifierConfig.get().moddedGlobalMultiplier = 120;
-                            OreAmplifierConfig.get().veinSizeMultiplier = 100;
-                            OreAmplifierConfig.get().perOreMultipliers.clear();
-                            OreAmplifierConfig.save();
-
-                            source.sendSuccess(
-                                    () -> Component
-                                            .literal("§e[Ore Amplifier]§r All multipliers reset to defaults (§a200% Vanilla§r / §a120% Modded§r / §a100% Vein Size§r)."),
-                                    true);
-                            return 1;
-                        })));
+    public static GameRuleCommandBridge getBridge() {
+        if (activeBridge == null) {
+            activeBridge = createBridge();
+        }
+        return activeBridge;
     }
 }

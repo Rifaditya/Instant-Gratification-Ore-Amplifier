@@ -5,6 +5,7 @@ Open this file in your editor and change `[ ]` to `[x]` when you publish a versi
 
 ## 🚀 Published & Backlog Queue
 
+- [ ] **`1.3.23+26.2`** (Parity Hold) (2026-10-29) - Migrated to Universal Brigadier Command Framework and reactive GameRuleCommandBridge ([BL-OA-004]); waiting on multi-era parity.
 - [ ] **`1.3.22+26.2`** (Parity Hold) (2026-10-28) - Adopted 5-pillar testing harness and saturated arithmetic guards ([BL-OA-003]); waiting on multi-era parity.
 
 - [ ] **`1.3.21+26.2`** (2026-10-18) - - **UniversalConfigScreen Migration ([BL-OA-005])**: Migrated ModMenu configuration screen to DasikLibrary's centralized UniversalConfigScreen & purged YaclScreenHelper.

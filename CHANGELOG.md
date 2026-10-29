@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.23+26.2] - 2026-10-29
+
+### Changed
+- **Universal Brigadier Command Framework Migration ([BL-OA-004])**: Migrated `/oreamp` command hierarchy from monolithic boilerplate to `DasikLibrary`'s `net.dasik.social.api.command.*` universal architecture (`ModCommandDispatcher` & `UniversalCommandRegistry`).
+- **Reactive Two-Way GameRule Synchronization**: Integrated `GameRuleCommandBridge` for `/oreamp get` and `/oreamp set` commands (`vanilla`, `modded`, `vein_size`) with automatic persistence into `ore-amplifier.json` via reactive save callbacks.
+- **Dedicated Ore Override Subcommand**: Streamlined individual ore overrides into `/oreamp ore <ore_id> [multiplier]` with tab suggestions matching `BuiltInRegistries.BLOCK`.
+- **Dynamic Status & Support Links**: Wired dynamic status supplier providing live multiplier overviews and support footers with clickable Ko-fi and GitHub links.
+
 ## [1.3.22+26.2] - 2026-10-28
 
 ### Added
