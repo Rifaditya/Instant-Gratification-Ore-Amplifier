@@ -6,4 +6,4 @@ This file tracks release candidates for Minecraft 1.20.1.
 
 - [ ] **1.3.23+1.20.1** (2026-10-29) - Migrated to Universal Brigadier Command Framework and reactive GameRuleCommandBridge ([BL-OA-004]).
 - [ ] **1.3.22+1.20.1** (2026-10-28) - Adopted 5-pillar testing harness and saturated arithmetic guards ([BL-OA-003]).
-- [ ] **1.3.21+1.20.1** (2026-10-22) - Ground-zero port bringing full Ore Amplifier feature parity to Minecraft 1.20.1 LTS ([BL-OA-009]).
+- [x] **1.3.21+1.20.1** (2026-10-22) - Ground-zero port bringing full Ore Amplifier feature parity to Minecraft 1.20.1 LTS ([BL-OA-009]).
