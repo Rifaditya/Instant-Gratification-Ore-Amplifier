@@ -6,7 +6,7 @@ Open this file in your editor and change `[ ]` to `[x]` when you publish a versi
 ## 🚀 Published & Backlog Queue
 
 - [ ] **`1.3.23+26.2`** (2026-10-29) - Migrated to Universal Brigadier Command Framework and reactive GameRuleCommandBridge ([BL-OA-004]).
-- [ ] **`1.3.22+26.2`** (2026-10-28) - Adopted 5-pillar testing harness and saturated arithmetic guards ([BL-OA-003]).
+- [x] **`1.3.22+26.2`** (2026-10-28) - Adopted 5-pillar testing harness and saturated arithmetic guards ([BL-OA-003]).
 - [x] **`1.3.21+26.2`** (2026-10-18) - **UniversalConfigScreen Migration ([BL-OA-005])**: Migrated ModMenu configuration screen to DasikLibrary's centralized UniversalConfigScreen & purged YaclScreenHelper.
 - [x] **`1.3.20+26.2`** (2026-09-17) - **Anti-Config Bombing Sparse Delta Standard**: Overhauled `OreAmplifierConfig` to automatically prune default 100% multipliers, ensuring `config/ore-amplifier.json` only serializes non-default overrides and stays under 50 lines.
 - [x] **`1.3.16+26.2`** (2026-09-05) - Add top-pinned Ko-fi creator support button across YACL config categories & polish config translations.
